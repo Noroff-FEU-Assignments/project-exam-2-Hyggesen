@@ -29,7 +29,10 @@ export default function Navbar(props) {
           <Link to="/hotels">Hotels</Link>
         </Li>
         <Li>
-          <Link to="/contact">Contact</Link>
+          <Link to="/#contactSection">Contact</Link>
+        </Li>
+        <Li>
+          <Link to="/sign-in">Sign In</Link>
         </Li>
       </Ul>
     </Nav>

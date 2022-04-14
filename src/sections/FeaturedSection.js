@@ -1,6 +1,7 @@
 import IntroText from "../components/common/IntroText";
 import styled from "styled-components";
 import Heading from "../components/common/Heading";
+import FeaturedHotels from "../components/data/FeaturedHotels";
 
 function FeaturedSection() {
   return (
@@ -8,6 +9,7 @@ function FeaturedSection() {
       <div className="container">
         <IntroText content="We recommend" />
         <Heading content="Featured locations" />
+        <FeaturedHotels />
       </div>
     </BlueSection>
   );

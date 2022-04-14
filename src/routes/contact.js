@@ -4,7 +4,11 @@ function Contact() {
   return (
     <>
       <Navbar />
-      <Heading content="Contact" />
+      <div className="container">
+        <div className="wrapper">
+          <Heading content="Contact" />
+        </div>
+      </div>
     </>
   );
 }
