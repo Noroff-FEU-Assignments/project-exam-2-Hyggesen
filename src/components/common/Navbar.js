@@ -1,8 +1,9 @@
-import { Link } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import React from "react";
 import logo from "./../../assets/brand/logo_holidaze.png";
 import styled from "styled-components";
 import hamburger from "../../assets//brand/hamburgermenu.png";
+import { HashLink } from "react-router-hash-link";
 
 export default function Navbar(props) {
   function handleToggle() {
@@ -23,16 +24,20 @@ export default function Navbar(props) {
       </HamburgerIcon>
       <Ul id="nav-ul">
         <Li>
-          <Link to="/">Home</Link>
+          <StyledLink to="/">Home</StyledLink>
         </Li>
         <Li>
-          <Link to="/hotels">Hotels</Link>
+          <StyledLink activeClassName="active" to="/hotels">
+            Hotels
+          </StyledLink>
         </Li>
         <Li>
-          <Link to="/#contactSection">Contact</Link>
+          <StyledHashLink smooth to="/#contactSection">
+            Contact
+          </StyledHashLink>
         </Li>
         <Li>
-          <Link to="/sign-in">Sign In</Link>
+          <StyledLink to="/sign-in">Sign In</StyledLink>
         </Li>
       </Ul>
     </Nav>
@@ -77,4 +82,58 @@ const LogoDiv = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+`;
+
+const StyledHashLink = styled(HashLink)`
+  position: relative;
+
+  padding: 10px 0px;
+
+  &:before {
+    transition: all 0.2s;
+  }
+  &:after {
+    transition: all 0.2s;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: auto;
+    width: 0%;
+    content: ".";
+    color: transparent;
+    background: #f72585;
+    height: 1px;
+  }
+
+  &:hover:after {
+    width: 100%;
+  }
+`;
+
+const StyledLink = styled(NavLink)`
+  position: relative;
+
+  padding: 10px 0px;
+
+  &:before {
+    transition: all 0.2s;
+  }
+  &:after {
+    transition: all 0.2s;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: auto;
+    width: 0%;
+    content: ".";
+    color: transparent;
+    background: #f72585;
+    height: 1px;
+  }
+
+  &:hover:after {
+    width: 100%;
+  }
 `;

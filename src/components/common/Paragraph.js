@@ -15,4 +15,5 @@ const Para = styled.p`
   font-weight: 400;
   letter-spacing: -0.04%;
   line-height: 183%;
+  max-width: 700px;
 `;

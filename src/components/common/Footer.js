@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import logo from "../../assets/brand/logo_holidaze.png";
 import { Link } from "react-router-dom";
+import { HashLink } from "react-router-hash-link";
 export default function Footer() {
   return (
     <FooterWrap>
@@ -13,13 +14,18 @@ export default function Footer() {
           <div>
             <Ul>
               <Li>
-                <Link to="/">Home</Link>
+                <StyledLink to="/">Home</StyledLink>
               </Li>
               <Li>
-                <Link to="/hotels">Hotels</Link>
+                <StyledLink to="/hotels">Hotels</StyledLink>
               </Li>
               <Li>
-                <Link to="/contact">Contact</Link>
+                <StyledHashLink smooth to="/#contactSection">
+                  Contact
+                </StyledHashLink>
+              </Li>
+              <Li>
+                <StyledLink to="/sign-in">Sign In</StyledLink>
               </Li>
             </Ul>
           </div>
@@ -61,4 +67,58 @@ const Li = styled.li`
 const ContactMail = styled.p`
   font-size: 20px;
   color: #f72585;
+`;
+
+const StyledHashLink = styled(HashLink)`
+  position: relative;
+
+  padding: 10px 0px;
+
+  &:before {
+    transition: all 0.2s;
+  }
+  &:after {
+    transition: all 0.2s;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: auto;
+    width: 0%;
+    content: ".";
+    color: transparent;
+    background: #f72585;
+    height: 1px;
+  }
+
+  &:hover:after {
+    width: 100%;
+  }
+`;
+
+const StyledLink = styled(Link)`
+  position: relative;
+
+  padding: 10px 0px;
+
+  &:before {
+    transition: all 0.2s;
+  }
+  &:after {
+    transition: all 0.2s;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: auto;
+    width: 0%;
+    content: ".";
+    color: transparent;
+    background: #f72585;
+    height: 1px;
+  }
+
+  &:hover:after {
+    width: 100%;
+  }
 `;

@@ -4,7 +4,7 @@ import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Contact from "./routes/contact";
+import SingleHotel from "./routes/singleHotel";
 import Hotels from "./routes/hotels";
 import SignIn from "./routes/signIn";
 
@@ -12,9 +12,9 @@ ReactDOM.render(
   <BrowserRouter>
     <Routes>
       <Route path="/" element={<App />} />
-      <Route path="contact" element={<Contact />} />
       <Route path="hotels" element={<Hotels />} />
       <Route path="sign-in" element={<SignIn />} />
+      <Route path="singlehotel" element={<SingleHotel />} />
     </Routes>
   </BrowserRouter>,
   document.getElementById("root")
