@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import HotelCard from "../components/common/HotelCard";
 import styled from "styled-components";
-import MetaTags from "react-meta-tags";
 
 function HotelList() {
   const [hotel, setHotel] = useState([]);
