@@ -1,45 +1,37 @@
 import PropTypes from "prop-types";
 import styled from "styled-components";
-import arrow from "../../assets/brand/white_arrow.png";
 
-export default function BigButton(props) {
+export default function Button(props) {
   return (
     <a href={props.href}>
-      <Button style={{ backgroundColor: props.color }}>
+      <TheButton onClick={props.click} style={{ backgroundColor: props.color }}>
         {props.content}
-
-        <Image src={arrow} />
-      </Button>
+      </TheButton>
     </a>
   );
 }
 
-BigButton.propTypes = {
+Button.propTypes = {
   content: PropTypes.string.isRequired,
   color: PropTypes.string.isRequired,
   href: PropTypes.string,
+  click: PropTypes.object,
 };
 
-const Button = styled.button`
+const TheButton = styled.div`
   font-size: 20px;
   color: white;
   font-weight: 600;
-  border-radius: 50px;
+  border-radius: 8px;
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 350px;
+  width: 230px;
   height: 50px;
-  outline: inherit;
-  border: none;
 
   &:hover {
     box-shadow: inset 0 0 0 10em rgba(255, 255, 255, 0.1);
 
     cursor: pointer;
   }
-`;
-
-const Image = styled.img`
-  margin-left: 20px;
 `;

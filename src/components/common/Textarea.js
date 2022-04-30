@@ -5,7 +5,12 @@ export default function TextArea(props) {
   return (
     <>
       <Label labelFor={props.id}>{props.label}</Label>
-      <TheTextArea id={props.id} placeholder={props.placeholder} />
+      <TheTextArea
+        id={props.id}
+        placeholder={props.placeholder}
+        value={props.value}
+        onChange={props.onChange}
+      />
     </>
   );
 }
@@ -14,7 +19,9 @@ TextArea.propTypes = {
   id: PropTypes.string.isRequired,
   placeholder: PropTypes.string.isRequired,
   label: PropTypes.string.isRequired,
-  labelFor: PropTypes.string.isRequired,
+  labelFor: PropTypes.string,
+  value: PropTypes.string,
+  onChange: PropTypes.func,
 };
 
 const TheTextArea = styled.textarea`

@@ -28,7 +28,7 @@ function SignIn() {
                 type="text"
                 label="Password"
               />
-              <BigButton content="Sign in" color="#F72585" />
+              <BigButton content="Sign in" color="#F72585" href="/admin" />
             </SignInForm>
           </SignInWrapper>
         </div>

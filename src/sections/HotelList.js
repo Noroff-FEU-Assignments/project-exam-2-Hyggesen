@@ -1,32 +1,82 @@
 import React, { useState, useEffect } from "react";
 import HotelCard from "../components/common/HotelCard";
-import image from "../assets/brand/minh-pham-OtXADkUh3-I-unsplash.jpg";
+import styled from "styled-components";
+import MetaTags from "react-meta-tags";
 
 function HotelList() {
-  let [hotel, setHotel] = useState([]);
+  const [hotel, setHotel] = useState([]);
+  const [searchTerm, setSearchTerm] = useState("");
 
-  useEffect(() => {
-    fetch("https://js-frameworks-ca-benjamin.herokuapp.com/api/hotels")
+  useEffect(async () => {
+    fetch("https://noroff-project-exam-ben.herokuapp.com/api/hotels?populate=*")
       .then((response) => response.json())
 
-      .then((data) => setHotel(data));
+      .then((data) => setHotel(data.data));
   }, []);
 
-  /* {hotel.data.map((item) => ( ))}*/
+  console.log(hotel);
 
-  console.log(hotel.data);
+  if (!hotel.length) {
+    return <div>Loading...</div>;
+  }
+
+  console.log(hotel);
+
   return (
     <>
-      <HotelCard
-        name="Bergen City Sleepovers"
-        price="1337"
-        image={image}
-        score="9,3"
-        address="Torgallmenningen"
-        distance="0,3"
-      />
+      <Sidebar>
+        <input
+          type="text"
+          placeholder="Search.."
+          onChange={(event) => {
+            setSearchTerm(event.target.value);
+          }}
+        />
+      </Sidebar>{" "}
+      <FlexDiv>
+        {hotel
+          .filter((item) => {
+            if (searchTerm == "") {
+              return item;
+            } else if (
+              item.attributes.name
+                .toLowerCase()
+                .includes(searchTerm.toLowerCase())
+            ) {
+              return item;
+            }
+          })
+          .map((item) => (
+            <HotelCard
+              key={item.id}
+              name={item.attributes.name}
+              price={item.attributes.price}
+              image={item.attributes.thumbnail.data.attributes.url}
+              score={item.attributes.score}
+              address={item.attributes.address}
+              distance={item.attributes.km_to_city_centre}
+              id={item.id}
+            />
+          ))}
+      </FlexDiv>
     </>
   );
 }
 
 export default HotelList;
+
+const FlexDiv = styled.div`
+  display: grid;
+
+  grid-template-columns: repeat(3, 1fr);
+
+  grid-auto-rows: auto;
+
+  grid-gap: 3rem;
+`;
+
+const Sidebar = styled.div`
+  display: flex;
+  flex-direction: column;
+  padding: 30px;
+`;

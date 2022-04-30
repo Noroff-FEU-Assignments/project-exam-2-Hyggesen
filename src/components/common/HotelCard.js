@@ -7,18 +7,20 @@ export default function HotelCard(props) {
       <Card>
         <TopCard>
           <AbsolutePosition>{props.price},- /night</AbsolutePosition>
-          <a href="/singlehotel">
+          <a href={"/singlehotel/" + props.id}>
             <ThumbNail src={props.image} />
           </a>
         </TopCard>
         <BottomCard>
           <HotelName>{props.name}</HotelName>
           <LocationWrapper>
-            <Address>{props.address}</Address>
+            <Address>{props.address}&nbsp;|&nbsp;</Address>
             <Distance>{props.distance} km to city centre</Distance>
           </LocationWrapper>
           <Score>Score: {props.score}</Score>
-          <ReadMoreLink href="/singlehotel">Read more</ReadMoreLink>
+          <ReadMoreLink href={"/singlehotel/" + props.id}>
+            Read more
+          </ReadMoreLink>
         </BottomCard>
       </Card>
     </>
@@ -32,10 +34,13 @@ HotelCard.propTypes = {
   distance: PropTypes.number.isRequired,
   score: PropTypes.number.isRequired,
   image: PropTypes.string.isRequired,
+  id: PropTypes.string,
 };
 
 const Card = styled.div`
   width: 300px;
+  display: flex;
+  flex-direction: column;
 `;
 
 const TopCard = styled.div`
@@ -51,7 +56,7 @@ const HotelName = styled.p`
   margin: 10px 0px 0px 0px;
 `;
 
-const LocationWrapper = styled.p`
+const LocationWrapper = styled.div`
   display: flex;
   margin: 0px;
 `;

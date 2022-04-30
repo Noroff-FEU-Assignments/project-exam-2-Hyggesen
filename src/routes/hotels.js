@@ -1,17 +1,24 @@
 import Navbar from "../components/common/Navbar";
-import Heading from "../components/common/Heading";
 import HotelList from "../sections/HotelList";
 import Footer from "../components/common/Footer";
+import styled from "styled-components";
 
 function Hotels() {
   return (
     <>
       <Navbar />
-      <Heading content="Hotels" />
-      <HotelList />
+      <FlexDiv>
+        <HotelList />
+      </FlexDiv>
       <Footer />
     </>
   );
 }
 
 export default Hotels;
+
+const FlexDiv = styled.div`
+  display: flex;
+  justify-content: center;
+  margin: 50px 20px;
+`;

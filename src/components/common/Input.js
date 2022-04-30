@@ -9,6 +9,8 @@ export default function Input(props) {
         id={props.id}
         placeholder={props.placeholder}
         type={props.type}
+        value={props.value}
+        onChange={props.onChange}
       />
     </>
   );
@@ -19,7 +21,10 @@ Input.propTypes = {
   placeholder: PropTypes.string.isRequired,
   type: PropTypes.string.isRequired,
   label: PropTypes.string.isRequired,
-  labelFor: PropTypes.string.isRequired,
+  labelFor: PropTypes.string,
+  value: PropTypes.string,
+  onChange: PropTypes.func,
+  autocomplete: PropTypes.string,
 };
 
 const TheInput = styled.input`
@@ -28,9 +33,9 @@ const TheInput = styled.input`
   border: 1px solid #f6f2ff;
   height: 30px;
   padding-left: 10px;
-  max-width: 400px;
+  max-width: 500px;
   width: 100%;
-  margin: 10px 0px;
+  margin: 15px 0px;
   color: #9aa4aa;
   font-size: 16px;
   font-weight: 300;

@@ -1,10 +1,23 @@
 import Heading from "../components/common/Heading";
 import BigParagraph from "../components/common/BigParagraph";
 import bigIcon from "../assets/brand/holidaze_icon.png";
-import Searchbar from "../components/Searchbar";
 import styled from "styled-components";
-
+import { NavLink } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { show } from "react-modal/lib/helpers/ariaAppHider";
 function HomeSection() {
+  const [hotel, setHotel] = useState([]);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [showDropDown, setShowDropDown] = useState(false);
+
+  useEffect(async () => {
+    fetch("https://noroff-project-exam-ben.herokuapp.com/api/hotels?populate=*")
+      .then((response) => response.json())
+
+      .then((data) => setHotel(data.data));
+  }, []);
+
+  console.log(hotel);
   return (
     <HomeWrapper>
       <div className="container">
@@ -15,7 +28,53 @@ function HomeSection() {
           />
           <Heading content="Find your perfect holiday hotel" />
           <BigParagraph content="Hotels for all types of adventures." />
-          <Searchbar />
+          <TextInput
+            type="text"
+            placeholder="Search for a hotel.."
+            onChange={(event) => {
+              setSearchTerm(event.target.value);
+              setShowDropDown(true);
+
+              if (event.target.value == "") {
+                setShowDropDown(false);
+              }
+            }}
+          ></TextInput>
+          {showDropDown == true ? (
+            <DropDown>
+              <Ul>
+                {hotel
+                  .filter((item) => {
+                    if (searchTerm == "") {
+                      return item;
+                    } else if (
+                      item.attributes.name
+                        .toLowerCase()
+                        .includes(searchTerm.toLowerCase())
+                    ) {
+                      return item;
+                    }
+                  })
+                  .map((item) => (
+                    <NavLink to={"singlehotel/" + item.id}>
+                      <DropDownHotel>
+                        <ContentWrapper>
+                          <Image
+                            src={item.attributes.thumbnail.data.attributes.url}
+                          />
+                          <Name>
+                            <p>{item.attributes.name}</p>
+                          </Name>
+                          <Score>Score:&nbsp;{item.attributes.score}</Score>
+                        </ContentWrapper>
+                      </DropDownHotel>
+                    </NavLink>
+                  ))}
+              </Ul>
+            </DropDown>
+          ) : (
+            ""
+          )}
         </div>
       </div>
     </HomeWrapper>
@@ -30,4 +89,90 @@ const HomeWrapper = styled.div`
 
 const HotelIcon = styled.img`
   margin-bottom: 20px;
+`;
+
+const TextInput = styled.input`
+  width: 600px;
+  height: 40px;
+  padding-right: 100px;
+  padding-left: 20px;
+  border: 1px solid #fdfcff;
+  -webkit-appearance: none;
+  border-radius: 50px;
+  font-size: 16px;
+  font-weight: 400;
+  outline: none;
+
+  color: #9aa4aa;
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
+`;
+
+const DropDown = styled.div`
+  margin-top: 10px;
+  width: 700px;
+  display: flex;
+  justify-content: center;
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
+  border-radius: 0px 0px 8px 8px;
+  height: 400px;
+  padding-right: 25px;
+  overflow: hidden scroll;
+  background-color: white;
+  ::-webkit-scrollbar {
+    width: 10px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: #dadada;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: #19024b;
+  }
+`;
+
+const DropDownHotel = styled.li`
+  padding: 15px;
+  width: 100%;
+
+  list-style: none;
+
+  &:hover {
+    background-color: #f72585;
+    color: white;
+    font-weight: bold;
+    border: none;
+  }
+`;
+
+const Ul = styled.ul`
+  width: 100%;
+  padding: 0px;
+`;
+
+const Image = styled.img`
+  width: 50px;
+  height: 50px;
+  border-radius: 8px;
+  object-fit: cover;
+`;
+
+const ContentWrapper = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+`;
+
+const Name = styled.div`
+  display: flex;
+  justify-content: left;
+  width: 250px;
+`;
+
+const Score = styled.div`
+  background-color: green;
+  padding: 3px 20px;
+  border-radius: 8px;
+  color: #19024b;
+  background-color: #96ecd3;
 `;

@@ -22,25 +22,25 @@ function FeaturedHotels() {
           name="Featured hotel"
           price="1337"
           image={image}
-          score="9,3"
+          score={4}
           address="Torgallmenningen"
-          distance="0,3"
+          distance={4}
         />
         <HotelCard
           name="Nice hotel"
           price="1562"
           image={image}
-          score="9,3"
+          score={4}
           address="Torgallmenningen"
-          distance="0,3"
+          distance={4}
         />
         <HotelCard
           name="Cool hotel"
           price="799"
           image={image}
-          score="9,3"
+          score={4}
           address="Torgallmenningen"
-          distance="0,3"
+          distance={4}
         />
       </FlexContainer>
     </>

@@ -2,6 +2,7 @@
 
 body {
   font-family: "Open Sans", sans-serif;
+  box-sizing: border-box;
 }
 
 a {
@@ -29,17 +30,9 @@ a {
   width: 100%;
 }
 
-.active::after {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  margin: auto;
-  width: 100%;
-  content: ".";
-  color: transparent;
-  background: #f72585;
-  height: 1px;
+.error {
+  color: #ff6671;
+  margin: 10px 0px;
 }
 
 @media screen and (max-width: 767px) {

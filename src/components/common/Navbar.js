@@ -1,4 +1,4 @@
-import { Link, NavLink } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import React from "react";
 import logo from "./../../assets/brand/logo_holidaze.png";
 import styled from "styled-components";
@@ -27,9 +27,7 @@ export default function Navbar(props) {
           <StyledLink to="/">Home</StyledLink>
         </Li>
         <Li>
-          <StyledLink activeClassName="active" to="/hotels">
-            Hotels
-          </StyledLink>
+          <StyledLink to="/hotels">Hotels</StyledLink>
         </Li>
         <Li>
           <StyledHashLink smooth to="/#contactSection">
