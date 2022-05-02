@@ -388,6 +388,7 @@ function SingleHotel() {
             {hotel.reviews && hotel.reviews.data[0] ? (
               hotel.reviews.data.map((item) => (
                 <Review
+                  key={hotel.id ? hotel.id : "-"}
                   name={item.attributes.name ? item.attributes.name : "-"}
                   review={
                     item.attributes.comment ? item.attributes.comment : "-"

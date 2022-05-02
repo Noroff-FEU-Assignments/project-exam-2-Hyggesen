@@ -4,17 +4,25 @@ import bigIcon from "../assets/brand/holidaze_icon.png";
 import styled from "styled-components";
 import { NavLink } from "react-router-dom";
 import React, { useState, useEffect } from "react";
-import { show } from "react-modal/lib/helpers/ariaAppHider";
+
 function HomeSection() {
   const [hotel, setHotel] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [showDropDown, setShowDropDown] = useState(false);
 
-  useEffect(async () => {
-    fetch("https://noroff-project-exam-ben.herokuapp.com/api/hotels?populate=*")
-      .then((response) => response.json())
-
-      .then((data) => setHotel(data.data));
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        const response = await fetch(
+          `https://noroff-project-exam-ben.herokuapp.com/api/hotels?populate=*`
+        );
+        const json = await response.json();
+        setHotel(json.data);
+      } catch (e) {
+        console.error(e);
+      }
+    }
+    fetchData();
   }, []);
 
   console.log(hotel);

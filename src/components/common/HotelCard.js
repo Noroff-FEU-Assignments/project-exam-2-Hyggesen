@@ -29,12 +29,12 @@ export default function HotelCard(props) {
 
 HotelCard.propTypes = {
   name: PropTypes.string.isRequired,
-  price: PropTypes.string.isRequired,
+  price: PropTypes.number.isRequired,
   address: PropTypes.string.isRequired,
   distance: PropTypes.number.isRequired,
   score: PropTypes.number.isRequired,
   image: PropTypes.string.isRequired,
-  id: PropTypes.string,
+  id: PropTypes.number,
 };
 
 const Card = styled.div`

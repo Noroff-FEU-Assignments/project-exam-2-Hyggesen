@@ -5,7 +5,48 @@ import keycyain from "../assets/brand/keychain.png";
 import Footer from "../components/common/Footer";
 import BigButton from "../components/common/BigButton";
 import Input from "../components/common/Input";
+import { useState, useEffect, useContext } from "react";
+import { useNavigate } from "react-router-dom";
+import AuthContext from "../context/AuthContext";
+import axios from "axios";
+
 function SignIn() {
+  const navigate = useNavigate();
+  const [username, setUsername] = useState();
+  const [password, setPassword] = useState();
+  const [submitting, setSubmitting] = useState(false);
+  const [loginError, setLoginError] = useState(null);
+  const [auth, setAuth] = useContext(AuthContext);
+
+  async function HandleSignIn(e) {
+    e.preventDefault();
+
+    setSubmitting(true);
+    setLoginError(null);
+
+    const logIn = {
+      identifier: username,
+      password: password,
+    };
+
+    try {
+      const response = await axios.post(
+        "https://noroff-project-exam-ben.herokuapp.com/api/auth/local",
+        logIn
+      );
+
+      console.log("response", response.data);
+      localStorage.setItem("Token", response.data.jwt);
+      console.log("Token", response.data.jwt);
+      setAuth(response.data);
+      navigate("/admin", { replace: true });
+    } catch (error) {
+      setLoginError(error.toString());
+    } finally {
+      setSubmitting(false);
+    }
+  }
+
   return (
     <>
       <Navbar />
@@ -14,21 +55,29 @@ function SignIn() {
           <Heading content="Sign in" />
           <SignInWrapper>
             <img src={keycyain} />
-            <SignInForm>
+            <SignInForm onSubmit={HandleSignIn}>
               <Input
                 id="username"
                 placeholder="Username"
                 type="text"
                 label="Username"
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
               />
 
               <Input
                 id="password"
                 placeholder="Password"
-                type="text"
+                type="password"
                 label="Password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
               />
-              <BigButton content="Sign in" color="#F72585" href="/admin" />
+              <BigButton
+                content={submitting ? "Signing in.." : "Sign in"}
+                color="#F72585"
+                href="/admin"
+              />
             </SignInForm>
           </SignInWrapper>
         </div>

@@ -6,11 +6,19 @@ function HotelList() {
   const [hotel, setHotel] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
 
-  useEffect(async () => {
-    fetch("https://noroff-project-exam-ben.herokuapp.com/api/hotels?populate=*")
-      .then((response) => response.json())
-
-      .then((data) => setHotel(data.data));
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        const response = await fetch(
+          `https://noroff-project-exam-ben.herokuapp.com/api/hotels?populate=*`
+        );
+        const json = await response.json();
+        setHotel(json.data);
+      } catch (e) {
+        console.error(e);
+      }
+    }
+    fetchData();
   }, []);
 
   console.log(hotel);

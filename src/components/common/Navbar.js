@@ -4,11 +4,22 @@ import logo from "./../../assets/brand/logo_holidaze.png";
 import styled from "styled-components";
 import hamburger from "../../assets//brand/hamburgermenu.png";
 import { HashLink } from "react-router-hash-link";
+import AuthContext from "../../context/AuthContext";
+import { useNavigate } from "react-router-dom";
+import { useContext } from "react";
 
 export default function Navbar(props) {
   function handleToggle() {
     const navUl = document.getElementById("nav-ul");
     navUl.classList.toggle("show");
+  }
+
+  const [auth, setAuth] = useContext(AuthContext);
+  const navigate = useNavigate();
+
+  function logout() {
+    setAuth(null);
+    navigate("/", { replace: true });
   }
 
   return (
@@ -35,7 +46,18 @@ export default function Navbar(props) {
           </StyledHashLink>
         </Li>
         <Li>
-          <StyledLink to="/sign-in">Sign In</StyledLink>
+          {auth ? (
+            <>
+              <NavLink to="/admin" className="nav-link">
+                Admin
+              </NavLink>{" "}
+              <button className="NavBtn" onClick={logout}>
+                Log out
+              </button>
+            </>
+          ) : (
+            <StyledLink to="/sign-in">Sign In</StyledLink>
+          )}
         </Li>
       </Ul>
     </Nav>

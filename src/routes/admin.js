@@ -4,13 +4,24 @@ import Footer from "../components/common/Footer";
 import styled from "styled-components";
 import Button from "../components/common/Button";
 import HeadingTwo from "../components/common/HeadingTwo";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
+import { useNavigate } from "react-router-dom";
 import Paragraph from "../components/common/Paragraph";
+import AuthContext from "../context/AuthContext";
 
 function Admin() {
   const [enquries, setEnquries] = useState([]);
   const [hotel, setHotel] = useState([]);
   const [messages, setMessages] = useState([]);
+  const [auth] = useContext(AuthContext);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (!auth) {
+      navigate("/sign-in", { replace: true });
+      localStorage.clear();
+    }
+  }, []);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -48,14 +59,26 @@ function Admin() {
     fetchData();
   }, []);
 
-  useEffect(async () => {
-    fetch("https://noroff-project-exam-ben.herokuapp.com/api/hotels?populate=*")
-      .then((response) => response.json())
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const result = await fetch(
+          "https://noroff-project-exam-ben.herokuapp.com/api/hotels?populate=*"
+        );
 
-      .then((data) => setHotel(data.data));
+        const json = await result.json();
+
+        setHotel(json.data);
+      } catch (e) {
+        console.log(e);
+      }
+    };
+
+    fetchData();
   }, []);
 
   console.log(messages);
+  console.log(enquries);
   return (
     <>
       <Navbar />
@@ -69,11 +92,11 @@ function Admin() {
           <EnquiryList>
             {enquries ? (
               enquries.map((item) => (
-                <Enquiry>
+                <Enquiry key={item.id ? item.id : "-"}>
                   <HotelNameLabel>
                     {item.attributes.hotels.data[0].attributes.name
                       ? item.attributes.hotels.data[0].attributes.name
-                      : "-"}
+                      : ""}
                   </HotelNameLabel>
                   <EnquiryInfo>
                     <InfoLabel>Email:</InfoLabel>
@@ -119,7 +142,7 @@ function Admin() {
           <MessageList>
             {messages ? (
               messages.map((item) => (
-                <Message>
+                <Message key={item.id ? item.id : "-"}>
                   <FromField>
                     <NameWrapper>
                       <FixedSizeInfoLabel>Name:</FixedSizeInfoLabel>
@@ -160,8 +183,11 @@ function Admin() {
           <HotelList>
             {hotel ? (
               hotel.map((item) => (
-                <HotelLink href={"/singlehotel/" + item.id}>
-                  {item.attributes.name}
+                <HotelLink
+                  href={"/singlehotel/" + item.id}
+                  key={item.id ? item.id : "-"}
+                >
+                  {item.attributes.name ? item.attributes.name : "-"}
                 </HotelLink>
               ))
             ) : (
