@@ -15,4 +15,8 @@ const BigPara = styled.p`
   font-weight: 700;
   text-transform: uppercase;
   margin: 0px;
+
+  @media (max-width: 768px) {
+    font-size: 16px;
+  }
 `;

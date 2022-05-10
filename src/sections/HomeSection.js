@@ -68,7 +68,11 @@ function HomeSection() {
                       <DropDownHotel>
                         <ContentWrapper>
                           <Image
-                            src={item.attributes.thumbnail.data.attributes.url}
+                            src={
+                              item.attributes.thumbnail.data
+                                ? item.attributes.thumbnail.data.attributes.url
+                                : item.attributes.thumbnail_url
+                            }
                           />
                           <Name>
                             <p>{item.attributes.name}</p>
@@ -93,6 +97,7 @@ export default HomeSection;
 
 const HomeWrapper = styled.div`
   height: 100vh;
+  text-align: center;
 `;
 
 const HotelIcon = styled.img`
@@ -113,6 +118,14 @@ const TextInput = styled.input`
 
   color: #9aa4aa;
   box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
+
+  @media (max-width: 768px) {
+    width: 450px;
+  }
+
+  @media (max-width: 480px) {
+    width: 300px;
+  }
 `;
 
 const DropDown = styled.div`
@@ -136,6 +149,15 @@ const DropDown = styled.div`
 
   ::-webkit-scrollbar-thumb {
     background: #19024b;
+  }
+
+  @media (max-width: 768px) {
+    width: 450px;
+    height: 250px;
+  }
+
+  @media (max-width: 480px) {
+    width: 300px;
   }
 `;
 
@@ -163,6 +185,9 @@ const Image = styled.img`
   height: 50px;
   border-radius: 8px;
   object-fit: cover;
+  @media (max-width: 768px) {
+    margin-right: 10px;
+  }
 `;
 
 const ContentWrapper = styled.div`
@@ -183,4 +208,7 @@ const Score = styled.div`
   border-radius: 8px;
   color: #19024b;
   background-color: #96ecd3;
+  @media (max-width: 768px) {
+    display: none;
+  }
 `;

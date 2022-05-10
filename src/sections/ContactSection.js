@@ -86,8 +86,8 @@ function ContactSection() {
   }
 
   return (
-    <BlueSection id="contactSection">
-      <div className="container">
+    <BlueSection>
+      <div className="container" id="contactSection">
         <IntroText content="Reach out" />
         <Heading content="Contact" />
         <ContactForm onSubmit={handleContactForm} autocomplete="off">
@@ -140,9 +140,13 @@ export default ContactSection;
 const BlueSection = styled.div`
   background-color: #fdfcff;
   padding: 200px 0px;
+  @media (max-width: 1024px) {
+    padding: 50px 0px;
+  }
 `;
 
 const ContactForm = styled.form`
   display: flex;
   flex-direction: column;
+  margin: 40px 0px;
 `;

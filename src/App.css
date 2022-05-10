@@ -1,8 +1,14 @@
 @import url("https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,300;1,400;1,500;1,600;1,700;1,800&display=swap");
 
+html {
+  overflow-x: hidden;
+}
 body {
   font-family: "Open Sans", sans-serif;
   box-sizing: border-box;
+  overflow-x: hidden;
+  position: relative;
+  padding-bottom: 620px;
 }
 
 a {
@@ -17,8 +23,8 @@ a {
   width: 100%;
   justify-content: center;
   align-items: center;
-  margin: 0 auto;
   padding: 0px 20px;
+  margin: auto;
 }
 
 .wrapper {
@@ -35,7 +41,11 @@ a {
   margin: 10px 0px;
 }
 
-@media screen and (max-width: 767px) {
+.active {
+  color: #f72585;
+}
+
+@media (max-width: 1024px) {
   #nav-ul {
     display: none;
     width: 100%;
@@ -49,5 +59,40 @@ a {
   }
   #menubutton {
     display: block;
+  }
+
+  body {
+    padding-bottom: 321px;
+  }
+}
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+@media (max-width: 768px) {
+  body {
+    padding-bottom: 408px;
+  }
+}
+
+@media (max-width: 1200px) {
+  table tr {
+    display: block;
+    margin-bottom: 50px;
+    border-radius: 8px;
+  }
+  table td {
+    background-color: #fdfcff;
+    display: block;
+    font-size: 0.8em;
+    text-align: left;
+    box-shadow: rgba(0, 0, 0, 0.05) 0px 6px 24px 0px,
+      rgba(0, 0, 0, 0.08) 0px 0px 0px 1px;
+  }
+
+  table td:last-child {
+    border-bottom: 0;
   }
 }

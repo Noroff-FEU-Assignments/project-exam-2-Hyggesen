@@ -10,10 +10,10 @@ function ParkingSection() {
     <WhiteSection>
       <div className="container">
         <Wrapper>
-          <DivSplit>
+          <DivSplit1>
             <img src={PinkArrow} />
-          </DivSplit>
-          <DivSplit>
+          </DivSplit1>
+          <DivSplit2>
             <IntroText content="Don't miss out" />
             <Heading content="Free parking for 7 days" />
             <Paragraph content="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat" />
@@ -22,7 +22,7 @@ function ParkingSection() {
               color="#4361EE"
               href="/hotels"
             />
-          </DivSplit>
+          </DivSplit2>
         </Wrapper>
       </div>
     </WhiteSection>
@@ -34,12 +34,24 @@ export default ParkingSection;
 const WhiteSection = styled.div`
   background-color: white;
   padding: 200px 0px;
+  @media (max-width: 1024px) {
+    padding: 50px 0px;
+  }
 `;
 
 const Wrapper = styled.div`
   display: flex;
 `;
 
-const DivSplit = styled.div`
+const DivSplit1 = styled.div`
   width: 100%;
+
+  @media (max-width: 768px) {
+    display: none;
+  }
+`;
+
+const DivSplit2 = styled.div`
+  width: 100%;
+  max-width: 400px;
 `;

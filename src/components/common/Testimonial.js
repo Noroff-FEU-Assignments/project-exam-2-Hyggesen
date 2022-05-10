@@ -31,6 +31,7 @@ const Testimonials = styled.div`
   justify-content: space-between;
   align-content: space-between;
   margin: 40px 0px;
+  flex-wrap: wrap;
 `;
 
 const TheTestimonial = styled.div`

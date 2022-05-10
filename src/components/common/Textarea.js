@@ -32,11 +32,14 @@ const TheTextArea = styled.textarea`
   padding-left: 10px;
   max-width: 400px;
   width: 100%;
-  margin: 10px 0px;
+  margin-top: 15px;
   color: #9aa4aa;
   font-size: 16px;
   font-weight: 300;
   min-height: 70px;
+  @media (max-width: 480px) {
+    max-width: 250px;
+  }
 `;
 
 const Label = styled.label`

@@ -13,4 +13,7 @@ const BigPara = styled.p`
   font-size: 25px;
   color: #9c99a1;
   font-weight: 400;
+  @media (max-width: 768px) {
+    font-size: 20px;
+  }
 `;

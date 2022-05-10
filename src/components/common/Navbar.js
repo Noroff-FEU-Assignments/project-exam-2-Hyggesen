@@ -7,6 +7,8 @@ import { HashLink } from "react-router-hash-link";
 import AuthContext from "../../context/AuthContext";
 import { useNavigate } from "react-router-dom";
 import { useContext } from "react";
+import signOutIcon from "../../assets/brand/signout.png";
+import signInIcon from "../../assets/brand/signin.png";
 
 export default function Navbar(props) {
   function handleToggle() {
@@ -24,18 +26,26 @@ export default function Navbar(props) {
 
   return (
     <Nav>
-      <LogoDiv>
-        <a href="/">
-          <img src={logo} />
-        </a>
-      </LogoDiv>
+      <Wrapper>
+        <LogoDiv>
+          <a href="/">
+            <img src={logo} />
+          </a>
+        </LogoDiv>
 
-      <HamburgerIcon id="menubutton" onClick={handleToggle}>
-        <img src={hamburger} />
-      </HamburgerIcon>
+        <HamburgerIcon id="menubutton" onClick={handleToggle}>
+          <img src={hamburger} />
+        </HamburgerIcon>
+      </Wrapper>
       <Ul id="nav-ul">
         <Li>
-          <StyledLink to="/">Home</StyledLink>
+          <StyledLink
+            to="/"
+            end
+            className={({ isActive }) => (isActive ? "active" : "")}
+          >
+            Home
+          </StyledLink>
         </Li>
         <Li>
           <StyledLink to="/hotels">Hotels</StyledLink>
@@ -45,20 +55,38 @@ export default function Navbar(props) {
             Contact
           </StyledHashLink>
         </Li>
-        <Li>
-          {auth ? (
-            <>
-              <NavLink to="/admin" className="nav-link">
+
+        {auth ? (
+          <>
+            <Li>
+              <StyledLink to="/admin" className="nav-link">
                 Admin
-              </NavLink>{" "}
-              <button className="NavBtn" onClick={logout}>
-                Log out
-              </button>
-            </>
-          ) : (
-            <StyledLink to="/sign-in">Sign In</StyledLink>
-          )}
-        </Li>
+              </StyledLink>
+            </Li>
+
+            <Li>
+              <AdminWrapper to="/admin" className="nav-link">
+                <StyledLogin>Logged in: </StyledLogin>
+                <StyledUsername>
+                  {" "}
+                  {auth.user.username ? auth.user.username : ""}
+                </StyledUsername>
+              </AdminWrapper>
+            </Li>
+            <li>
+              <LogOutButton onClick={logout}>
+                <LogoutIcon src={signOutIcon} />
+                Sign out
+              </LogOutButton>
+            </li>
+          </>
+        ) : (
+          <StyledLoginButton to="/sign-in">
+            {" "}
+            <LogoutIcon src={signInIcon} />
+            Sign In
+          </StyledLoginButton>
+        )}
       </Ul>
     </Nav>
   );
@@ -67,8 +95,22 @@ export default function Navbar(props) {
 const Nav = styled.nav`
   display: flex;
   justify-content: space-between;
-  padding: 10px 20px;
-  flex-wrap: wrap;
+  padding: 10px 30px;
+  background-color: #19024b;
+
+  @media (max-width: 480px) {
+    padding: 10px;
+  }
+
+  @media (max-width: 1024px) {
+    display: block;
+  }
+`;
+
+const Wrapper = styled.nav`
+  display: flex;
+  justify-content: space-between;
+  padding: 10px 30px;
   background-color: #19024b;
 `;
 
@@ -83,6 +125,8 @@ const Li = styled.li`
 const Ul = styled.ul`
   list-style: none;
   display: flex;
+  width: 100%;
+  max-width: 800px;
   justify-content: center;
   align-items: center;
 `;
@@ -155,5 +199,69 @@ const StyledLink = styled(NavLink)`
 
   &:hover:after {
     width: 100%;
+  }
+`;
+
+const AdminWrapper = styled.div`
+  position: relative;
+  font-size: 14px;
+  padding: 10px 0px;
+  display: flex;
+  flex-direction: column;
+`;
+
+const StyledLogin = styled.p`
+  text-decoration: underline;
+  margin: 0px;
+`;
+
+const StyledUsername = styled.p`
+  text-decoration: underline;
+  margin: 0px;
+`;
+
+const LogOutButton = styled.button`
+  background: transparent;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border: 1px solid white;
+  border-radius: 8px;
+  margin-left: 15px;
+  color: white;
+  padding: 10px 25px;
+  text-align: center;
+  text-decoration: none;
+  font-size: 16px;
+
+  &:hover {
+    cursor: pointer;
+    border: 1px solid #f72585;
+    color: #f72585;
+  }
+`;
+
+const LogoutIcon = styled.img`
+  margin-right: 10px;
+`;
+
+const StyledLoginButton = styled(NavLink)`
+  background: transparent;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border: 1px solid white;
+  border-radius: 8px;
+  margin-left: 15px;
+  color: white;
+  padding: 10px 25px;
+  text-align: center;
+  text-decoration: none;
+  font-size: 16px;
+
+  &:hover {
+    cursor: pointer;
+    border: 1px solid #f72585;
+    color: #f72585;
   }
 `;

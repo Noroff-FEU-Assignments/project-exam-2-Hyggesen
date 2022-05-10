@@ -14,4 +14,8 @@ const Heading1 = styled.h1`
   color: #19024b;
   font-weight: 800;
   margin: 0px;
+
+  @media (max-width: 768px) {
+    font-size: 30px;
+  }
 `;

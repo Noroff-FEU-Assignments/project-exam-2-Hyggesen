@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import logo from "../../assets/brand/logo_holidaze.png";
-import { Link } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import { HashLink } from "react-router-hash-link";
 export default function Footer() {
   return (
@@ -8,8 +8,9 @@ export default function Footer() {
       <div className="container">
         <Flexer>
           <div>
-            {" "}
-            <img src={logo} alt="holidaze logo" />
+            <NavLink to="/">
+              <img src={logo} alt="holidaze logo" />
+            </NavLink>
           </div>
           <div>
             <Ul>
@@ -41,6 +42,12 @@ export default function Footer() {
 const FooterWrap = styled.div`
   background-color: #19024b;
   padding: 200px 0px;
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  @media (max-width: 1024px) {
+    padding: 50px 0px;
+  }
 `;
 
 const Flexer = styled.div`
@@ -48,6 +55,9 @@ const Flexer = styled.div`
   width: 100%;
   justify-content: space-between;
   align-items: center;
+  @media (max-width: 768px) {
+    flex-direction: column;
+  }
 `;
 
 const Ul = styled.ul`
@@ -62,11 +72,18 @@ const Li = styled.li`
   padding: 10px 20px;
   font-weight: 400;
   font-size: 20px;
+  @media (max-width: 768px) {
+    font-size: 18px;
+  }
 `;
 
 const ContactMail = styled.p`
   font-size: 20px;
   color: #f72585;
+
+  @media (max-width: 768px) {
+    font-size: 16px;
+  }
 `;
 
 const StyledHashLink = styled(HashLink)`

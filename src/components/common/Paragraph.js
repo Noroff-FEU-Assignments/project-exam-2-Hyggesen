@@ -16,4 +16,8 @@ const Para = styled.p`
   letter-spacing: -0.04%;
   line-height: 183%;
   max-width: 700px;
+
+  @media (max-width: 768px) {
+    font-size: 16px;
+  }
 `;

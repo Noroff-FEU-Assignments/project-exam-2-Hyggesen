@@ -15,7 +15,7 @@ Button.propTypes = {
   content: PropTypes.string.isRequired,
   color: PropTypes.string.isRequired,
   href: PropTypes.string,
-  click: PropTypes.object,
+  click: PropTypes.func,
 };
 
 const TheButton = styled.div`

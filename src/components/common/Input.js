@@ -19,10 +19,10 @@ export default function Input(props) {
 Input.propTypes = {
   id: PropTypes.string.isRequired,
   placeholder: PropTypes.string.isRequired,
-  type: PropTypes.string.isRequired,
+  type: PropTypes.any,
   label: PropTypes.string.isRequired,
   labelFor: PropTypes.string,
-  value: PropTypes.string,
+  value: PropTypes.any,
   onChange: PropTypes.func,
   autocomplete: PropTypes.string,
 };
@@ -35,14 +35,23 @@ const TheInput = styled.input`
   padding-left: 10px;
   max-width: 500px;
   width: 100%;
-  margin: 15px 0px;
+  margin-top: 15px;
   color: #9aa4aa;
   font-size: 16px;
   font-weight: 300;
+
+  @media (max-width: 480px) {
+    max-width: 250px;
+  }
 `;
 
 const Label = styled.label`
-  font-size: 18px;
+  font-size: 16px;
   font-weight: 600;
   color: #19024b;
+  align-items: left !important;
+  width: 100%;
+  @media (max-width: 480px) {
+    max-width: 250px;
+  }
 `;

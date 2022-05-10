@@ -3,7 +3,7 @@ import styled from "styled-components";
 import Heading from "../components/common/Heading";
 import React, { useState, useEffect } from "react";
 import HotelCard from "../components/common/HotelCard";
-
+import Loader from "../components/common/Loader";
 function FeaturedSection() {
   const [hotel, setHotel] = useState([]);
 
@@ -22,6 +22,18 @@ function FeaturedSection() {
     fetchData();
   }, []);
 
+  if (!hotel.length) {
+    return (
+      <>
+        <BlueSection>
+          <div className="container">
+            <Loader />
+          </div>
+        </BlueSection>
+      </>
+    );
+  }
+
   return (
     <BlueSection>
       <div className="container">
@@ -39,7 +51,11 @@ function FeaturedSection() {
                 key={item.id}
                 name={item.attributes.name}
                 price={item.attributes.price}
-                image={item.attributes.thumbnail.data.attributes.url}
+                image={
+                  item.attributes.thumbnail.data
+                    ? item.attributes.thumbnail.data.attributes.url
+                    : item.attributes.thumbnail_url
+                }
                 score={item.attributes.score}
                 address={item.attributes.address}
                 distance={item.attributes.km_to_city_centre}
@@ -57,6 +73,9 @@ export default FeaturedSection;
 const BlueSection = styled.div`
   background-color: #fdfcff;
   padding: 200px 0px;
+  @media (max-width: 1024px) {
+    padding: 50px 0px;
+  }
 `;
 const FlexDiv = styled.div`
   display: flex;
@@ -65,4 +84,11 @@ const FlexDiv = styled.div`
   flex-wrap: wrap;
   width: 100%;
   margin-top: 50px;
+
+  @media (max-width: 1024px) {
+    flex-direction: column;
+    height: 1200px;
+    padding: 10px 0px;
+    align-items: center;
+  }
 `;

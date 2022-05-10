@@ -18,6 +18,12 @@ function SignIn() {
   const [loginError, setLoginError] = useState(null);
   const [auth, setAuth] = useContext(AuthContext);
 
+  useEffect(() => {
+    if (auth) {
+      navigate("/admin", { replace: true });
+    }
+  }, []);
+
   async function HandleSignIn(e) {
     e.preventDefault();
 
@@ -54,7 +60,7 @@ function SignIn() {
         <div className="wrapper">
           <Heading content="Sign in" />
           <SignInWrapper>
-            <img src={keycyain} />
+            <Keys src={keycyain} />
             <SignInForm onSubmit={HandleSignIn}>
               <Input
                 id="username"
@@ -96,9 +102,26 @@ const SignInWrapper = styled.div`
   width: 100%;
   justify-content: space-between;
   padding: 100px 0px;
+  @media (max-width: 768px) {
+    flex-direction: column;
+    max-width: 400px;
+    align-items: center;
+  }
+
+  @media (max-width: 1024px) {
+    padding: 0px 0px;
+    margin-top: 20px;
+  }
 `;
 
 const SignInForm = styled.form`
   display: flex;
   flex-direction: column;
+  margin: 20px 0px;
+`;
+
+const Keys = styled.img`
+  @media (max-width: 768px) {
+    display: none;
+  }
 `;

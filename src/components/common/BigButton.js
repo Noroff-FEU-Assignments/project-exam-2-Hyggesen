@@ -32,11 +32,18 @@ const Button = styled.button`
   height: 50px;
   outline: inherit;
   border: none;
+  margin: 15px 0px;
 
   &:hover {
     box-shadow: inset 0 0 0 10em rgba(255, 255, 255, 0.1);
 
     cursor: pointer;
+  }
+
+  @media (max-width: 480px) {
+    max-width: 350px;
+    width: 100%;
+    font-size: 16px;
   }
 `;
 

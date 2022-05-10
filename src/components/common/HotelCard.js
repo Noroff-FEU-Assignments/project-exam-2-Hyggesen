@@ -38,9 +38,11 @@ HotelCard.propTypes = {
 };
 
 const Card = styled.div`
-  width: 300px;
+  width: 100%;
+  max-width: 300px;
   display: flex;
   flex-direction: column;
+  margin: 5px;
 `;
 
 const TopCard = styled.div`
@@ -59,6 +61,9 @@ const HotelName = styled.p`
 const LocationWrapper = styled.div`
   display: flex;
   margin: 0px;
+  @media (max-width: 340px) {
+    flex-direction: column;
+  }
 `;
 
 const Address = styled.p`
@@ -66,6 +71,9 @@ const Address = styled.p`
   font-size: 14px;
   margin-top: 5px;
   margin-right: 5px;
+  @media (max-width: 340px) {
+    margin: 0px;
+  }
 `;
 
 const Distance = styled.p`
@@ -86,6 +94,7 @@ const Score = styled.div`
   align-items: center;
   border-radius: 4px;
   font-weight: 600;
+  margin-bottom: 15px;
 `;
 
 const ThumbNail = styled.img`
@@ -104,7 +113,8 @@ const ThumbNail = styled.img`
 const AbsolutePosition = styled.div`
   position: absolute;
   background-color: #fcca46;
-  width: 150px;
+  width: 100%;
+  max-width: 150px;
   height: 30px;
   left: 150px;
   top: 40px;
@@ -115,10 +125,21 @@ const AbsolutePosition = styled.div`
   align-items: center;
   border-radius: 4px 0px 0px 4px;
   font-size: 18px;
+  @media (max-width: 340px) {
+    display: none;
+  }
 `;
 
 const ReadMoreLink = styled.a`
   color: #19024b;
   font-size: 16px;
   text-decoration: underline;
+
+  &:hover {
+    color: #f72585;
+  }
+
+  @media (max-width: 340px) {
+    display: none;
+  }
 `;

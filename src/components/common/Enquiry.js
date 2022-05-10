@@ -57,7 +57,7 @@ export default function Enquiry(props) {
             {" "}
             <CancelButton onClick={props.cancelClick}>Cancel</CancelButton>
             <OrderButton type="submit" onClick={props.orderClick}>
-              Place order
+              {props.buttonContent}
             </OrderButton>
           </ButtonWrap>
           <div className="error">{props.orderFormError}</div>
@@ -88,13 +88,19 @@ Enquiry.propTypes = {
   orderEmailError: PropTypes.string,
   orderGuestsError: PropTypes.string,
   orderFormError: PropTypes.bool,
+  buttonContent: PropTypes.string,
 };
 const Form = styled.form`
   margin-top: 50px;
   display: flex;
   flex-direction: column;
   justify-content: center;
+
   width: 100%;
+
+  @media (max-width: 550px) {
+    align-items: center;
+  }
 `;
 
 const Wrapper = styled.div`
@@ -103,6 +109,10 @@ const Wrapper = styled.div`
   justify-content: center;
   align-items: center;
   width: 500px;
+
+  @media (max-width: 550px) {
+    width: 420px;
+  }
 `;
 
 const ButtonWrap = styled.div`
@@ -111,6 +121,11 @@ const ButtonWrap = styled.div`
   align-items: center;
   width: 100%;
   margin-top: 30px;
+
+  @media (max-width: 550px) {
+    flex-direction: column;
+    height: 120px;
+  }
 `;
 
 const CancelButton = styled.div`

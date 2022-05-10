@@ -32,10 +32,19 @@ export default TestimonialSection;
 const WhiteSection = styled.div`
   background-color: white;
   padding: 200px 0px;
+
+  @media (max-width: 1024px) {
+    padding: 50px 0px;
+  }
 `;
 
 const TestimonialsWrapper = styled.div`
   display: flex;
   width: 100%;
   justify-content: space-between;
+  @media (max-width: 1024px) {
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
 `;

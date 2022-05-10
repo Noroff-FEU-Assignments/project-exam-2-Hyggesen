@@ -19,6 +19,7 @@ import { useNavigate } from "react-router-dom";
 import BreadCrumb from "../components/common/BreadCrumb";
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
+import Loader from "../components/common/Loader";
 Modal.setAppElement("#root");
 
 const customStyles = {
@@ -32,6 +33,7 @@ const customStyles = {
     padding: "100px",
     borderRadius: "8px",
   },
+
   overlay: {
     backgroundColor: "rgba(0, 0, 0, 0.6)",
   },
@@ -39,7 +41,6 @@ const customStyles = {
 
 function SingleHotel() {
   const { id } = useParams();
-  const api = `https://noroff-project-exam-ben.herokuapp.com/api/hotels/${id}?populate=*`;
   const [modalIsOpen, setIsOpen] = useState(false);
   const [hotel, setHotel] = useState([]);
   const [bar, setBar] = useState([]);
@@ -54,16 +55,18 @@ function SingleHotel() {
   const [commentError, setCommentError] = useState();
   const [reviewError, setReviewError] = useState();
   const [orderName, setOrderName] = useState();
-  const [orderEmail, setOrderEmail] = useState();
+  const [orderEmail, setOrderEmail] = useState("");
   const [orderToDate, setOrderToDate] = useState();
   const [orderFromDate, setOrderFromDate] = useState();
   const [orderGuests, setOrderGuests] = useState();
   const [orderFromDateError, setOrderFromDateError] = useState();
   const [orderToDateError, setOrderToDateError] = useState();
-  const [orderEmailError, setOrderEmailError] = useState();
+  const [orderEmailError, setOrderEmailError] = useState("");
   const [orderGuestsError, setOrderGuestsError] = useState();
   const [orderFormError, setOrderFormError] = useState();
   const [orderNameError, setOrderNameError] = useState();
+  const [submittingReview, setSubmittingReview] = useState(false);
+  const [submittingOrder, setSubmittingOrder] = useState(false);
 
   const navigate = useNavigate();
   useEffect(() => {
@@ -138,7 +141,6 @@ function SingleHotel() {
 
   function closeModal() {
     setIsOpen(false);
-    console.log("OYO");
   }
 
   if (!hotel) {
@@ -146,6 +148,7 @@ function SingleHotel() {
   }
 
   const handleOrder = (e) => {
+    setSubmittingOrder(true);
     e.preventDefault();
 
     if (!orderName) {
@@ -196,40 +199,43 @@ function SingleHotel() {
       setReviewError(true);
     }
 
-    if (orderEmail || orderEmail.match(regex)) {
-      setOrderEmailError([]);
+    if (orderEmail.match(regex)) {
+      setOrderEmailError("");
       setReviewError(false);
     }
 
-    if (orderFormError == false) {
-      const order = {
-        data: {
-          toDate: orderToDate,
-          fromDate: orderFromDate,
-          name: orderName,
-          email: orderEmail,
-          guests: orderGuests,
-          hotels: id,
-        },
-      };
-
-      fetch(
-        `https://noroff-project-exam-ben.herokuapp.com/api/orders/?populate=*`,
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(order),
-        }
-      ).then(() => {
-        console.log(order);
-
-        navigate("/success");
-      });
+    if (orderFormError === false) {
+      try {
+        const order = {
+          data: {
+            toDate: orderToDate,
+            fromDate: orderFromDate,
+            name: orderName,
+            email: orderEmail,
+            guests: orderGuests,
+            hotels: id,
+          },
+        };
+        fetch(
+          `https://noroff-project-exam-ben.herokuapp.com/api/orders/?populate=*`,
+          {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(order),
+          }
+        ).then(() => {
+          navigate("/success");
+        });
+      } catch (error) {
+      } finally {
+        setSubmittingOrder(false);
+      }
     }
   };
 
   const handleReview = (e) => {
     e.preventDefault();
+    setSubmittingReview(true);
 
     if (name.length < 3) {
       setNameError("The name must be more than 3 characters.");
@@ -251,7 +257,7 @@ function SingleHotel() {
       setReviewError(false);
     }
 
-    if (reviewError == false) {
+    if (reviewError === false) {
       const review = {
         data: {
           name: name,
@@ -268,166 +274,192 @@ function SingleHotel() {
           body: JSON.stringify(review),
         }
       ).then(() => {
-        console.log(review);
+        setSubmittingOrder(false);
 
         window.location.reload(true);
       });
     }
   };
-
-  const url =
-    hotel && hotel.thumbnail ? hotel.thumbnail.data.attributes.url : skeleton;
   console.log(hotel);
+  const url =
+    (hotel && hotel.thumbnail && hotel.thumbnail_url === null) ||
+    hotel.thumbnail_url === ""
+      ? hotel.thumbnail.data.attributes.url
+      : hotel.thumbnail_url
+      ? hotel.thumbnail_url
+      : skeleton;
+
   return (
     <>
       <Navbar />
+      {hotel.name ? (
+        <>
+          <Modal
+            style={customStyles}
+            isOpen={modalIsOpen}
+            onRequestClose={closeModal}
+          >
+            <Enquiry
+              hotelName={hotel.name ? hotel.name : "-"}
+              click={closeModal}
+              cancelClick={closeModal}
+              orderClick={handleOrder}
+              nameValue={orderName}
+              toDateValue={orderToDate}
+              fromDateValue={orderFromDate}
+              emailValue={orderEmail}
+              guestsValue={orderGuests}
+              nameChange={(e) => setOrderName(e.target.value)}
+              toDateChange={(e) => setOrderToDate(e.target.value)}
+              fromDateChange={(e) => setOrderFromDate(e.target.value)}
+              emailChange={(e) => setOrderEmail(e.target.value)}
+              guestsChange={(e) => setOrderGuests(e.target.value)}
+              orderFromDateError={orderFromDateError}
+              orderFormError={orderFormError}
+              orderToDateError={orderToDateError}
+              orderNameError={orderNameError}
+              orderEmailError={orderEmailError}
+              orderGuestsError={orderGuestsError}
+              buttonContent={!submittingOrder ? "Place order" : "Processing.."}
+            />
+          </Modal>
 
-      <Modal
-        style={customStyles}
-        isOpen={modalIsOpen}
-        onRequestClose={closeModal}
-      >
-        <Enquiry
-          hotelName={hotel.name ? hotel.name : "-"}
-          click={closeModal}
-          cancelClick={closeModal}
-          orderClick={handleOrder}
-          nameValue={orderName}
-          toDateValue={orderToDate}
-          fromDateValue={orderFromDate}
-          emailValue={orderEmail}
-          guestsValue={orderGuests}
-          nameChange={(e) => setOrderName(e.target.value)}
-          toDateChange={(e) => setOrderToDate(e.target.value)}
-          fromDateChange={(e) => setOrderFromDate(e.target.value)}
-          emailChange={(e) => setOrderEmail(e.target.value)}
-          guestsChange={(e) => setOrderGuests(e.target.value)}
-          orderFromDateError={orderFromDateError}
-          orderFormError={orderFormError}
-          orderToDateError={orderToDateError}
-          orderNameError={orderNameError}
-          orderEmailError={orderEmailError}
-          orderGuestsError={orderGuestsError}
-        />
-      </Modal>
-
-      <div className="container">
-        <HotelWrapper>
-          <BreadCrumb content={hotel.name ? hotel.name : "-"} />
-          <CoverImage src={url} />
-          <FlexDiv>
-            <Heading content={hotel.name ? hotel.name : "-"} />
-            <Score>
-              <ScoreP>Score: {hotel.score}/10</ScoreP>
-            </Score>
-          </FlexDiv>
-          <TopFeatures>
-            <TopFeature>
-              <Check src={checkIcon} />
-              <TopFeatureText>
-                {hotel.headlight_feature_1 ? hotel.headlight_feature_1 : "-"}
-              </TopFeatureText>
-            </TopFeature>
-            <TopFeature>
-              <Check src={checkIcon} />
-              <TopFeatureText>
-                {" "}
-                {hotel.headlight_feature_2 ? hotel.headlight_feature_2 : "-"}
-              </TopFeatureText>
-            </TopFeature>
-            <TopFeature>
-              <Check src={checkIcon} />
-              <TopFeatureText>
-                {" "}
-                {hotel.headlight_feature_3 ? hotel.headlight_feature_3 : "-"}
-              </TopFeatureText>
-            </TopFeature>
-          </TopFeatures>
-          <FlexDiv>
-            <Price>{hotel.price},- /night</Price>
-            <OrderNow onClick={openModal}>Order now</OrderNow>
-          </FlexDiv>
-          <PartSection>
-            <HeadingTwo content="Hotel Description" />
-            <Paragraph content={hotel.description ? hotel.description : "-"} />
-          </PartSection>
-          <PartSection>
-            <HeadingTwo content="Facilities" />
-            <Ul>
-              <li>
+          <div className="container">
+            <HotelWrapper>
+              <BreadCrumb content={hotel.name ? hotel.name : "-"} />
+              <CoverImage src={url} />
+              <FlexDiv>
+                <Heading content={hotel.name ? hotel.name : "-"} />
+                <Score>
+                  <ScoreP>Score: {hotel.score}/10</ScoreP>
+                </Score>
+              </FlexDiv>
+              <TopFeatures>
                 <TopFeature>
-                  <Check src={hotel ? balcony : "-"} />
-                  <TopFeatureText>Balcony</TopFeatureText>
+                  <Check src={checkIcon} />
+                  <TopFeatureText>
+                    {hotel.headlight_feature_1
+                      ? hotel.headlight_feature_1
+                      : "-"}
+                  </TopFeatureText>
                 </TopFeature>
                 <TopFeature>
-                  <Check src={hotel ? bar : "-"} />
-                  <TopFeatureText>Bar</TopFeatureText>
+                  <Check src={checkIcon} />
+                  <TopFeatureText>
+                    {" "}
+                    {hotel.headlight_feature_2
+                      ? hotel.headlight_feature_2
+                      : "-"}
+                  </TopFeatureText>
                 </TopFeature>
                 <TopFeature>
-                  <Check src={hotel ? breakfast : "-"} />
-                  <TopFeatureText>Breakfast included</TopFeatureText>
+                  <Check src={checkIcon} />
+                  <TopFeatureText>
+                    {" "}
+                    {hotel.headlight_feature_3
+                      ? hotel.headlight_feature_3
+                      : "-"}
+                  </TopFeatureText>
                 </TopFeature>
-                <TopFeature>
-                  <Check src={hotel ? fitnessRoom : "-"} />
-                  <TopFeatureText>Fitness room</TopFeatureText>
-                </TopFeature>
-                <TopFeature>
-                  <Check src={hotel ? internet : "-"} />
-                  <TopFeatureText>Internet</TopFeatureText>
-                </TopFeature>
-                <TopFeature>
-                  <Check src={spa} />
-                  <TopFeatureText>Spa</TopFeatureText>
-                </TopFeature>
-              </li>
-            </Ul>
-          </PartSection>
-          <PartSection>
-            <HeadingTwo content="Reviews" />
-
-            {hotel.reviews && hotel.reviews.data[0] ? (
-              hotel.reviews.data.map((item) => (
-                <Review
-                  key={hotel.id ? hotel.id : "-"}
-                  name={item.attributes.name ? item.attributes.name : "-"}
-                  review={
-                    item.attributes.comment ? item.attributes.comment : "-"
-                  }
+              </TopFeatures>
+              <FlexDiv>
+                <Price>{hotel.price},- /night</Price>
+                <OrderNow onClick={openModal}>Order now</OrderNow>
+              </FlexDiv>
+              <PartSection>
+                <HeadingTwo content="Hotel Description" />
+                <Paragraph
+                  content={hotel.description ? hotel.description : "-"}
                 />
-              ))
-            ) : (
-              <Paragraph content="No reviews yet.." />
-            )}
-            <LeaveReview>
-              {hotel.reviews && hotel.reviews.data[0]
-                ? "Would you like to leave a review?"
-                : "Would you like to be the first to leave a review?"}
-            </LeaveReview>
-            <Form onSubmit={handleReview} autocomplete="off">
-              <Input
-                id="name"
-                placeholder="Full name"
-                type="text"
-                label="Full name"
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-              />
-              <div className="error">{nameError}</div>
-              <TextArea
-                id="comment"
-                placeholder="Comment"
-                label="Comment"
-                value={comment}
-                onChange={(e) => setComment(e.target.value)}
-              />
-              <div className="error">{commentError}</div>
-              <BigButton content="Publish" color="#F72585" />
-            </Form>
-          </PartSection>
-        </HotelWrapper>
-      </div>
+              </PartSection>
+              <PartSection>
+                <HeadingTwo content="Facilities" />
+                <Ul>
+                  <li>
+                    <TopFeature>
+                      <Check src={hotel ? balcony : "-"} />
+                      <TopFeatureText>Balcony</TopFeatureText>
+                    </TopFeature>
+                    <TopFeature>
+                      <Check src={hotel ? bar : "-"} />
+                      <TopFeatureText>Bar</TopFeatureText>
+                    </TopFeature>
+                    <TopFeature>
+                      <Check src={hotel ? breakfast : "-"} />
+                      <TopFeatureText>Breakfast included</TopFeatureText>
+                    </TopFeature>
+                    <TopFeature>
+                      <Check src={hotel ? fitnessRoom : "-"} />
+                      <TopFeatureText>Fitness room</TopFeatureText>
+                    </TopFeature>
+                    <TopFeature>
+                      <Check src={hotel ? internet : "-"} />
+                      <TopFeatureText>Internet</TopFeatureText>
+                    </TopFeature>
+                    <TopFeature>
+                      <Check src={spa} />
+                      <TopFeatureText>Spa</TopFeatureText>
+                    </TopFeature>
+                  </li>
+                </Ul>
+              </PartSection>
+              <PartSection>
+                <HeadingTwo content="Reviews" />
 
-      <Footer />
+                {hotel.reviews && hotel.reviews.data[0] ? (
+                  hotel.reviews.data.map((item) => (
+                    <Review
+                      key={hotel.id ? hotel.id : "-"}
+                      name={item.attributes.name ? item.attributes.name : "-"}
+                      review={
+                        item.attributes.comment ? item.attributes.comment : "-"
+                      }
+                    />
+                  ))
+                ) : (
+                  <Paragraph content="No reviews yet.." />
+                )}
+                <LeaveReview>
+                  {hotel.reviews && hotel.reviews.data[0]
+                    ? "Would you like to leave a review?"
+                    : "Would you like to be the first to leave a review?"}
+                </LeaveReview>
+                <Form onSubmit={handleReview} autocomplete="off">
+                  <Input
+                    id="name"
+                    placeholder="Full name"
+                    type="text"
+                    label="Full name"
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
+                  />
+                  <div className="error">{nameError}</div>
+                  <TextArea
+                    id="comment"
+                    placeholder="Comment"
+                    label="Comment"
+                    value={comment}
+                    onChange={(e) => setComment(e.target.value)}
+                  />
+                  <div className="error">{commentError}</div>
+                  <BigButton
+                    content={!submittingReview ? "Publish" : "Processing.."}
+                    color="#F72585"
+                  />
+                </Form>
+              </PartSection>
+            </HotelWrapper>
+          </div>
+
+          <Footer />
+        </>
+      ) : (
+        <>
+          <div className="container">
+            <Loader />
+          </div>
+        </>
+      )}
     </>
   );
 }
@@ -440,6 +472,9 @@ const CoverImage = styled.img`
   border-radius: 25px;
   object-fit: cover;
   margin-bottom: 30px;
+  @media (max-width: 480px) {
+    height: 220px;
+  }
 `;
 
 const HotelWrapper = styled.div`
@@ -452,6 +487,9 @@ const HotelWrapper = styled.div`
 const FlexDiv = styled.div`
   display: flex;
   justify-content: space-between;
+  @media (max-width: 768px) {
+    flex-direction: column;
+  }
 `;
 
 const Score = styled.div`
@@ -461,12 +499,19 @@ const Score = styled.div`
   justify-content: center;
   align-items: center;
   border-radius: 8px;
+  @media (max-width: 768px) {
+    max-width: 150px;
+    margin: 15px 0px;
+  }
 `;
 
 const ScoreP = styled.p`
   font-size: 20px;
   margin: 0px;
   font-weight: 600;
+  @media (max-width: 768px) {
+    font-size: 18px;
+  }
 `;
 
 const TopFeatures = styled.div`
@@ -474,6 +519,10 @@ const TopFeatures = styled.div`
   align-items: center;
   width: 700px;
   justify-content: space-between;
+  @media (max-width: 768px) {
+    flex-direction: column;
+    align-items: flex-start;
+  }
 `;
 
 const TopFeature = styled.div`
@@ -497,6 +546,9 @@ const Price = styled.p`
   color: #f72585;
   font-size: 25px;
   margin-bottom: 50px;
+  @media (max-width: 768px) {
+    margin-bottom: 30px;
+  }
 `;
 
 const OrderNow = styled.div`
@@ -515,6 +567,9 @@ const OrderNow = styled.div`
     background-color: #5c77f8;
     cursor: pointer;
   }
+  @media (max-width: 768px) {
+    margin-bottom: 20px;
+  }
 `;
 
 const Ul = styled.ul`
@@ -530,6 +585,9 @@ const PartSection = styled.div`
 const LeaveReview = styled.p`
   font-size: 25px;
   color: #19024b;
+  @media (max-width: 480px) {
+    text-align: center;
+  }
 `;
 
 const Form = styled.form`
