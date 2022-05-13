@@ -431,7 +431,7 @@ export default function AddHotel(props) {
               {submitAddHotel === false ? "Add hotel" : "Processing.."}
             </OrderButton>
           </ButtonWrap>
-          {success === true ? <div>{"Message sent successfully"}</div> : ""}
+          {success === true ? <div>{"Hotell added successfully"}</div> : ""}
         </Form>
       </Wrapper>
     </>

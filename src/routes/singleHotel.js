@@ -33,6 +33,7 @@ const customStyles = {
     transform: "translate(-50%, -50%)",
     padding: "100px",
     borderRadius: "8px",
+    overflowX: "hidden",
   },
 
   overlay: {
