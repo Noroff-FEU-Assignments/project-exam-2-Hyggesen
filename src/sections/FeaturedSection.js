@@ -60,6 +60,7 @@ function FeaturedSection() {
                 address={item.attributes.address}
                 distance={item.attributes.km_to_city_centre}
                 id={item.id}
+                altText={item.attributes.name}
               />
             ))}
         </FlexDiv>

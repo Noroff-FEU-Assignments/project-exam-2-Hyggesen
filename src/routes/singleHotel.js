@@ -20,6 +20,7 @@ import BreadCrumb from "../components/common/BreadCrumb";
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import Loader from "../components/common/Loader";
+import { Helmet } from "react-helmet";
 Modal.setAppElement("#root");
 
 const customStyles = {
@@ -291,6 +292,13 @@ function SingleHotel() {
 
   return (
     <>
+      <Helmet>
+        <title>{hotel.name ? hotel.name : "Holidaze hotel"}</title>
+        <meta
+          name="description"
+          content={hotel.description ? hotel.description : "-"}
+        />
+      </Helmet>
       <Navbar />
       {hotel.name ? (
         <>
@@ -327,7 +335,7 @@ function SingleHotel() {
           <div className="container">
             <HotelWrapper>
               <BreadCrumb content={hotel.name ? hotel.name : "-"} />
-              <CoverImage src={url} />
+              <CoverImage src={url} alt={hotel.name ? hotel.name : "-"} />
               <FlexDiv>
                 <Heading content={hotel.name ? hotel.name : "-"} />
                 <Score>

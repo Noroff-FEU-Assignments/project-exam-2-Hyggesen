@@ -9,7 +9,10 @@ export default function Testimonial(props) {
       <Testimonials>
         <TheTestimonial>
           <Top>
-            <Avatar src={avatar}></Avatar>
+            <Avatar
+              src={avatar}
+              alt="A dark blue circle with a pink user-avatar"
+            ></Avatar>
             <Name>{props.name}</Name>
           </Top>
           <Bottom>

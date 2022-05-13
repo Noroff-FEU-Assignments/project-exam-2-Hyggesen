@@ -64,7 +64,7 @@ function HomeSection() {
                     }
                   })
                   .map((item) => (
-                    <NavLink to={"singlehotel/" + item.id}>
+                    <NavLink to={"hotels/" + item.id}>
                       <DropDownHotel>
                         <ContentWrapper>
                           <Image

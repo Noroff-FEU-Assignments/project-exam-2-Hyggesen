@@ -9,6 +9,7 @@ import { useState, useEffect, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import AuthContext from "../context/AuthContext";
 import axios from "axios";
+import Helmet from "react-helmet";
 
 function SignIn() {
   const navigate = useNavigate();
@@ -55,12 +56,16 @@ function SignIn() {
 
   return (
     <>
+      <Helmet>
+        <title>Sign in</title>
+        <meta name="description" content="Sign in to admin panel" />
+      </Helmet>
       <Navbar />
       <div className="container">
         <div className="wrapper">
           <Heading content="Sign in" />
           <SignInWrapper>
-            <Keys src={keycyain} />
+            <Keys src={keycyain} alt="Pink keychain illustration" />
             <SignInForm onSubmit={HandleSignIn}>
               <Input
                 id="username"

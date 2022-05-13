@@ -9,7 +9,10 @@ export default function Footer() {
         <Flexer>
           <div>
             <NavLink to="/">
-              <img src={logo} alt="holidaze logo" />
+              <img
+                src={logo}
+                alt="The classic Holidaze logo, with a pink hotel illustration and white text"
+              />
             </NavLink>
           </div>
           <div>

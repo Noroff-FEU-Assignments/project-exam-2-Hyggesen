@@ -29,12 +29,15 @@ export default function Navbar(props) {
       <Wrapper>
         <LogoDiv>
           <a href="/">
-            <img src={logo} />
+            <Logo
+              src={logo}
+              alt="The classic Holidaze logo, with a pink hotel illustration and white text"
+            />
           </a>
         </LogoDiv>
 
         <HamburgerIcon id="menubutton" onClick={handleToggle}>
-          <img src={hamburger} />
+          <Burger src={hamburger} />
         </HamburgerIcon>
       </Wrapper>
       <Ul id="nav-ul">
@@ -51,7 +54,7 @@ export default function Navbar(props) {
           <StyledLink to="/hotels">Hotels</StyledLink>
         </Li>
         <Li>
-          <StyledHashLink smooth to="/#contactSection">
+          <StyledHashLink smooth to="/#contact">
             Contact
           </StyledHashLink>
         </Li>
@@ -134,12 +137,28 @@ const Ul = styled.ul`
 const HamburgerIcon = styled.button`
   background: none;
   color: inherit;
+
   border: none;
   padding: 0;
   font: inherit;
   cursor: pointer;
   outline: inherit;
   display: none;
+`;
+
+const Burger = styled.img`
+  width: 45px;
+  height: auto;
+  @media (max-width: 480px) {
+    width: 35px;
+  }
+`;
+
+const Logo = styled.img`
+  @media (max-width: 480px) {
+    width: 150px;
+    height: auto;
+  }
 `;
 
 const LogoDiv = styled.div`

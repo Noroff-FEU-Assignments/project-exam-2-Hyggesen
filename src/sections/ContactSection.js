@@ -87,7 +87,7 @@ function ContactSection() {
 
   return (
     <BlueSection>
-      <div className="container" id="contactSection">
+      <div className="container" id="contact">
         <IntroText content="Reach out" />
         <Heading content="Contact" />
         <ContactForm onSubmit={handleContactForm} autocomplete="off">
@@ -128,7 +128,7 @@ function ContactSection() {
             onChange={(e) => setMessage(e.target.value)}
           />
           <div className="error">{messageError}</div>
-          <BigButton content="Send" color="#F72585" />
+          <BigButton content="Send" color="#F72585" aria="Send" />
         </ContactForm>
       </div>
     </BlueSection>

@@ -8,10 +8,11 @@ import { useEffect, useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import Paragraph from "../components/common/Paragraph";
 import AuthContext from "../context/AuthContext";
-import Loader from "../components/common/Loader";
 import Modal from "react-modal";
 import React from "react";
 import AddHotel from "../components/common/addHotel";
+import { Helmet } from "react-helmet";
+
 Modal.setAppElement("#root");
 
 const customStyles = {
@@ -111,6 +112,14 @@ function Admin() {
 
   return (
     <>
+      <Helmet>
+        <title>Admin panel</title>
+        <meta
+          name="description"
+          content="Your admiistration panel for Holidaze. "
+        />
+        <meta name="robots" content="noindex" />
+      </Helmet>
       <Navbar />
       <Container className="container">
         <Modal

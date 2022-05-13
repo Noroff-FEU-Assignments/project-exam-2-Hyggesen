@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import HotelCard from "../components/common/HotelCard";
 import styled from "styled-components";
 import Loader from "../components/common/Loader";
-import Input from "../components/common/Input";
+import Helmet from "react-helmet";
 
 function HotelList() {
   const [hotel, setHotel] = useState([]);
@@ -34,6 +34,13 @@ function HotelList() {
 
   return (
     <Wrapper>
+      <Helmet>
+        <title>Holidaze Hotels</title>
+        <meta
+          name="description"
+          content="Your number one place for hotels in Bergen"
+        />
+      </Helmet>
       <Sidebar>
         <HotelSearch
           type="text"
@@ -76,6 +83,7 @@ function HotelList() {
               address={item.attributes.address}
               distance={item.attributes.km_to_city_centre}
               id={item.id}
+              altText={item.attributes.name}
             />
           ))}
       </FlexDiv>

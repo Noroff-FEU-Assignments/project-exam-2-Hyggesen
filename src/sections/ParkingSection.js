@@ -11,7 +11,7 @@ function ParkingSection() {
       <div className="container">
         <Wrapper>
           <DivSplit1>
-            <img src={PinkArrow} />
+            <img src={PinkArrow} alt="A stylish pink arrow" />
           </DivSplit1>
           <DivSplit2>
             <IntroText content="Don't miss out" />
@@ -21,6 +21,7 @@ function ParkingSection() {
               content="Find your hotel"
               color="#4361EE"
               href="/hotels"
+              aria="Find your hotel"
             />
           </DivSplit2>
         </Wrapper>

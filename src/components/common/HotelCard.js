@@ -1,5 +1,6 @@
 import PropTypes from "prop-types";
 import styled from "styled-components";
+import { NavLink } from "react-router-dom";
 
 export default function HotelCard(props) {
   return (
@@ -7,9 +8,11 @@ export default function HotelCard(props) {
       <Card>
         <TopCard>
           <AbsolutePosition>{props.price},- /night</AbsolutePosition>
-          <a href={"/singlehotel/" + props.id}>
-            <ThumbNail src={props.image} />
-          </a>
+
+          <NavLink to={"/hotels/" + props.id}>
+            {" "}
+            <ThumbNail src={props.image} alt={props.altText} />
+          </NavLink>
         </TopCard>
         <BottomCard>
           <HotelName>{props.name}</HotelName>
@@ -18,9 +21,10 @@ export default function HotelCard(props) {
             <Distance>{props.distance} km to city centre</Distance>
           </LocationWrapper>
           <Score>Score: {props.score}</Score>
-          <ReadMoreLink href={"/singlehotel/" + props.id}>
+
+          <StyledLink to={"/hotels/" + props.id} aria-label="Read more">
             Read more
-          </ReadMoreLink>
+          </StyledLink>
         </BottomCard>
       </Card>
     </>
@@ -35,6 +39,7 @@ HotelCard.propTypes = {
   score: PropTypes.number.isRequired,
   image: PropTypes.string.isRequired,
   id: PropTypes.number,
+  altText: PropTypes.any,
 };
 
 const Card = styled.div`
@@ -130,7 +135,7 @@ const AbsolutePosition = styled.div`
   }
 `;
 
-const ReadMoreLink = styled.a`
+const StyledLink = styled(NavLink)`
   color: #19024b;
   font-size: 16px;
   text-decoration: underline;
