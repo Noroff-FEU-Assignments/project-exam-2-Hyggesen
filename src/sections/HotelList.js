@@ -3,11 +3,11 @@ import HotelCard from "../components/common/HotelCard";
 import styled from "styled-components";
 import Loader from "../components/common/Loader";
 import Helmet from "react-helmet";
+import Paragraph from "../components/common/Paragraph";
 
 function HotelList() {
   const [hotel, setHotel] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
-  const [hasBalcony, setHasBalcony] = useState([]);
 
   useEffect(() => {
     async function fetchData() {
@@ -32,6 +32,40 @@ function HotelList() {
 
   console.log(hotel);
 
+  const hotelResults = hotel
+    .filter((item) => {
+      if (searchTerm == "") {
+        return item;
+      } else if (
+        item.attributes.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        item.attributes.address
+          .toLowerCase()
+          .includes(searchTerm.toLowerCase()) ||
+        item.attributes.description
+          .toLowerCase()
+          .includes(searchTerm.toLowerCase())
+      ) {
+        return item;
+      }
+    })
+    .map((item) => (
+      <HotelCard
+        key={item.id}
+        name={item.attributes.name}
+        price={item.attributes.price}
+        image={
+          item.attributes.thumbnail.data
+            ? item.attributes.thumbnail.data.attributes.url
+            : item.attributes.thumbnail_url
+        }
+        score={item.attributes.score}
+        address={item.attributes.address}
+        distance={item.attributes.km_to_city_centre}
+        id={item.id}
+        altText={item.attributes.name}
+      />
+    ));
+
   return (
     <Wrapper>
       <Helmet>
@@ -51,41 +85,12 @@ function HotelList() {
         />
       </Sidebar>
       <FlexDiv>
-        {hotel
-          .filter((item) => {
-            if (searchTerm == "") {
-              return item;
-            } else if (
-              item.attributes.name
-                .toLowerCase()
-                .includes(searchTerm.toLowerCase()) ||
-              item.attributes.address
-                .toLowerCase()
-                .includes(searchTerm.toLowerCase()) ||
-              item.attributes.description
-                .toLowerCase()
-                .includes(searchTerm.toLowerCase())
-            ) {
-              return item;
-            }
-          })
-          .map((item) => (
-            <HotelCard
-              key={item.id}
-              name={item.attributes.name}
-              price={item.attributes.price}
-              image={
-                item.attributes.thumbnail.data
-                  ? item.attributes.thumbnail.data.attributes.url
-                  : item.attributes.thumbnail_url
-              }
-              score={item.attributes.score}
-              address={item.attributes.address}
-              distance={item.attributes.km_to_city_centre}
-              id={item.id}
-              altText={item.attributes.name}
-            />
-          ))}
+        {" "}
+        {hotelResults.length ? (
+          hotelResults
+        ) : (
+          <Paragraph content="No matching results.." />
+        )}
       </FlexDiv>
     </Wrapper>
   );

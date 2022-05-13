@@ -4,6 +4,7 @@ import bigIcon from "../assets/brand/holidaze_icon.png";
 import styled from "styled-components";
 import { NavLink } from "react-router-dom";
 import React, { useState, useEffect } from "react";
+import Paragraph from "../components/common/Paragraph";
 
 function HomeSection() {
   const [hotel, setHotel] = useState([]);
@@ -24,6 +25,38 @@ function HomeSection() {
     }
     fetchData();
   }, []);
+
+  const searchResults = hotel
+    .filter((item) => {
+      if (searchTerm == "") {
+        return item;
+      } else if (
+        item.attributes.name.toLowerCase().includes(searchTerm.toLowerCase())
+      ) {
+        return item;
+      } else if (item == []) {
+        return <div>No results found</div>;
+      }
+    })
+    .map((item) => (
+      <NavLink to={"hotels/" + item.id}>
+        <DropDownHotel>
+          <ContentWrapper>
+            <Image
+              src={
+                item.attributes.thumbnail.data
+                  ? item.attributes.thumbnail.data.attributes.url
+                  : item.attributes.thumbnail_url
+              }
+            />
+            <Name>
+              <p>{item.attributes.name}</p>
+            </Name>
+            <Score>Score:&nbsp;{item.attributes.score}</Score>
+          </ContentWrapper>
+        </DropDownHotel>
+      </NavLink>
+    ));
 
   return (
     <HomeWrapper>
@@ -50,40 +83,16 @@ function HomeSection() {
           {showDropDown == true ? (
             <DropDown>
               <Ul>
-                {hotel
-                  .filter((item) => {
-                    if (
-                      item.attributes.name
-                        .toLowerCase()
-                        .includes(searchTerm.toLowerCase())
-                    ) {
-                      console.log(item);
-                      return item;
-                    }
-                  })
-                  .map((item) => (
-                    <NavLink to={"hotels/" + item.id}>
-                      <DropDownHotel>
-                        <ContentWrapper>
-                          <Image
-                            src={
-                              item.attributes.thumbnail.data
-                                ? item.attributes.thumbnail.data.attributes.url
-                                : item.attributes.thumbnail_url
-                            }
-                          />
-                          <Name>
-                            <p>{item.attributes.name}</p>
-                          </Name>
-                          <Score>Score:&nbsp;{item.attributes.score}</Score>
-                        </ContentWrapper>
-                      </DropDownHotel>
-                    </NavLink>
-                  ))}
+                {" "}
+                {searchResults.length ? (
+                  searchResults
+                ) : (
+                  <Paragraph content="No matching results.." />
+                )}
               </Ul>
             </DropDown>
           ) : (
-            <Air />
+            ""
           )}
         </div>
       </div>
@@ -96,11 +105,6 @@ export default HomeSection;
 const HomeWrapper = styled.div`
   height: 100vh;
   text-align: center;
-`;
-
-const Air = styled.div`
-  height: 400px;
-  width: 20px;
 `;
 
 const HotelIcon = styled.img`

@@ -4,6 +4,8 @@ import HeadingTwo from "./HeadingTwo";
 import Input from "./Input";
 import TextArea from "./Textarea";
 import { useState } from "react";
+import swal from "sweetalert";
+
 export default function AddHotel(props) {
   const [score, setScore] = useState(0);
   const [scoreError, setScoreError] = useState("");
@@ -48,7 +50,6 @@ export default function AddHotel(props) {
 
   const [featured, setFeatured] = useState(false);
   const [submitAddHotel, setsubmitAddHotel] = useState(false);
-  const [success, setSuccess] = useState(false);
 
   const [validate, setValidate] = useState(false);
 
@@ -224,7 +225,15 @@ export default function AddHotel(props) {
         ).then(() => {
           console.log("SUCCESS");
           setsubmitAddHotel(false);
-          setSuccess(true);
+          swal({
+            title: "Success!",
+            text: `You added ${name} successfully.`,
+            icon: "success",
+            button: {
+              text: "Close",
+              className: "sweet-button",
+            },
+          });
         });
       } catch (error) {
         console.log("FAIL");
@@ -431,7 +440,6 @@ export default function AddHotel(props) {
               {submitAddHotel === false ? "Add hotel" : "Processing.."}
             </OrderButton>
           </ButtonWrap>
-          {success === true ? <div>{"Hotell added successfully"}</div> : ""}
         </Form>
       </Wrapper>
     </>

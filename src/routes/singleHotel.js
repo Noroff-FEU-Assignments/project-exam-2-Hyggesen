@@ -21,6 +21,7 @@ import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import Loader from "../components/common/Loader";
 import { Helmet } from "react-helmet";
+import swal from "sweetalert";
 Modal.setAppElement("#root");
 
 const customStyles = {
@@ -226,7 +227,17 @@ function SingleHotel() {
             body: JSON.stringify(order),
           }
         ).then(() => {
-          navigate("/success");
+          swal({
+            title: "Success!",
+            text: `Thanks ${orderName} for booking a room at ${
+              hotel.name ? hotel.name : "-"
+            }. We are awaiting ${orderGuests} guests from ${orderToDate} to ${orderFromDate} `,
+            icon: "success",
+            button: {
+              text: "Close",
+              className: "sweet-button",
+            },
+          });
         });
       } catch (error) {
       } finally {
@@ -278,7 +289,15 @@ function SingleHotel() {
       ).then(() => {
         setSubmittingOrder(false);
 
-        window.location.reload(true);
+        swal({
+          title: "Published!",
+          text: `Thanks for your feedback ${name}. Your review is now published.`,
+          icon: "success",
+          button: {
+            text: "Close",
+            className: "sweet-button",
+          },
+        });
       });
     }
   };
