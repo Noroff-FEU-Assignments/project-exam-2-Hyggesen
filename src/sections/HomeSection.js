@@ -25,7 +25,6 @@ function HomeSection() {
     fetchData();
   }, []);
 
-  console.log(hotel);
   return (
     <HomeWrapper>
       <div className="container">
@@ -60,6 +59,7 @@ function HomeSection() {
                         .toLowerCase()
                         .includes(searchTerm.toLowerCase())
                     ) {
+                      console.log(item);
                       return item;
                     }
                   })
@@ -129,6 +129,7 @@ const TextInput = styled.input`
 `;
 
 const DropDown = styled.div`
+  z-index: 10;
   margin-top: 10px;
   width: 700px;
   display: flex;

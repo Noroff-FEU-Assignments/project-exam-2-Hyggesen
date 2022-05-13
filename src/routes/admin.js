@@ -12,6 +12,7 @@ import Modal from "react-modal";
 import React from "react";
 import AddHotel from "../components/common/addHotel";
 import { Helmet } from "react-helmet";
+import Loader from "../components/common/Loader";
 
 Modal.setAppElement("#root");
 
@@ -38,6 +39,8 @@ function Admin() {
   const [hotel, setHotel] = useState([]);
   const [messages, setMessages] = useState([]);
   const [modalIsOpen, setIsOpen] = useState(false);
+  const [enqLoading, setEnqLoading] = useState(true);
+  const [msgLoading, setMsgLoading] = useState(true);
   const [auth] = useContext(AuthContext);
   const navigate = useNavigate();
 
@@ -59,6 +62,7 @@ function Admin() {
   useEffect(() => {
     const fetchData = async () => {
       try {
+        setEnqLoading(true);
         const result = await fetch(
           `https://noroff-project-exam-ben.herokuapp.com/api/orders/?populate=*`
         );
@@ -66,6 +70,7 @@ function Admin() {
         const json = await result.json();
 
         setEnquries(json.data);
+        setEnqLoading(false);
       } catch (e) {
         console.log(e);
       }
@@ -77,6 +82,7 @@ function Admin() {
   useEffect(() => {
     const fetchData = async () => {
       try {
+        setMsgLoading(true);
         const result = await fetch(
           `http://localhost:1337/api/contact-forms?populate=*`
         );
@@ -84,6 +90,7 @@ function Admin() {
         const json = await result.json();
 
         setMessages(json.data);
+        setMsgLoading(false);
       } catch (e) {
         console.log(e);
       }
@@ -183,6 +190,7 @@ function Admin() {
                 </>
               )}
             </EnquriesTable>
+            {enqLoading ? <Paragraph content="No enquries yet.." /> : ""}
           </EnquiryList>
         </SectionWrapper>
         <SectionWrapper>
@@ -213,8 +221,9 @@ function Admin() {
                 ))
               ) : (
                 <Paragraph content="No messages yet.." />
-              )}
+              )}{" "}
             </MessageTable>
+            {msgLoading ? <Paragraph content="No messages yet.." /> : ""}
           </MessageList>
         </SectionWrapper>
         <SectionWrapper>
