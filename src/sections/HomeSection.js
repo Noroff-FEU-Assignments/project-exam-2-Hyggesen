@@ -99,7 +99,8 @@ const HomeWrapper = styled.div`
 `;
 
 const Air = styled.div`
-  height: 40px;
+  height: 400px;
+  width: 20px;
 `;
 
 const HotelIcon = styled.img`
