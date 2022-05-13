@@ -18,7 +18,7 @@ function ParkingSection() {
             <IntroText content="Don't miss out" />
             <Heading content="Free parking for 7 days" />
             <Paragraph content="Did you know that through holidaze you always get 7 days free parking, covered by us as long as you book the hotel through our website. The best parking offer on the market!" />
-            <HashLink smooth to="/hotels/#hotels">
+            <HashLink smooth to="/hotels">
               <BigButton
                 content="Find your hotel"
                 color="#4361EE"
