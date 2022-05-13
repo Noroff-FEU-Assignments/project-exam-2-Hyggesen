@@ -6,8 +6,8 @@ function Hotels() {
   return (
     <>
       <Navbar />
-      <FlexDiv>
-        <HotelList id="hotels" />
+      <FlexDiv id="hotels">
+        <HotelList />
       </FlexDiv>
       <Footer />
     </>
