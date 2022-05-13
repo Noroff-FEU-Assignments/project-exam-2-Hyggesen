@@ -7,7 +7,7 @@ function Hotels() {
     <>
       <Navbar />
       <FlexDiv>
-        <HotelList />
+        <HotelList id="hotels" />
       </FlexDiv>
       <Footer />
     </>

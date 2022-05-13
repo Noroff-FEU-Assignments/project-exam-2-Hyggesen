@@ -10,16 +10,16 @@ function TestimonialSection() {
         <Heading content="Testimonials" />
         <TestimonialsWrapper>
           <Testimonial
-            name="John Doe"
-            content="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
+            name="Joe Smith"
+            content="I used holidaze when me and my wife were going to Bergen. Clear website, easy ordering. No nonsense. I highly recommend Holidaze!"
           ></Testimonial>
           <Testimonial
-            name="Larry Wheels"
-            content="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
+            name="Larry Wheeltown"
+            content="I've used Holidaze many times before. Best prices, best hotels. No one can compete with Holidaze when it comes to hotels in Bergen."
           ></Testimonial>
           <Testimonial
             name="Jane Caskins"
-            content="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
+            content="I am very careful when choosing a booking company. Security, reliability and service are important. It is always a joy to order through holidaze. You get it the way you want it."
           ></Testimonial>
         </TestimonialsWrapper>
       </div>
