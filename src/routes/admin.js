@@ -233,7 +233,7 @@ function Admin() {
             {hotel ? (
               hotel.map((item) => (
                 <HotelLink
-                  href={"/singlehotel/" + item.id}
+                  href={"/hotels/" + item.id}
                   key={item.id ? item.id : "-"}
                 >
                   {item.attributes.name ? item.attributes.name : "-"}
