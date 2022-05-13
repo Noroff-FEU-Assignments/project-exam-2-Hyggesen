@@ -233,6 +233,8 @@ export default function AddHotel(props) {
               text: "Close",
               className: "sweet-button",
             },
+          }).then(function () {
+            window.location.reload();
           });
         });
       } catch (error) {

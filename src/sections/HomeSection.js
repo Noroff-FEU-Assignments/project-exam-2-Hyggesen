@@ -109,6 +109,10 @@ const HomeWrapper = styled.div`
 
 const HotelIcon = styled.img`
   margin-bottom: 20px;
+  @media (max-width: 768px) {
+    max-width: 80px;
+    height: auto;
+  }
 `;
 
 const TextInput = styled.input`
