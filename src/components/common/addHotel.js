@@ -385,7 +385,7 @@ export default function AddHotel(props) {
 
           <Input
             id="highlight_1"
-            placeholder="What feature do you want to highlight?"
+            placeholder="This feature will stand out"
             type="text"
             label="Highlighted feature 1"
             value={highlight1}
@@ -395,7 +395,7 @@ export default function AddHotel(props) {
 
           <Input
             id="highlight_2"
-            placeholder="What feature do you want to highlight?"
+            placeholder="This feature will stand out"
             type="text"
             label="Highlighted feature 2"
             value={highlight2}
@@ -405,7 +405,7 @@ export default function AddHotel(props) {
 
           <Input
             id="highlight_3"
-            placeholder="What feature do you want to highlight?"
+            placeholder="This feature will stand out"
             type="text"
             label="Highlighted feature 3"
             value={highlight3}
@@ -541,6 +541,11 @@ const ButtonWrap = styled.div`
   align-items: center;
   width: 100%;
   margin-top: 30px;
+
+  @media (max-width: 550px) {
+    flex-direction: column;
+    height: 120px;
+  }
 `;
 
 const CancelButton = styled.div`

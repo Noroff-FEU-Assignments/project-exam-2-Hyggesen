@@ -150,7 +150,7 @@ function Admin() {
           isOpen={modalIsOpen}
           onRequestClose={closeModal}
         >
-          <AddHotel />
+          <AddHotel cancelClick={closeModal} />
         </Modal>
         <FlexBetween>
           <Heading content="Admin panel" />
