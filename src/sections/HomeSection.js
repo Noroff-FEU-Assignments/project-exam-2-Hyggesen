@@ -83,7 +83,7 @@ function HomeSection() {
               </Ul>
             </DropDown>
           ) : (
-            ""
+            <Air />
           )}
         </div>
       </div>
@@ -96,6 +96,10 @@ export default HomeSection;
 const HomeWrapper = styled.div`
   height: 100vh;
   text-align: center;
+`;
+
+const Air = styled.div`
+  height: 40px;
 `;
 
 const HotelIcon = styled.img`

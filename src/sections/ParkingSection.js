@@ -4,6 +4,7 @@ import Heading from "../components/common/Heading";
 import PinkArrow from "../assets/brand/pink_arrow.png";
 import Paragraph from "../components/common/Paragraph";
 import BigButton from "../components/common/BigButton";
+import { NavLink } from "react-router-dom";
 
 function ParkingSection() {
   return (
@@ -17,12 +18,13 @@ function ParkingSection() {
             <IntroText content="Don't miss out" />
             <Heading content="Free parking for 7 days" />
             <Paragraph content="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat" />
-            <BigButton
-              content="Find your hotel"
-              color="#4361EE"
-              href="/hotels"
-              aria="Find your hotel"
-            />
+            <NavLink to="/hotels">
+              <BigButton
+                content="Find your hotel"
+                color="#4361EE"
+                aria="Find your hotel"
+              />
+            </NavLink>
           </DivSplit2>
         </Wrapper>
       </div>
