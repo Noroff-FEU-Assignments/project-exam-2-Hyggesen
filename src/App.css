@@ -107,10 +107,10 @@ a {
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #f72585;
+  background: #9aa4aa;
   border-radius: 8px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #dc2276;
+  background: #f72585;
 }
