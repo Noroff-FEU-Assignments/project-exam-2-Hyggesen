@@ -114,3 +114,12 @@ a {
 ::-webkit-scrollbar-thumb:hover {
   background: #f72585;
 }
+
+@media (max-width: 768px) {
+  .ReactModal__Content {
+    width: 100% !important;
+    height: 100% !important;
+    margin: 0 auto !important;
+    padding: 30px !important;
+  }
+}

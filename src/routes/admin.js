@@ -130,7 +130,23 @@ function Admin() {
       <Navbar />
       <Container className="container">
         <Modal
-          style={customStyles}
+          style={{
+            content: {
+              background: "#fff",
+              maxWidth: "800px",
+              width: "100%",
+              height: "70vh",
+              padding: "100px",
+              top: "50%",
+              left: "50%",
+              transform: "translate(-50%, -50%)",
+              borderRadius: "8px",
+              overflowX: "hidden",
+            },
+            overlay: {
+              backgroundColor: "rgba(0, 0, 0, 0.6)",
+            },
+          }}
           isOpen={modalIsOpen}
           onRequestClose={closeModal}
         >
