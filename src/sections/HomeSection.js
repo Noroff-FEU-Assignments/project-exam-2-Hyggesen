@@ -52,9 +52,7 @@ function HomeSection() {
               <Ul>
                 {hotel
                   .filter((item) => {
-                    if (searchTerm == "") {
-                      return item;
-                    } else if (
+                    if (
                       item.attributes.name
                         .toLowerCase()
                         .includes(searchTerm.toLowerCase())
