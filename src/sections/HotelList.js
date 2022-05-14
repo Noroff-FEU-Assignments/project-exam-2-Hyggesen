@@ -34,7 +34,7 @@ function HotelList() {
 
   const hotelResults = hotel
     .filter((item) => {
-      if (searchTerm == "") {
+      if (searchTerm === "") {
         return item;
       } else if (
         item.attributes.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -47,6 +47,7 @@ function HotelList() {
       ) {
         return item;
       }
+      return "";
     })
     .map((item) => (
       <HotelCard

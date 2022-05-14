@@ -4,6 +4,7 @@ import Heading from "../components/common/Heading";
 import React, { useState, useEffect } from "react";
 import HotelCard from "../components/common/HotelCard";
 import Loader from "../components/common/Loader";
+import Paragraph from "../components/common/Paragraph";
 function FeaturedSection() {
   const [hotel, setHotel] = useState([]);
 
@@ -34,35 +35,41 @@ function FeaturedSection() {
     );
   }
 
+  const allFeatured = hotel
+    .filter((item) => {
+      if (item.attributes.featured) {
+        return item;
+      }
+    })
+    .map((item) => (
+      <HotelCard
+        key={item.id}
+        name={item.attributes.name}
+        price={item.attributes.price}
+        image={
+          item.attributes.thumbnail.data
+            ? item.attributes.thumbnail.data.attributes.url
+            : item.attributes.thumbnail_url
+        }
+        score={item.attributes.score}
+        address={item.attributes.address}
+        distance={item.attributes.km_to_city_centre}
+        id={item.id}
+        altText={item.attributes.name}
+      />
+    ));
+
   return (
     <BlueSection>
       <div className="container">
         <IntroText content="We recommend" />
         <Heading content="Featured locations" />
         <FlexDiv>
-          {hotel
-            .filter((item) => {
-              if (item.attributes.featured) {
-                return item;
-              }
-            })
-            .map((item) => (
-              <HotelCard
-                key={item.id}
-                name={item.attributes.name}
-                price={item.attributes.price}
-                image={
-                  item.attributes.thumbnail.data
-                    ? item.attributes.thumbnail.data.attributes.url
-                    : item.attributes.thumbnail_url
-                }
-                score={item.attributes.score}
-                address={item.attributes.address}
-                distance={item.attributes.km_to_city_centre}
-                id={item.id}
-                altText={item.attributes.name}
-              />
-            ))}
+          {allFeatured.length ? (
+            allFeatured
+          ) : (
+            <Paragraph content="We couldn't find any featured hotels.." />
+          )}
         </FlexDiv>
       </div>
     </BlueSection>

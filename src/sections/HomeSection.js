@@ -28,15 +28,14 @@ function HomeSection() {
 
   const searchResults = hotel
     .filter((item) => {
-      if (searchTerm == "") {
+      if (searchTerm === "") {
         return item;
       } else if (
         item.attributes.name.toLowerCase().includes(searchTerm.toLowerCase())
       ) {
         return item;
-      } else if (item == []) {
-        return <div>No results found</div>;
       }
+      return "";
     })
     .map((item) => (
       <NavLink to={"hotels/" + item.id}>
@@ -75,12 +74,12 @@ function HomeSection() {
               setSearchTerm(event.target.value);
               setShowDropDown(true);
 
-              if (event.target.value == "") {
+              if (event.target.value === "") {
                 setShowDropDown(false);
               }
             }}
           ></TextInput>
-          {showDropDown == true ? (
+          {showDropDown === true ? (
             <DropDown>
               <Ul>
                 {" "}

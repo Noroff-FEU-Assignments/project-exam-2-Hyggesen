@@ -54,7 +54,7 @@ function ContactSection() {
     }
 
     if (message.length < 10) {
-      setMessageError("The name must be more than 10 characters.");
+      setMessageError("The message must be more than 10 characters.");
       setFormError(true);
     }
 

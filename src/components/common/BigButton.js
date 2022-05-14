@@ -4,13 +4,15 @@ import arrow from "../../assets/brand/white_arrow.png";
 
 export default function BigButton(props) {
   return (
-    <a href={props.href}>
-      <Button style={{ backgroundColor: props.color }} aria-label={props.aria}>
-        {props.content}
+    <Button
+      href={props.href}
+      style={{ backgroundColor: props.color }}
+      aria-label={props.aria}
+    >
+      {props.content}
 
-        <Image src={arrow} />
-      </Button>
-    </a>
+      <Image src={arrow} />
+    </Button>
   );
 }
 
@@ -21,7 +23,7 @@ BigButton.propTypes = {
   aria: PropTypes.string,
 };
 
-const Button = styled.button`
+const Button = styled.div`
   font-size: 20px;
   color: white;
   font-weight: 600;

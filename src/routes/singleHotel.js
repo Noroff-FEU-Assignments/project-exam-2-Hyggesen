@@ -15,7 +15,6 @@ import React from "react";
 import check from "../assets/brand/checkfacility.png";
 import cross from "../assets/brand/nofacility.png";
 import Enquiry from "../components/common/Enquiry";
-import { useNavigate } from "react-router-dom";
 import BreadCrumb from "../components/common/BreadCrumb";
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
@@ -71,7 +70,6 @@ function SingleHotel() {
   const [submittingReview, setSubmittingReview] = useState(false);
   const [submittingOrder, setSubmittingOrder] = useState(false);
 
-  const navigate = useNavigate();
   useEffect(() => {
     const fetchData = async () => {
       try {

@@ -12,35 +12,14 @@ import Modal from "react-modal";
 import React from "react";
 import AddHotel from "../components/common/addHotel";
 import { Helmet } from "react-helmet";
-import Loader from "../components/common/Loader";
 
 Modal.setAppElement("#root");
-
-const customStyles = {
-  content: {
-    background: "#fff",
-    maxWidth: "800px",
-    width: "100%",
-    height: "70vh",
-    padding: "100px",
-    top: "50%",
-    left: "50%",
-    transform: "translate(-50%, -50%)",
-    borderRadius: "8px",
-    overflowX: "hidden",
-  },
-  overlay: {
-    backgroundColor: "rgba(0, 0, 0, 0.6)",
-  },
-};
 
 function Admin() {
   const [enquries, setEnquries] = useState([]);
   const [hotel, setHotel] = useState([]);
   const [messages, setMessages] = useState([]);
   const [modalIsOpen, setIsOpen] = useState(false);
-  const [enqLoading, setEnqLoading] = useState(true);
-  const [msgLoading, setMsgLoading] = useState(true);
   const [auth] = useContext(AuthContext);
   const navigate = useNavigate();
 
@@ -57,12 +36,11 @@ function Admin() {
       navigate("/sign-in", { replace: true });
       localStorage.clear();
     }
-  }, []);
+  }, [auth, navigate]);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        setEnqLoading(true);
         const result = await fetch(
           `https://noroff-project-exam-ben.herokuapp.com/api/orders/?populate=*`
         );
@@ -70,7 +48,6 @@ function Admin() {
         const json = await result.json();
 
         setEnquries(json.data);
-        setEnqLoading(false);
       } catch (e) {
         console.log(e);
       }
@@ -82,15 +59,13 @@ function Admin() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        setMsgLoading(true);
         const result = await fetch(
-          `http://localhost:1337/api/contact-forms?populate=*`
+          `http://noroff-project-exam-ben.herokuapp.com/api/contact-forms?populate=*`
         );
 
         const json = await result.json();
 
         setMessages(json.data);
-        setMsgLoading(false);
       } catch (e) {
         console.log(e);
       }
@@ -116,6 +91,48 @@ function Admin() {
 
     fetchData();
   }, []);
+
+  const allMessages = messages
+    ? messages.map((item) => (
+        <tr key={item.id ? item.id : "-"}>
+          <Td>{item.attributes.name ? item.attributes.name : "-"}</Td>
+          <Td>{item.attributes.email ? item.attributes.email : "-"}</Td>
+          <Td>{item.attributes.subject ? item.attributes.subject : "-"}</Td>
+          <Td>{item.attributes.message ? item.attributes.message : "-"}</Td>
+        </tr>
+      ))
+    : "";
+
+  const allEnquries = enquries
+    ? enquries.map((item) => (
+        <tr key={item.id ? item.id : "-"}>
+          <Td>
+            {item.attributes.hotels.data[0].attributes.name
+              ? item.attributes.hotels.data[0].attributes.name
+              : ""}
+          </Td>
+          <Td> {item.attributes.email ? item.attributes.email : "-"}</Td>
+          <Td> {item.attributes.name ? item.attributes.name : "-"}</Td>
+          <TdIn>
+            {" "}
+            {item.attributes.fromDate ? item.attributes.fromDate : "-"}
+          </TdIn>
+          <TdOut>
+            {" "}
+            {item.attributes.toDate ? item.attributes.toDate : "-"}
+          </TdOut>
+          <Td> {item.attributes.guests ? item.attributes.guests : "-"}</Td>
+        </tr>
+      ))
+    : "";
+
+  const allHotels = hotel
+    ? hotel.map((item) => (
+        <HotelLink href={"/hotels/" + item.id} key={item.id ? item.id : "-"}>
+          {item.attributes.name ? item.attributes.name : "-"}
+        </HotelLink>
+      ))
+    : "";
 
   return (
     <>
@@ -168,45 +185,12 @@ function Admin() {
                 <Th>Check-out</Th>
                 <ThRight>Guests</ThRight>
               </tr>
-              {enquries ? (
-                enquries.map((item) => (
-                  <tr key={item.id ? item.id : "-"}>
-                    <Td>
-                      {item.attributes.hotels.data[0].attributes.name
-                        ? item.attributes.hotels.data[0].attributes.name
-                        : ""}
-                    </Td>
-                    <Td>
-                      {" "}
-                      {item.attributes.email ? item.attributes.email : "-"}
-                    </Td>
-                    <Td>
-                      {" "}
-                      {item.attributes.name ? item.attributes.name : "-"}
-                    </Td>
-                    <TdIn>
-                      {" "}
-                      {item.attributes.fromDate
-                        ? item.attributes.fromDate
-                        : "-"}
-                    </TdIn>
-                    <TdOut>
-                      {" "}
-                      {item.attributes.toDate ? item.attributes.toDate : "-"}
-                    </TdOut>
-                    <Td>
-                      {" "}
-                      {item.attributes.guests ? item.attributes.guests : "-"}
-                    </Td>
-                  </tr>
-                ))
+              {allEnquries.length ? (
+                allEnquries
               ) : (
-                <>
-                  <Paragraph content="No enquries yet.." />
-                </>
+                <Paragraph content="We couldn't find any enquries.." />
               )}
             </EnquriesTable>
-            {enqLoading ? <Paragraph content="No enquries yet.." /> : ""}
           </EnquiryList>
         </SectionWrapper>
         <SectionWrapper>
@@ -220,43 +204,22 @@ function Admin() {
 
                 <ThRight>Message</ThRight>
               </tr>
-              {messages ? (
-                messages.map((item) => (
-                  <tr key={item.id ? item.id : "-"}>
-                    <Td>{item.attributes.name ? item.attributes.name : "-"}</Td>
-                    <Td>
-                      {item.attributes.email ? item.attributes.email : "-"}
-                    </Td>
-                    <Td>
-                      {item.attributes.subject ? item.attributes.subject : "-"}
-                    </Td>
-                    <Td>
-                      {item.attributes.message ? item.attributes.message : "-"}
-                    </Td>
-                  </tr>
-                ))
+              {allMessages.length ? (
+                allMessages
               ) : (
-                <Paragraph content="No messages yet.." />
-              )}{" "}
+                <Paragraph content="We couldn't find any messages.." />
+              )}
             </MessageTable>
-            {msgLoading ? <Paragraph content="No messages yet.." /> : ""}
           </MessageList>
         </SectionWrapper>
         <SectionWrapper>
           <HeadingTwo content="Hotels" />
 
           <HotelList>
-            {hotel ? (
-              hotel.map((item) => (
-                <HotelLink
-                  href={"/hotels/" + item.id}
-                  key={item.id ? item.id : "-"}
-                >
-                  {item.attributes.name ? item.attributes.name : "-"}
-                </HotelLink>
-              ))
+            {allHotels.length ? (
+              allHotels
             ) : (
-              <Paragraph content="No reviews yet.." />
+              <Paragraph content="We couldn't find any hotels. Try adding a new one.." />
             )}
           </HotelList>
         </SectionWrapper>
@@ -325,7 +288,6 @@ const MessageList = styled.div`
   justify-content: center;
   align-items: center;
   margin-top: 20px;
-  overflow-x: scroll;
 `;
 
 const Container = styled.div`
