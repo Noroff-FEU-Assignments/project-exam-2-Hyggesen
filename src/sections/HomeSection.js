@@ -140,7 +140,7 @@ const TextInput = styled.input`
 `;
 
 const DropDown = styled.div`
-  z-index: 10;
+  z-index: 9999910;
   margin-top: 10px;
   width: 700px;
   display: flex;
