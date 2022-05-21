@@ -60,7 +60,7 @@ function Admin() {
     const fetchData = async () => {
       try {
         const result = await fetch(
-          `http://noroff-project-exam-ben.herokuapp.com/api/contact-forms?populate=*`
+          `https://noroff-project-exam-ben.herokuapp.com/api/contact-forms?populate=*`
         );
 
         const json = await result.json();
