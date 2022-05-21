@@ -1,13 +1,9 @@
-import { useState } from "react";
 import React from "react";
 import PropTypes from "prop-types";
 import axios from "axios";
 import styled from "styled-components";
-import deletetos from "../../assets/common/nofacility.png";
 
 export default function DeleteItem(props) {
-  const [error, setError] = useState(null);
-
   const tkn = localStorage.getItem("Token");
 
   async function handleDelete() {
@@ -20,9 +16,8 @@ export default function DeleteItem(props) {
         const response = await axios.delete(props.url, {
           headers: { Authorization: `Bearer ${tkn}` },
         });
-        console.log(response.status);
       } catch (e) {
-        console.log("something went wrong!", e);
+        console.log(e);
       } finally {
         window.location.reload();
       }
@@ -50,7 +45,7 @@ const Button = styled.button`
   cursor: pointer;
   outline: inherit;
   font-weight: bold;
-  color: #ff6671;
+  color: #f72585;
   font-size: 14px;
   margin-top: 20px;
   text-decoration: underline;
