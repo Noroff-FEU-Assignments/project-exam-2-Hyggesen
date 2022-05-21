@@ -31,9 +31,9 @@ export default function AddHotel(props) {
         breakfast_included: data.breakfast,
         bar: data.bar,
         city: data.city,
-        headlight_feature_1: data.highlight1,
-        headlight_feature_2: data.highlight2,
-        headlight_feature_3: data.highlight3,
+        headlight_feature_1: data.highlight_1,
+        headlight_feature_2: data.highlight_2,
+        headlight_feature_3: data.highlight_3,
         featured: data.featured,
       },
     };
