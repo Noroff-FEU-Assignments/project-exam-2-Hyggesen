@@ -177,19 +177,26 @@ function Admin() {
           <HeadingTwo content="Enquries" />
           <EnquiryList>
             <EnquriesTable>
-              <tr>
-                <ThLeft>Hotel name</ThLeft>
-                <Th>Email</Th>
-                <Th>Name</Th>
-                <Th>Check-in</Th>
-                <Th>Check-out</Th>
-                <ThRight>Guests</ThRight>
-              </tr>
-              {allEnquries.length ? (
-                allEnquries
-              ) : (
-                <Paragraph content="We couldn't find any enquries.." />
-              )}
+              <tbody>
+                <tr>
+                  <ThLeft>Hotel name</ThLeft>
+                  <Th>Email</Th>
+                  <Th>Name</Th>
+                  <Th>Check-in</Th>
+                  <Th>Check-out</Th>
+                  <ThRight>Guests</ThRight>
+                </tr>
+                {allEnquries.length ? (
+                  allEnquries
+                ) : (
+                  <tr>
+                    <th>
+                      {" "}
+                      <Paragraph content="We couldn't find any enquries.." />
+                    </th>
+                  </tr>
+                )}
+              </tbody>
             </EnquriesTable>
           </EnquiryList>
         </SectionWrapper>
@@ -197,18 +204,25 @@ function Admin() {
           <HeadingTwo content="Messages" />
           <MessageList>
             <MessageTable>
-              <tr>
-                <ThLeft>Name</ThLeft>
-                <Th>Email</Th>
-                <Th>Subject</Th>
+              <tbody>
+                <tr>
+                  <ThLeft>Name</ThLeft>
+                  <Th>Email</Th>
+                  <Th>Subject</Th>
 
-                <ThRight>Message</ThRight>
-              </tr>
-              {allMessages.length ? (
-                allMessages
-              ) : (
-                <Paragraph content="We couldn't find any messages.." />
-              )}
+                  <ThRight>Message</ThRight>
+                </tr>
+                {allMessages.length ? (
+                  allMessages
+                ) : (
+                  <tr>
+                    <th>
+                      {" "}
+                      <Paragraph content="We couldn't find any messages.." />
+                    </th>
+                  </tr>
+                )}
+              </tbody>
             </MessageTable>
           </MessageList>
         </SectionWrapper>

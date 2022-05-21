@@ -23,7 +23,7 @@ function SignIn() {
     if (auth) {
       navigate("/admin", { replace: true });
     }
-  }, []);
+  }, [auth, navigate]);
 
   async function HandleSignIn(e) {
     e.preventDefault();
@@ -48,7 +48,7 @@ function SignIn() {
       setAuth(response.data);
       navigate("/admin", { replace: true });
     } catch (error) {
-      setLoginError(error.toString());
+      setLoginError("Login request failed.");
     } finally {
       setSubmitting(false);
     }
@@ -72,7 +72,7 @@ function SignIn() {
                 placeholder="Username"
                 type="text"
                 label="Username"
-                value={username}
+                value={username ?? ""}
                 onChange={(e) => setUsername(e.target.value)}
               />
 
@@ -81,7 +81,7 @@ function SignIn() {
                 placeholder="Password"
                 type="password"
                 label="Password"
-                value={password}
+                value={password ?? ""}
                 onChange={(e) => setPassword(e.target.value)}
               />
               <BigButton
@@ -89,6 +89,7 @@ function SignIn() {
                 color="#F72585"
                 href="/admin"
               />
+              {loginError}
             </SignInForm>
           </SignInWrapper>
         </div>

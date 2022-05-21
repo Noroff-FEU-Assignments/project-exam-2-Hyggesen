@@ -21,6 +21,9 @@ import { useParams } from "react-router-dom";
 import Loader from "../components/common/Loader";
 import { Helmet } from "react-helmet";
 import swal from "sweetalert";
+import axios from "axios";
+import { useForm } from "react-hook-form";
+import { ErrorMessage } from "@hookform/error-message";
 Modal.setAppElement("#root");
 
 const customStyles = {
@@ -42,6 +45,12 @@ const customStyles = {
 };
 
 function SingleHotel() {
+  const {
+    register,
+    formState: { errors },
+    handleSubmit,
+  } = useForm();
+
   const { id } = useParams();
   const [modalIsOpen, setIsOpen] = useState(false);
   const [hotel, setHotel] = useState([]);
@@ -246,64 +255,83 @@ function SingleHotel() {
     }
   };
 
-  const handleReview = (e) => {
-    e.preventDefault();
-    setSubmittingReview(true);
+  function onSubmit(data) {
+    setName(data.name);
+    setComment(data.comment);
 
-    if (name.length < 3) {
-      setNameError("The name must be more than 3 characters.");
-      setReviewError(true);
-    }
+    const review = {
+      data: {
+        name: data.name,
+        comment: data.comment,
+        hotels: id,
+      },
+    };
 
-    if (name.length > 3) {
-      setNameError([]);
-      setReviewError(false);
-    }
+    try {
+      setSubmittingReview(true);
 
-    if (comment.length < 10) {
-      setCommentError("The comment can't be less than 10 characters.");
-      setReviewError(true);
-    }
+      const response = axios.post(
+        "https://noroff-project-exam-ben.herokuapp.com/api/reviews/?populate=*",
+        review
+      );
+    } catch (error) {
+      console.log(error);
+    } finally {
+      console.log("finished process");
+      setSubmittingOrder(false);
 
-    if (comment.length > 10) {
-      setCommentError([]);
-      setReviewError(false);
-    }
-
-    if (reviewError === false) {
-      const review = {
-        data: {
-          name: name,
-          comment: comment,
-          hotels: id,
+      swal({
+        title: "Published!",
+        text: `Thanks for your feedback ${data.name}. Your review is now published.`,
+        icon: "success",
+        button: {
+          text: "Close",
+          className: "sweet-button",
         },
-      };
-
-      fetch(
-        `https://noroff-project-exam-ben.herokuapp.com/api/reviews/?populate=*`,
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(review),
-        }
-      ).then(() => {
-        setSubmittingOrder(false);
-
-        swal({
-          title: "Published!",
-          text: `Thanks for your feedback ${name}. Your review is now published.`,
-          icon: "success",
-          button: {
-            text: "Close",
-            className: "sweet-button",
-          },
-        }).then(function () {
-          window.location.reload();
-        });
+      }).then(function () {
+        window.location.reload();
       });
     }
-  };
-  console.log(hotel);
+  }
+
+  async function handleReview(e) {
+    e.preventDefault();
+
+    const review = {
+      data: {
+        name: name,
+        comment: comment,
+        hotels: id,
+      },
+    };
+
+    try {
+      setSubmittingReview(true);
+
+      const response = await axios.post(
+        "https://noroff-project-exam-ben.herokuapp.com/api/reviews/?populate=*",
+        review
+      );
+    } catch (error) {
+      console.log(error);
+    } finally {
+      console.log("finished process");
+      setSubmittingOrder(false);
+
+      swal({
+        title: "Published!",
+        text: `Thanks for your feedback ${name}. Your review is now published.`,
+        icon: "success",
+        button: {
+          text: "Close",
+          className: "sweet-button",
+        },
+      }).then(function () {
+        window.location.reload();
+      });
+    }
+  }
+
   const url =
     (hotel && hotel.thumbnail && hotel.thumbnail_url === null) ||
     hotel.thumbnail_url === ""
@@ -334,11 +362,11 @@ function SingleHotel() {
               click={closeModal}
               cancelClick={closeModal}
               orderClick={handleOrder}
-              nameValue={orderName}
-              toDateValue={orderToDate}
-              fromDateValue={orderFromDate}
-              emailValue={orderEmail}
-              guestsValue={orderGuests}
+              nameValue={orderName ?? ""}
+              toDateValue={orderToDate ?? ""}
+              fromDateValue={orderFromDate ?? ""}
+              emailValue={orderEmail ?? ""}
+              guestsValue={orderGuests ?? ""}
               nameChange={(e) => setOrderName(e.target.value)}
               toDateChange={(e) => setOrderToDate(e.target.value)}
               fromDateChange={(e) => setOrderFromDate(e.target.value)}
@@ -439,7 +467,7 @@ function SingleHotel() {
                 {hotel.reviews && hotel.reviews.data[0] ? (
                   hotel.reviews.data.map((item) => (
                     <Review
-                      key={hotel.id ? hotel.id : "-"}
+                      key={item.id ? item.id : "-"}
                       name={item.attributes.name ? item.attributes.name : "-"}
                       review={
                         item.attributes.comment ? item.attributes.comment : "-"
@@ -454,24 +482,53 @@ function SingleHotel() {
                     ? "Would you like to leave a review?"
                     : "Would you like to be the first to leave a review?"}
                 </LeaveReview>
-                <Form onSubmit={handleReview} autocomplete="off">
-                  <Input
+                <Form autocomplete="off" onSubmit={handleSubmit(onSubmit)}>
+                  <Label labelFor="name">Name</Label>
+                  <TheInput
                     id="name"
                     placeholder="Full name"
                     type="text"
                     label="Full name"
-                    value={name}
                     onChange={(e) => setName(e.target.value)}
+                    {...register("name", {
+                      required: "This field is required.",
+                      minLength: {
+                        value: 3,
+                        message: "Your full name must be over 3 characters.",
+                      },
+                    })}
+                    name="name"
                   />
-                  <div className="error">{nameError}</div>
-                  <TextArea
+                  <ErrorMessage
+                    errors={errors}
+                    name="name"
+                    render={({ message }) => <p className="error">{message}</p>}
+                  />
+                  <Label labelFor="comment">Comment</Label>
+                  <TheTextArea
                     id="comment"
                     placeholder="Comment"
                     label="Comment"
-                    value={comment}
                     onChange={(e) => setComment(e.target.value)}
+                    {...register("comment", {
+                      required: "This field is required.",
+                      minLength: {
+                        value: 20,
+                        message: "Your comment must be over 20 characters",
+                      },
+                      maxLength: {
+                        value: 200,
+                        message: "Your comment can not be over 200 characters",
+                      },
+                    })}
+                    name="comment"
                   />
-                  <div className="error">{commentError}</div>
+                  <ErrorMessage
+                    errors={errors}
+                    name="comment"
+                    render={({ message }) => <p className="error">{message}</p>}
+                  />
+
                   <BigButton
                     content={!submittingReview ? "Publish" : "Processing.."}
                     color="#F72585"
@@ -495,6 +552,53 @@ function SingleHotel() {
 }
 
 export default SingleHotel;
+
+const TheInput = styled.input`
+  border-radius: 8px;
+  outline: none;
+  border: 1px solid #f6f2ff;
+  height: 30px;
+  padding-left: 10px;
+  max-width: 400px;
+  width: 100%;
+  margin-top: 15px;
+  color: #9aa4aa;
+  font-size: 16px;
+  font-weight: 300;
+
+  @media (max-width: 480px) {
+    max-width: 250px;
+  }
+`;
+
+const Label = styled.label`
+  font-size: 16px;
+  font-weight: 600;
+  color: #19024b;
+  align-items: left !important;
+  width: 100%;
+  @media (max-width: 480px) {
+    max-width: 250px;
+  }
+`;
+
+const TheTextArea = styled.textarea`
+  border-radius: 8px;
+  outline: none;
+  border: 1px solid #f6f2ff;
+  height: 30px;
+  padding-left: 10px;
+  max-width: 400px;
+  width: 100%;
+  margin-top: 15px;
+  color: #9aa4aa;
+  font-size: 16px;
+  font-weight: 300;
+  min-height: 70px;
+  @media (max-width: 480px) {
+    max-width: 250px;
+  }
+`;
 
 const CoverImage = styled.img`
   width: 100%;

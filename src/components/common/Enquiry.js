@@ -80,7 +80,11 @@ Enquiry.propTypes = {
   toDateChange: PropTypes.func,
   fromDateValue: PropTypes.string,
   fromDateChange: PropTypes.func,
-  guestsValue: PropTypes.number,
+  guestsValue: PropTypes.oneOfType([
+    PropTypes.func,
+    PropTypes.number,
+    PropTypes.string,
+  ]),
   guestsChange: PropTypes.func,
   orderFromDateError: PropTypes.string,
   orderToDateError: PropTypes.string,

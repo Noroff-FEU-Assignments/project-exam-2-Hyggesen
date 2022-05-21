@@ -23,7 +23,7 @@ BigButton.propTypes = {
   aria: PropTypes.string,
 };
 
-const Button = styled.div`
+const Button = styled.button`
   font-size: 20px;
   color: white;
   font-weight: 600;

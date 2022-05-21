@@ -11,6 +11,7 @@ export default function Input(props) {
         type={props.type}
         value={props.value}
         onChange={props.onChange}
+        ref={props.ref}
       />
     </>
   );
@@ -25,6 +26,7 @@ Input.propTypes = {
   value: PropTypes.any,
   onChange: PropTypes.func,
   autocomplete: PropTypes.string,
+  ref: PropTypes.any,
 };
 
 const TheInput = styled.input`
