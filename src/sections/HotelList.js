@@ -8,6 +8,8 @@ import Paragraph from "../components/common/Paragraph";
 function HotelList() {
   const [hotel, setHotel] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
+  const [currentPage, setCurrentPage] = useState(1);
+  const [postsPerPage] = useState(10);
 
   useEffect(() => {
     async function fetchData() {
@@ -27,6 +29,10 @@ function HotelList() {
   if (!hotel.length) {
     return <Loader />;
   }
+
+  const indexOfLastPost = currentPage * postsPerPage;
+  const indexOfFirstPost = indexOfLastPost - postsPerPage;
+  const currentPosts = hotel.slice(indexOfFirstPost, indexOfLastPost);
 
   const hotelResults = hotel
     .filter((item) => {

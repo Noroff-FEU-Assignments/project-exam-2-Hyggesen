@@ -65,6 +65,7 @@ function SignIn() {
             <Keys src={keycyain} alt="Pink keychain illustration" />
             <SignInForm onSubmit={HandleSignIn}>
               <Input
+                autocomp="username"
                 id="username"
                 placeholder="Username"
                 type="text"
@@ -74,6 +75,7 @@ function SignIn() {
               />
 
               <Input
+                autocomp="current-password"
                 id="password"
                 placeholder="Password"
                 type="password"

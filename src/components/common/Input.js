@@ -11,7 +11,7 @@ export default function Input(props) {
         type={props.type}
         value={props.value}
         onChange={props.onChange}
-        ref={props.ref}
+        autoComplete={props.autocomp}
       />
     </>
   );
@@ -25,8 +25,8 @@ Input.propTypes = {
   labelFor: PropTypes.string,
   value: PropTypes.any,
   onChange: PropTypes.func,
-  autocomplete: PropTypes.string,
   ref: PropTypes.any,
+  autocomp: PropTypes.string,
 };
 
 const TheInput = styled.input`

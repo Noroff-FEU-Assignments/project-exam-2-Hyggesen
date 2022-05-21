@@ -12,6 +12,7 @@ import Modal from "react-modal";
 import React from "react";
 import AddHotel from "../components/common/addHotel";
 import { Helmet } from "react-helmet";
+import DeleteItem from "../components/common/DeleteItem";
 
 Modal.setAppElement("#root");
 
@@ -95,7 +96,16 @@ function Admin() {
   const allMessages = messages
     ? messages.map((item) => (
         <tr key={item.id ? item.id : "-"}>
-          <Td>{item.attributes.name ? item.attributes.name : "-"}</Td>
+          <Td>
+            {item.attributes.name ? item.attributes.name : "-"}
+
+            <DeleteItem
+              url={
+                "https://noroff-project-exam-ben.herokuapp.com/api/contact-forms/" +
+                item.id
+              }
+            />
+          </Td>
           <Td>{item.attributes.email ? item.attributes.email : "-"}</Td>
           <Td>{item.attributes.subject ? item.attributes.subject : "-"}</Td>
           <Td>{item.attributes.message ? item.attributes.message : "-"}</Td>
@@ -187,7 +197,7 @@ function Admin() {
                   <ThRight>Guests</ThRight>
                 </tr>
                 {allEnquries.length ? (
-                  allEnquries
+                  allEnquries.reverse()
                 ) : (
                   <tr>
                     <th>
@@ -213,7 +223,7 @@ function Admin() {
                   <ThRight>Message</ThRight>
                 </tr>
                 {allMessages.length ? (
-                  allMessages
+                  allMessages.reverse()
                 ) : (
                   <tr>
                     <th>
