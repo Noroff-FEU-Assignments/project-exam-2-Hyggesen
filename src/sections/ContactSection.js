@@ -2,8 +2,6 @@ import IntroText from "../components/common/IntroText";
 import styled from "styled-components";
 import Heading from "../components/common/Heading";
 import BigButton from "../components/common/BigButton";
-import Input from "../components/common/Input";
-import TextArea from "../components/common/Textarea";
 import { useState } from "react";
 import swal from "sweetalert";
 import axios from "axios";
@@ -32,7 +30,7 @@ function ContactSection() {
       setSubmittingForm(true);
 
       const response = axios.post(
-        "http://noroff-project-exam-ben.herokuapp.com/api/contact-forms?populate=*",
+        "https://noroff-project-exam-ben.herokuapp.com/api/contact-forms/?populate=*",
         contactForm
       );
     } catch (error) {
@@ -42,8 +40,8 @@ function ContactSection() {
       setSubmittingForm(false);
 
       swal({
-        title: "Published!",
-        text: `Thanks for your enquiry ${data.name}. We will get back to you as soon as possible`,
+        title: "Message sent!",
+        text: `Thanks for your inquiry ${data.name}. We will get back to you as soon as possible`,
         icon: "success",
         button: {
           text: "Close",
@@ -67,10 +65,10 @@ function ContactSection() {
             placeholder="Full name"
             type="text"
             {...register("name", {
-              required: "This field is required.",
+              required: "Please enter your name.",
               minLength: {
                 value: 3,
-                message: "Your full name must be over 3 characters.",
+                message: "Your name must be over 3 characters.",
               },
             })}
             name="name"
@@ -85,12 +83,12 @@ function ContactSection() {
           <TheInput
             id="email"
             placeholder="Email"
-            type="email"
+            type="text"
             {...register("email", {
-              required: "This field is required.",
-              minLength: {
-                value: 3,
-                message: "Your email must be over 3 characters.",
+              required: "Please enter your email.",
+              pattern: {
+                value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+                message: "That email address is invalid.",
               },
             })}
             name="email"
@@ -107,10 +105,10 @@ function ContactSection() {
             placeholder="Subject"
             type="text"
             {...register("subject", {
-              required: "This field is required.",
+              required: "Please enter a subject.",
               minLength: {
-                value: 3,
-                message: "Your subject must be over 3 characters.",
+                value: 5,
+                message: "Your subject must be over 5 characters.",
               },
             })}
             name="subject"
@@ -126,7 +124,7 @@ function ContactSection() {
             id="message"
             placeholder="Message"
             {...register("message", {
-              required: "This field is required.",
+              required: "Please write your message.",
               minLength: {
                 value: 20,
                 message: "Your message must be over 20 characters",
@@ -183,6 +181,7 @@ const TheInput = styled.input`
   color: #9aa4aa;
   font-size: 16px;
   font-weight: 300;
+  margin-bottom: 10px;
 
   @media (max-width: 480px) {
     max-width: 250px;
@@ -192,6 +191,7 @@ const TheInput = styled.input`
 const Label = styled.label`
   font-size: 16px;
   font-weight: 600;
+  margin-top: 10px;
   color: #19024b;
   align-items: left !important;
   width: 100%;
@@ -213,6 +213,7 @@ const TheTextArea = styled.textarea`
   font-size: 16px;
   font-weight: 300;
   min-height: 70px;
+  margin-bottom: 10px;
   @media (max-width: 480px) {
     max-width: 250px;
   }

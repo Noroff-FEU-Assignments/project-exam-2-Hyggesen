@@ -1,98 +1,170 @@
 import PropTypes from "prop-types";
 import styled from "styled-components";
 import HeadingTwo from "./HeadingTwo";
-import Input from "./Input";
+import swal from "sweetalert";
+import axios from "axios";
+import { useForm } from "react-hook-form";
+import { ErrorMessage } from "@hookform/error-message";
+import { useState } from "react";
 export default function Enquiry(props) {
+  const {
+    register,
+    formState: { errors },
+    handleSubmit,
+  } = useForm();
+
+  const [submitOrder, setSubmitOrder] = useState(false);
+
+  function onSubmit(data) {
+    const order = {
+      data: {
+        toDate: data.toDate,
+        fromDate: data.fromDate,
+        name: data.name,
+        email: data.email,
+        guests: data.guests,
+        hotels: props.id,
+      },
+    };
+
+    try {
+      setSubmitOrder(true);
+
+      const response = axios.post(
+        "https://noroff-project-exam-ben.herokuapp.com/api/orders/?populate=*",
+        order
+      );
+    } catch (error) {
+      console.log(error);
+    } finally {
+      console.log("finished process");
+      setSubmitOrder(false);
+
+      swal({
+        title: "Success!",
+        text: `Thanks ${data.name} for booking a room at ${props.hotelName}. We are awaiting ${data.guests} guests from ${data.toDate} to ${data.fromDate} `,
+        icon: "success",
+        button: {
+          text: "Close",
+          className: "sweet-button",
+        },
+      }).then(function () {
+        window.location.reload();
+      });
+    }
+  }
+
   return (
     <>
       <Wrapper>
         <HeadingTwo content={props.hotelName} />
-        <Form>
-          <Input
-            id="fromdate"
-            placeholder="Check-in date"
+        <Form onSubmit={handleSubmit(onSubmit)}>
+          <Label labelFor="toDate">Check-in date</Label>
+          <TheInput
+            id="toDate"
             type="date"
-            label="Check-in date"
-            value={props.fromDateValue}
-            onChange={props.fromDateChange}
+            {...register("toDate", {
+              required: "Please enter your check-in date.",
+            })}
+            name="toDate"
           />
-          <div className="error">{props.orderFromDateError}</div>
-          <Input
-            id="todate"
-            placeholder="Check-out date"
+          <ErrorMessage
+            errors={errors}
+            name="toDate"
+            render={({ message }) => <p className="error">{message}</p>}
+          />
+
+          <Label labelFor="fromDate">Check-out date</Label>
+          <TheInput
+            id="fromDate"
             type="date"
-            label="Check-out date"
-            value={props.toDateValue}
-            onChange={props.toDateChange}
+            {...register("fromDate", {
+              required: "Please enter your check-out date.",
+            })}
+            name="fromDate"
           />
-          <div className="error">{props.orderToDateError}</div>
-          <Input
+          <ErrorMessage
+            errors={errors}
+            name="fromDate"
+            render={({ message }) => <p className="error">{message}</p>}
+          />
+
+          <Label labelFor="name">Name</Label>
+          <TheInput
             id="name"
             placeholder="Full name"
             type="text"
-            label="Full name"
-            value={props.nameValue}
-            onChange={props.nameChange}
+            {...register("name", {
+              required: "Please enter your name.",
+              minLength: {
+                value: 4,
+                message: "Your name must be over 4 characters.",
+              },
+            })}
+            name="name"
           />
-          <div className="error">{props.orderNameError}</div>
-          <Input
+          <ErrorMessage
+            errors={errors}
+            name="name"
+            render={({ message }) => <p className="error">{message}</p>}
+          />
+
+          <Label labelFor="email">Email</Label>
+          <TheInput
             id="email"
             placeholder="Email"
-            type="email"
-            label="Email"
-            value={props.emailValue}
-            onChange={props.emailChange}
+            type="text"
+            {...register("email", {
+              required: "Please enter your email.",
+              pattern: {
+                value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+                message: "That email address is invalid.",
+              },
+            })}
+            name="email"
           />
-          <div className="error">{props.orderEmailError}</div>
-          <Input
+          <ErrorMessage
+            errors={errors}
+            name="email"
+            render={({ message }) => <p className="error">{message}</p>}
+          />
+
+          <Label labelFor="guests">Guests</Label>
+          <TheInput
             id="guests"
             placeholder="Guests"
             type="number"
-            label="Guests"
-            value={props.guestsValue}
-            onChange={props.guestsChange}
+            {...register("guests", {
+              required: "Please enter the amount of visitors.",
+              max: {
+                value: 5,
+                message: "Max amount of guest per room is 5",
+              },
+            })}
+            name="guests"
           />
-          <div className="error">{props.orderGuestsError}</div>
+          <ErrorMessage
+            errors={errors}
+            name="guests"
+            render={({ message }) => <p className="error">{message}</p>}
+          />
+
           <ButtonWrap>
             {" "}
             <CancelButton onClick={props.cancelClick}>Cancel</CancelButton>
-            <OrderButton type="submit" onClick={props.orderClick}>
-              {props.buttonContent}
+            <OrderButton type="submit">
+              {!submitOrder ? "Submit" : "Processing.."}
             </OrderButton>
           </ButtonWrap>
-          <div className="error">{props.orderFormError}</div>
         </Form>
       </Wrapper>
     </>
   );
 }
-
 Enquiry.propTypes = {
   hotelName: PropTypes.string.isRequired,
-  href: PropTypes.string,
   cancelClick: PropTypes.func,
-  orderClick: PropTypes.func,
-  nameValue: PropTypes.string,
-  nameChange: PropTypes.func,
-  emailValue: PropTypes.string,
-  emailChange: PropTypes.func,
-  toDateValue: PropTypes.string,
-  toDateChange: PropTypes.func,
-  fromDateValue: PropTypes.string,
-  fromDateChange: PropTypes.func,
-  guestsValue: PropTypes.oneOfType([
-    PropTypes.func,
-    PropTypes.number,
-    PropTypes.string,
-  ]),
-  guestsChange: PropTypes.func,
-  orderFromDateError: PropTypes.string,
-  orderToDateError: PropTypes.string,
-  orderNameError: PropTypes.string,
-  orderEmailError: PropTypes.string,
-  orderGuestsError: PropTypes.string,
-  orderFormError: PropTypes.bool,
-  buttonContent: PropTypes.string,
+  id: PropTypes.any,
 };
 const Form = styled.form`
   margin-top: 50px;
@@ -151,7 +223,7 @@ const CancelButton = styled.div`
   }
 `;
 
-const OrderButton = styled.div`
+const OrderButton = styled.button`
   font-size: 20px;
   color: white;
   background-color: #f72585;
@@ -160,6 +232,7 @@ const OrderButton = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  border: none;
   width: 230px;
   height: 50px;
 
@@ -167,5 +240,33 @@ const OrderButton = styled.div`
     box-shadow: inset 0 0 0 10em rgba(255, 255, 255, 0.1);
 
     cursor: pointer;
+  }
+`;
+const TheInput = styled.input`
+  border-radius: 8px;
+  outline: none;
+  border: 1px solid #f6f2ff;
+  height: 30px;
+  padding-left: 10px;
+  max-width: 400px;
+  width: 100%;
+  margin-top: 15px;
+  color: #9aa4aa;
+  font-size: 16px;
+  font-weight: 300;
+
+  @media (max-width: 480px) {
+    max-width: 250px;
+  }
+`;
+
+const Label = styled.label`
+  font-size: 16px;
+  font-weight: 600;
+  color: #19024b;
+  align-items: left !important;
+  width: 100%;
+  @media (max-width: 480px) {
+    max-width: 250px;
   }
 `;

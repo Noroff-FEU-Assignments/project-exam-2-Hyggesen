@@ -60,24 +60,7 @@ function SingleHotel() {
   const [balcony, setBalcony] = useState([]);
   const [breakfast, setBreakfast] = useState([]);
   const [fitnessRoom, setFitnessRoom] = useState([]);
-  const [name, setName] = useState();
-  const [nameError, setNameError] = useState();
-  const [comment, setComment] = useState();
-  const [commentError, setCommentError] = useState();
-  const [reviewError, setReviewError] = useState();
-  const [orderName, setOrderName] = useState();
-  const [orderEmail, setOrderEmail] = useState("");
-  const [orderToDate, setOrderToDate] = useState();
-  const [orderFromDate, setOrderFromDate] = useState();
-  const [orderGuests, setOrderGuests] = useState();
-  const [orderFromDateError, setOrderFromDateError] = useState();
-  const [orderToDateError, setOrderToDateError] = useState();
-  const [orderEmailError, setOrderEmailError] = useState("");
-  const [orderGuestsError, setOrderGuestsError] = useState();
-  const [orderFormError, setOrderFormError] = useState();
-  const [orderNameError, setOrderNameError] = useState();
   const [submittingReview, setSubmittingReview] = useState(false);
-  const [submittingOrder, setSubmittingOrder] = useState(false);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -157,108 +140,7 @@ function SingleHotel() {
     return <div>Loading...</div>;
   }
 
-  const handleOrder = (e) => {
-    setSubmittingOrder(true);
-    e.preventDefault();
-
-    if (!orderName) {
-      setOrderNameError("* Please fill in your full name.");
-      setOrderFormError(true);
-    }
-
-    if (orderName) {
-      setOrderNameError([]);
-      setOrderFormError(false);
-    }
-
-    if (!orderFromDate) {
-      setOrderFromDateError("* Please provide a check-in date.");
-      setOrderFormError(true);
-    }
-    if (orderFromDate) {
-      setOrderFromDateError([]);
-      setOrderFormError(false);
-    }
-
-    if (!orderToDate) {
-      setOrderToDateError("* Please provide a check-out date.");
-      setOrderFormError(true);
-    }
-
-    if (orderToDate) {
-      setOrderToDateError([]);
-      setOrderFormError(false);
-    }
-
-    if (!orderGuests || orderGuests < 1) {
-      setOrderGuestsError("* Please tell us how many guests are visiting.");
-      setOrderFormError(true);
-    }
-
-    if (orderGuests || orderGuests > 1) {
-      setOrderGuestsError([]);
-      setOrderFormError(false);
-    }
-
-    var expression =
-      /^([a-zA-Z0-9_\-\.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([a-zA-Z0-9\-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$/gi;
-    var regex = new RegExp(expression);
-
-    if (!orderEmail || !orderEmail.match(regex)) {
-      setOrderEmailError("* You must enter a valid e-mail address.");
-      setReviewError(true);
-    }
-
-    if (orderEmail.match(regex)) {
-      setOrderEmailError("");
-      setReviewError(false);
-    }
-
-    if (orderFormError === false) {
-      try {
-        const order = {
-          data: {
-            toDate: orderToDate,
-            fromDate: orderFromDate,
-            name: orderName,
-            email: orderEmail,
-            guests: orderGuests,
-            hotels: id,
-          },
-        };
-        fetch(
-          `https://noroff-project-exam-ben.herokuapp.com/api/orders/?populate=*`,
-          {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(order),
-          }
-        ).then(() => {
-          swal({
-            title: "Success!",
-            text: `Thanks ${orderName} for booking a room at ${
-              hotel.name ? hotel.name : "-"
-            }. We are awaiting ${orderGuests} guests from ${orderToDate} to ${orderFromDate} `,
-            icon: "success",
-            button: {
-              text: "Close",
-              className: "sweet-button",
-            },
-          }).then(function () {
-            window.location.reload();
-          });
-        });
-      } catch (error) {
-      } finally {
-        setSubmittingOrder(false);
-      }
-    }
-  };
-
   function onSubmit(data) {
-    setName(data.name);
-    setComment(data.comment);
-
     const review = {
       data: {
         name: data.name,
@@ -278,49 +160,11 @@ function SingleHotel() {
       console.log(error);
     } finally {
       console.log("finished process");
-      setSubmittingOrder(false);
+      setSubmittingReview(false);
 
       swal({
         title: "Published!",
         text: `Thanks for your feedback ${data.name}. Your review is now published.`,
-        icon: "success",
-        button: {
-          text: "Close",
-          className: "sweet-button",
-        },
-      }).then(function () {
-        window.location.reload();
-      });
-    }
-  }
-
-  async function handleReview(e) {
-    e.preventDefault();
-
-    const review = {
-      data: {
-        name: name,
-        comment: comment,
-        hotels: id,
-      },
-    };
-
-    try {
-      setSubmittingReview(true);
-
-      const response = await axios.post(
-        "https://noroff-project-exam-ben.herokuapp.com/api/reviews/?populate=*",
-        review
-      );
-    } catch (error) {
-      console.log(error);
-    } finally {
-      console.log("finished process");
-      setSubmittingOrder(false);
-
-      swal({
-        title: "Published!",
-        text: `Thanks for your feedback ${name}. Your review is now published.`,
         icon: "success",
         button: {
           text: "Close",
@@ -361,24 +205,7 @@ function SingleHotel() {
               hotelName={hotel.name ? hotel.name : "-"}
               click={closeModal}
               cancelClick={closeModal}
-              orderClick={handleOrder}
-              nameValue={orderName ?? ""}
-              toDateValue={orderToDate ?? ""}
-              fromDateValue={orderFromDate ?? ""}
-              emailValue={orderEmail ?? ""}
-              guestsValue={orderGuests ?? ""}
-              nameChange={(e) => setOrderName(e.target.value)}
-              toDateChange={(e) => setOrderToDate(e.target.value)}
-              fromDateChange={(e) => setOrderFromDate(e.target.value)}
-              emailChange={(e) => setOrderEmail(e.target.value)}
-              guestsChange={(e) => setOrderGuests(e.target.value)}
-              orderFromDateError={orderFromDateError}
-              orderFormError={orderFormError}
-              orderToDateError={orderToDateError}
-              orderNameError={orderNameError}
-              orderEmailError={orderEmailError}
-              orderGuestsError={orderGuestsError}
-              buttonContent={!submittingOrder ? "Place order" : "Processing.."}
+              id={id}
             />
           </Modal>
 
@@ -489,7 +316,6 @@ function SingleHotel() {
                     placeholder="Full name"
                     type="text"
                     label="Full name"
-                    onChange={(e) => setName(e.target.value)}
                     {...register("name", {
                       required: "This field is required.",
                       minLength: {
@@ -509,7 +335,6 @@ function SingleHotel() {
                     id="comment"
                     placeholder="Comment"
                     label="Comment"
-                    onChange={(e) => setComment(e.target.value)}
                     {...register("comment", {
                       required: "This field is required.",
                       minLength: {
@@ -562,6 +387,7 @@ const TheInput = styled.input`
   max-width: 400px;
   width: 100%;
   margin-top: 15px;
+  margin-bottom: 10px;
   color: #9aa4aa;
   font-size: 16px;
   font-weight: 300;
@@ -575,6 +401,7 @@ const Label = styled.label`
   font-size: 16px;
   font-weight: 600;
   color: #19024b;
+  margin-top: 10px;
   align-items: left !important;
   width: 100%;
   @media (max-width: 480px) {
@@ -584,6 +411,7 @@ const Label = styled.label`
 
 const TheTextArea = styled.textarea`
   border-radius: 8px;
+  margin-bottom: 10px;
   outline: none;
   border: 1px solid #f6f2ff;
   height: 30px;

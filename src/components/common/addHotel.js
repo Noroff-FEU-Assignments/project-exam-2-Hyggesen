@@ -1,446 +1,406 @@
 import PropTypes from "prop-types";
 import styled from "styled-components";
 import HeadingTwo from "./HeadingTwo";
-import Input from "./Input";
-import TextArea from "./Textarea";
 import { useState } from "react";
 import swal from "sweetalert";
-
+import axios from "axios";
+import { useForm } from "react-hook-form";
+import { ErrorMessage } from "@hookform/error-message";
 export default function AddHotel(props) {
-  const [score, setScore] = useState(0);
-  const [scoreError, setScoreError] = useState("");
+  const {
+    register,
+    formState: { errors },
+    handleSubmit,
+  } = useForm();
+  const [submittingForm, setSubmittingForm] = useState(false);
 
-  const [name, setName] = useState("");
-  const [nameError, setNameError] = useState("");
-
-  const [description, setDescription] = useState("");
-  const [descriptionError, setDescriptionError] = useState("");
-
-  const [kilometer, setKilometer] = useState(0);
-  const [kilometerError, setKilometerError] = useState("");
-
-  const [address, setAddress] = useState("");
-  const [addressError, setAddressError] = useState("");
-
-  const [thumbnail, setThumbnail] = useState("");
-  const [thumbnailError, setThumbnailError] = useState("");
-
-  const [price, setPrice] = useState(0);
-  const [priceError, setPriceError] = useState("");
-
-  const [spa, setSpa] = useState(false);
-  const [balcony, setBalcony] = useState(false);
-  const [internet, setInternet] = useState(false);
-  const [fitnessRoom, setFitnessRoom] = useState(false);
-  const [breakfast, setBreakfast] = useState(false);
-  const [bar, setBar] = useState(false);
-
-  const [city, setCity] = useState("");
-  const [cityError, setCityError] = useState("");
-
-  const [highlight1, setHighlight1] = useState("");
-  const [highlight1Error, setHighlight1Error] = useState("");
-
-  const [highlight2, setHighlight2] = useState("");
-  const [highlight2Error, setHighlight2Error] = useState("");
-
-  const [highlightError3, setHighlight3Error] = useState("");
-
-  const [highlight3, setHighlight3] = useState("");
-
-  const [featured, setFeatured] = useState(false);
-  const [submitAddHotel, setsubmitAddHotel] = useState(false);
-
-  const [validate, setValidate] = useState(false);
-
-  const handleAddHotel = async (e) => {
-    e.preventDefault();
-    setsubmitAddHotel(true);
-
-    if (
-      nameError === "" &&
-      descriptionError === "" &&
-      scoreError === "" &&
-      kilometerError === "" &&
-      addressError === "" &&
-      thumbnailError === "" &&
-      priceError === "" &&
-      cityError === "" &&
-      highlight1Error === "" &&
-      highlight2Error === "" &&
-      highlightError3 === ""
-    ) {
-      setValidate(true);
-    }
-
-    if (!name) {
-      setNameError("* Please fill in the hotel name.");
-      setsubmitAddHotel(false);
-    }
-
-    if (name) {
-      setNameError("");
-      setsubmitAddHotel(true);
-    }
-
-    if (!description) {
-      setDescriptionError("* Please write a description.");
-      setsubmitAddHotel(false);
-    }
-
-    if (description) {
-      setDescriptionError("");
-      setsubmitAddHotel(true);
-    }
-
-    if (!score) {
-      setScoreError("* Please fill in the hotel-score.");
-      setsubmitAddHotel(false);
-    }
-
-    if (score) {
-      setScoreError("");
-      setsubmitAddHotel(true);
-    }
-
-    if (!kilometer) {
-      setKilometerError("* Please fill in distance to city centre.");
-      setsubmitAddHotel(false);
-    }
-
-    if (kilometer) {
-      setKilometerError("");
-      setsubmitAddHotel(true);
-    }
-
-    if (!address) {
-      setAddressError("* Please fill in the hotel address.");
-      setsubmitAddHotel(false);
-    }
-
-    if (address) {
-      setAddressError("");
-      setsubmitAddHotel(true);
-    }
-
-    var expression =
-      /((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=\+\$,\w]+@)?[A-Za-z0-9.-]+|(?:www.|[-;:&=\+\$,\w]+@)[A-Za-z0-9.-]+)((?:\/[\+~%\/.\w-_]*)?\??(?:[-\+=&;%@.\w_]*)#?(?:[\w]*))?)/;
-    var regex = new RegExp(expression);
-
-    if (!thumbnail.match(regex) || !thumbnail) {
-      setThumbnailError("* Please provide a valid thumbnail URL.");
-      setsubmitAddHotel(false);
-    }
-
-    if (thumbnail.match(regex)) {
-      setThumbnailError("");
-      setsubmitAddHotel(true);
-    }
-
-    if (!price || price < 100) {
-      setPriceError("* The price must be over 100");
-      setsubmitAddHotel(false);
-    }
-
-    if (price > 100) {
-      setPriceError("");
-      setsubmitAddHotel(true);
-    }
-
-    if (!city) {
-      setCityError("* Please provide a City.");
-      setsubmitAddHotel(false);
-    }
-
-    if (city) {
-      setCityError("");
-      setsubmitAddHotel(true);
-    }
-
-    if (!highlight1) {
-      setHighlight1Error("* Please fill in a feature you want to highlight.");
-      setsubmitAddHotel(false);
-    }
-
-    if (highlight1) {
-      setHighlight1Error("");
-      setsubmitAddHotel(true);
-    }
-
-    if (!highlight2) {
-      setHighlight2Error("* Please fill in a feature you want to highlight.");
-      setsubmitAddHotel(false);
-    }
-
-    if (highlight2) {
-      setHighlight2Error("");
-      setsubmitAddHotel(true);
-    }
-
-    if (!highlight3) {
-      setHighlight3Error("* Please fill in a feature you want to highlight.");
-      setsubmitAddHotel(false);
-    }
-
-    if (highlight3) {
-      setHighlight3Error("");
-      setsubmitAddHotel(true);
-    }
+  function onSubmit(data) {
+    const hotel = {
+      data: {
+        name: data.name,
+        description: data.description,
+        score: data.score,
+        km_to_city_centre: data.km_to_city_centre,
+        address: data.address,
+        thumbnail_url: data.thumbnail_url,
+        price: data.price,
+        spa: data.spa,
+        balcony: data.balcony,
+        internet: data.internet,
+        fitness_room: data.fitnessRoom,
+        breakfast_included: data.breakfast,
+        bar: data.bar,
+        city: data.city,
+        headlight_feature_1: data.highlight1,
+        headlight_feature_2: data.highlight2,
+        headlight_feature_3: data.highlight3,
+        featured: data.featured,
+      },
+    };
 
     const tkn = localStorage.getItem("Token");
+    const config = {
+      headers: { Authorization: `Bearer ${tkn}` },
+    };
 
-    if (validate === true) {
-      try {
-        const hotel = {
-          data: {
-            name: name,
-            description: description,
-            score: score,
-            km_to_city_centre: kilometer,
-            address: address,
-            thumbnail_url: thumbnail,
-            price: price,
-            spa: spa,
-            balcony: balcony,
-            internet: internet,
-            fitness_room: fitnessRoom,
-            breakfast_included: breakfast,
-            bar: bar,
-            city: city,
-            headlight_feature_1: highlight1,
-            headlight_feature_2: highlight2,
-            headlight_feature_3: highlight3,
-            featured: featured,
-          },
-        };
-        fetch(
-          `https://noroff-project-exam-ben.herokuapp.com/api/hotels?populate=*`,
-          {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            Authorization: `Bearer ${tkn}`,
+    try {
+      setSubmittingForm(true);
 
-            body: JSON.stringify(hotel),
-          }
-        ).then(() => {
-          console.log("SUCCESS");
-          setsubmitAddHotel(false);
-          swal({
-            title: "Success!",
-            text: `You added ${name} successfully.`,
-            icon: "success",
-            button: {
-              text: "Close",
-              className: "sweet-button",
-            },
-          }).then(function () {
-            window.location.reload();
-          });
-        });
-      } catch (error) {
-        console.log("FAIL");
-      } finally {
-      }
+      const response = axios.post(
+        "https://noroff-project-exam-ben.herokuapp.com/api/hotels?populate=*",
+        hotel,
+        config
+      );
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setSubmittingForm(false);
+
+      swal({
+        title: "Success!",
+        text: `You added ${data.name} successfully.`,
+        icon: "success",
+        button: {
+          text: "Close",
+          className: "sweet-button",
+        },
+      }).then(function () {
+        window.location.reload();
+      });
     }
-  };
+  }
 
   return (
     <>
       <Wrapper>
         <HeadingTwo content="Add a new hotel" />
-        <Form>
-          <Input
+        <Form onSubmit={handleSubmit(onSubmit)}>
+          <Label labelFor="name">Name</Label>
+          <TheInput
             id="name"
-            placeholder="Name"
+            placeholder="Name of hotel"
             type="text"
-            label="Name"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
+            {...register("name", {
+              required: "Please enter the hotel name.",
+              minLength: {
+                value: 5,
+                message: "The hotel name must be over 5 characters",
+              },
+            })}
+            name="name"
           />
-          <div className="error">{nameError}</div>
+          <ErrorMessage
+            errors={errors}
+            name="name"
+            render={({ message }) => <p className="error">{message}</p>}
+          />
 
-          <TextArea
+          <Label labelFor="description">Description</Label>
+          <TheTextArea
             id="description"
             placeholder="Description"
-            type="text"
-            label="Description"
-            value={description}
-            onChange={(e) => setDescription(e.target.value)}
+            {...register("description", {
+              required: "Please write a description.",
+              minLength: {
+                value: 20,
+                message: "The description must be over 20 characters",
+              },
+              maxLength: {
+                value: 600,
+                message: "The description can not be over 600 characters",
+              },
+            })}
+            name="description"
           />
-          <div className="error">{descriptionError}</div>
+          <ErrorMessage
+            errors={errors}
+            name="description"
+            render={({ message }) => <p className="error">{message}</p>}
+          />
 
-          <Input
+          <Label labelFor="score">Score</Label>
+          <TheInput
             id="score"
             placeholder="Score"
-            type="number"
-            label="Score"
-            value={score}
-            onChange={(e) => setScore(e.target.value)}
+            type="text"
+            {...register("score", {
+              required: "A hotel score is required.",
+              max: {
+                value: 10,
+                message: "Max score is 10",
+              },
+              pattern: {
+                value: /^(0|[1-9]\d*)$/,
+                message: "Enter a number from 1 to 10",
+              },
+            })}
+            name="score"
           />
-          <div className="error">{scoreError}</div>
+          <ErrorMessage
+            errors={errors}
+            name="score"
+            render={({ message }) => <p className="error">{message}</p>}
+          />
 
-          <Input
+          <Label labelFor="km_to_city_centre">Kilometer to city centre</Label>
+          <TheInput
             id="km_to_city_centre"
             placeholder="Kilometer to city centre"
-            type="number"
-            label="Kilometer to city centre"
-            value={kilometer}
-            onChange={(e) => setKilometer(e.target.value)}
+            type="text"
+            {...register("km_to_city_centre", {
+              required: "Please enter the distance from the city centre.",
+              pattern: {
+                value: /^(0|[1-9]\d*)?(\.\d+)?(?<=\d)$/,
+                message: "That is not a value number",
+              },
+            })}
+            name="km_to_city_centre"
           />
-          <div className="error">{kilometerError}</div>
+          <ErrorMessage
+            errors={errors}
+            name="km_to_city_centre"
+            render={({ message }) => <p className="error">{message}</p>}
+          />
 
-          <Input
+          <Label labelFor="address">Address</Label>
+          <TheInput
             id="address"
             placeholder="Address"
             type="text"
-            label="Address"
-            value={address}
-            onChange={(e) => setAddress(e.target.value)}
+            {...register("address", {
+              required: "Please enter the address.",
+            })}
+            name="address"
           />
-          <div className="error">{addressError}</div>
+          <ErrorMessage
+            errors={errors}
+            name="address"
+            render={({ message }) => <p className="error">{message}</p>}
+          />
 
-          <Input
-            id="thumbnail"
-            placeholder="Provide an URL for an image"
+          <Label labelFor="thumbnail_url">Thumbnail URL</Label>
+          <TheInput
+            id="thumbnail_url"
+            placeholder="Thumbnail URL"
             type="text"
-            label="Thumbnail URL"
-            value={thumbnail}
-            onChange={(e) => setThumbnail(e.target.value)}
+            {...register("thumbnail_url", {
+              required: "Please enter a thumbnail URL.",
+              pattern: {
+                value:
+                  /(https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|www\.[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9]+\.[^\s]{2,}|www\.[a-zA-Z0-9]+\.[^\s]{2,})/gi,
+                message: "That is not a value URL",
+              },
+            })}
+            name="thumbnail_url"
           />
-          <div className="error">{thumbnailError}</div>
+          <ErrorMessage
+            errors={errors}
+            name="thumbnail_url"
+            render={({ message }) => <p className="error">{message}</p>}
+          />
 
-          <Input
+          <Label labelFor="price">Price</Label>
+          <TheInput
             id="price"
             placeholder="Price"
             type="number"
-            label="Price"
-            value={price}
-            onChange={(e) => setPrice(e.target.value)}
+            {...register("price", {
+              required: "Please enter the hotel price.",
+              max: {
+                value: 9999,
+                message: "Price can not be higher than 9999,-",
+              },
+            })}
+            name="price"
           />
-          <div className="error">{priceError}</div>
-          <Label>Spa:</Label>
+          <ErrorMessage
+            errors={errors}
+            name="price"
+            render={({ message }) => <p className="error">{message}</p>}
+          />
+
+          <Label labelFor="spa">Spa</Label>
           <Select
             id="spa"
-            placeholder="Spa"
-            value={spa}
-            onChange={(e) => setSpa(e.target.value)}
+            {...register("spa", {
+              required: "This field is required",
+            })}
           >
             <option value={true}>Yes</option>
             <option value={false}>No</option>
           </Select>
+          <ErrorMessage
+            errors={errors}
+            name="spa"
+            render={({ message }) => <p className="error">{message}</p>}
+          />
 
-          <Label>Balcony:</Label>
+          <Label labelFor="balcony">Balcony</Label>
           <Select
             id="balcony"
-            placeholder="Balcony"
-            value={balcony}
-            onChange={(e) => setBalcony(e.target.value)}
+            {...register("balcony", {
+              required: "This field is required",
+            })}
           >
             <option value={true}>Yes</option>
             <option value={false}>No</option>
           </Select>
+          <ErrorMessage
+            errors={errors}
+            name="balcony"
+            render={({ message }) => <p className="error">{message}</p>}
+          />
 
-          <Label>Internet:</Label>
+          <Label labelFor="internet">Internet</Label>
           <Select
             id="internet"
-            placeholder="Internet"
-            value={internet}
-            onChange={(e) => setInternet(e.target.value)}
+            {...register("internet", {
+              required: "This field is required",
+            })}
           >
             <option value={true}>Yes</option>
             <option value={false}>No</option>
           </Select>
+          <ErrorMessage
+            errors={errors}
+            name="internet"
+            render={({ message }) => <p className="error">{message}</p>}
+          />
 
-          <Label>Fitness room:</Label>
+          <Label labelFor="fitnessRoom">Fitness room</Label>
           <Select
-            id="fitness_room"
-            placeholder="Fitness room"
-            value={fitnessRoom}
-            onChange={(e) => setFitnessRoom(e.target.value)}
+            id="fitnessRoom"
+            {...register("fitnessRoom", {
+              required: "This field is required",
+            })}
           >
             <option value={true}>Yes</option>
             <option value={false}>No</option>
           </Select>
+          <ErrorMessage
+            errors={errors}
+            name="fitnessRoom"
+            render={({ message }) => <p className="error">{message}</p>}
+          />
 
-          <Label>Breakfast included:</Label>
+          <Label labelFor="breakfast">Breakfast included</Label>
           <Select
-            id="breakfast_included"
-            placeholder="Breakfast included"
-            value={breakfast}
-            onChange={(e) => setBreakfast(e.target.value)}
+            id="breakfast"
+            {...register("breakfast", {
+              required: "This field is required",
+            })}
           >
             <option value={true}>Yes</option>
             <option value={false}>No</option>
           </Select>
+          <ErrorMessage
+            errors={errors}
+            name="breakfast"
+            render={({ message }) => <p className="error">{message}</p>}
+          />
 
-          <Label>Bar:</Label>
+          <Label labelFor="bar">Bar</Label>
           <Select
             id="bar"
-            placeholder="Bar"
-            value={bar}
-            onChange={(e) => setBar(e.target.value)}
+            {...register("bar", {
+              required: "This field is required",
+            })}
           >
             <option value={true}>Yes</option>
             <option value={false}>No</option>
           </Select>
+          <ErrorMessage
+            errors={errors}
+            name="bar"
+            render={({ message }) => <p className="error">{message}</p>}
+          />
 
-          <Input
+          <Label labelFor="city">City</Label>
+          <TheInput
             id="city"
             placeholder="city"
             type="text"
-            label="city"
-            value={city}
-            onChange={(e) => setCity(e.target.value)}
+            {...register("city", {
+              required: "Please enter the city.",
+            })}
+            name="city"
           />
-          <div className="error">{cityError}</div>
+          <ErrorMessage
+            errors={errors}
+            name="city"
+            render={({ message }) => <p className="error">{message}</p>}
+          />
 
-          <Input
+          <Label labelFor="highlight_1">Highlight 1</Label>
+          <TheInput
             id="highlight_1"
             placeholder="This feature will stand out"
             type="text"
-            label="Highlighted feature 1"
-            value={highlight1}
-            onChange={(e) => setHighlight1(e.target.value)}
+            {...register("highlight_1", {
+              required: "Please enter a feature to highlight.",
+            })}
+            name="highlight_1"
           />
-          <div className="error">{highlight1Error}</div>
+          <ErrorMessage
+            errors={errors}
+            name="highlight_1"
+            render={({ message }) => <p className="error">{message}</p>}
+          />
 
-          <Input
+          <Label labelFor="highlight_2">Highlight 2</Label>
+          <TheInput
             id="highlight_2"
             placeholder="This feature will stand out"
             type="text"
-            label="Highlighted feature 2"
-            value={highlight2}
-            onChange={(e) => setHighlight2(e.target.value)}
+            {...register("highlight_2", {
+              required: "Please enter a feature to highlight.",
+            })}
+            name="highlight_2"
           />
-          <div className="error">{highlight2Error}</div>
+          <ErrorMessage
+            errors={errors}
+            name="highlight_2"
+            render={({ message }) => <p className="error">{message}</p>}
+          />
 
-          <Input
+          <Label labelFor="highlight_3">Highlight 3</Label>
+          <TheInput
             id="highlight_3"
             placeholder="This feature will stand out"
             type="text"
-            label="Highlighted feature 3"
-            value={highlight3}
-            onChange={(e) => setHighlight3(e.target.value)}
+            {...register("highlight_3", {
+              required: "Please enter a feature to highlight.",
+            })}
+            name="highlight_3"
           />
-          <div className="error">{highlightError3}</div>
+          <ErrorMessage
+            errors={errors}
+            name="highlight_3"
+            render={({ message }) => <p className="error">{message}</p>}
+          />
 
-          <Label>Featured:</Label>
+          <Label labelFor="featured">Featured</Label>
           <Select
             id="featured"
-            placeholder="Featured"
-            value={featured}
-            onChange={(e) => setFeatured(e.target.value)}
+            placeholder="Feature this hotel?"
+            {...register("featured", {
+              required: "This field is required.",
+            })}
           >
             <option value={true}>Yes</option>
             <option value={false}>No</option>
           </Select>
+          <ErrorMessage
+            errors={errors}
+            name="featured"
+            render={({ message }) => <p className="error">{message}</p>}
+          />
 
           <ButtonWrap>
-            {" "}
             <CancelButton onClick={props.cancelClick}>Cancel</CancelButton>
-            <OrderButton type="submit" onClick={handleAddHotel}>
-              {submitAddHotel === false ? "Add hotel" : "Processing.."}
-            </OrderButton>
+            <AddHotelButton>
+              {submittingForm === false ? "Add hotel" : "Processing.."}
+            </AddHotelButton>
           </ButtonWrap>
         </Form>
       </Wrapper>
@@ -449,85 +409,7 @@ export default function AddHotel(props) {
 }
 
 AddHotel.propTypes = {
-  href: PropTypes.string,
   cancelClick: PropTypes.func,
-  orderClick: PropTypes.func,
-  formError: PropTypes.bool,
-  buttonContent: PropTypes.string,
-
-  nameValue: PropTypes.string,
-  nameChange: PropTypes.func,
-  nameError: PropTypes.string,
-
-  descriptionValue: PropTypes.string,
-  descriptionChange: PropTypes.func,
-  descriptionError: PropTypes.string,
-
-  scoreValue: PropTypes.number,
-  scoreChange: PropTypes.func,
-  scorError: PropTypes.string,
-
-  km_to_city_centreValue: PropTypes.number,
-  km_to_city_centreChange: PropTypes.func,
-  km_to_city_centreError: PropTypes.string,
-
-  addressValue: PropTypes.string,
-  addressChange: PropTypes.func,
-  addressError: PropTypes.string,
-
-  priceValue: PropTypes.number,
-  priceChange: PropTypes.func,
-  priceError: PropTypes.string,
-
-  thumbnailValue: PropTypes.string,
-  thumbnailChange: PropTypes.func,
-  thumbnailError: PropTypes.string,
-
-  spaValue: PropTypes.bool,
-  spaChange: PropTypes.func,
-  spaError: PropTypes.string,
-
-  balconyValue: PropTypes.bool,
-  balconyChange: PropTypes.func,
-  balconyError: PropTypes.string,
-
-  internetValue: PropTypes.bool,
-  internetChange: PropTypes.func,
-  internetError: PropTypes.string,
-
-  fitness_roomValue: PropTypes.bool,
-  fitness_roomChange: PropTypes.func,
-  fitness_roomError: PropTypes.string,
-
-  breakfast_includedValue: PropTypes.bool,
-  breakfast_includedChange: PropTypes.func,
-  breakfast_includedError: PropTypes.string,
-
-  barValue: PropTypes.bool,
-  barChange: PropTypes.func,
-  barError: PropTypes.string,
-
-  cityValue: PropTypes.string,
-  cityChange: PropTypes.func,
-  cityError: PropTypes.string,
-
-  headlight_feature_1Value: PropTypes.string,
-  headlight_feature_1Change: PropTypes.func,
-  headlight_feature_1Error: PropTypes.string,
-
-  headlight_feature_2Value: PropTypes.string,
-  headlight_feature_2Change: PropTypes.func,
-  headlight_feature_2Error: PropTypes.string,
-
-  headlight_feature_3Value: PropTypes.string,
-  headlight_feature_3Change: PropTypes.func,
-  headlight_feature_3Error: PropTypes.string,
-
-  featuredValue: PropTypes.bool,
-  featuredChange: PropTypes.func,
-  featuredError: PropTypes.string,
-
-  optionValue: PropTypes.string,
 };
 const Form = styled.form`
   margin-top: 50px;
@@ -577,12 +459,13 @@ const CancelButton = styled.div`
   }
 `;
 
-const OrderButton = styled.div`
+const AddHotelButton = styled.button`
   font-size: 20px;
   color: white;
   background-color: #f72585;
   font-weight: 600;
   border-radius: 8px;
+  border: none;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -594,12 +477,6 @@ const OrderButton = styled.div`
 
     cursor: pointer;
   }
-`;
-
-const Label = styled.label`
-  font-size: 18px;
-  font-weight: 600;
-  color: #19024b;
 `;
 
 const Select = styled.select`
@@ -614,4 +491,52 @@ const Select = styled.select`
   color: #9aa4aa;
   font-size: 16px;
   font-weight: 300;
+`;
+const TheInput = styled.input`
+  border-radius: 8px;
+  outline: none;
+  border: 1px solid #f6f2ff;
+  height: 30px;
+  padding-left: 10px;
+  max-width: 400px;
+  width: 100%;
+  margin-top: 15px;
+  color: #9aa4aa;
+  font-size: 16px;
+  font-weight: 300;
+  margin-bottom: 10px;
+
+  @media (max-width: 480px) {
+    max-width: 250px;
+  }
+`;
+
+const Label = styled.label`
+  font-size: 16px;
+  margin-top: 10px;
+  font-weight: 600;
+  color: #19024b;
+  align-items: left !important;
+  width: 100%;
+  @media (max-width: 480px) {
+    max-width: 250px;
+  }
+`;
+const TheTextArea = styled.textarea`
+  border-radius: 8px;
+  outline: none;
+  border: 1px solid #f6f2ff;
+  height: 30px;
+  padding-left: 10px;
+  max-width: 400px;
+  width: 100%;
+  margin-top: 15px;
+  margin-bottom: 10px;
+  color: #9aa4aa;
+  font-size: 16px;
+  font-weight: 300;
+  min-height: 70px;
+  @media (max-width: 480px) {
+    max-width: 250px;
+  }
 `;
