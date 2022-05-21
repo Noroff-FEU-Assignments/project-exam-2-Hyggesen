@@ -28,11 +28,12 @@ function ContactSection() {
 
     try {
       setSubmittingForm(true);
-
+      /* eslint-disable no-unused-vars */
       const response = axios.post(
         "https://noroff-project-exam-ben.herokuapp.com/api/contact-forms/?populate=*",
         contactForm
       );
+      /* eslint-disable no-unused-vars */
     } catch (error) {
       console.log(error);
     } finally {

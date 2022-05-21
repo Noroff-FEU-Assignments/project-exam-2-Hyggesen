@@ -29,11 +29,12 @@ export default function Enquiry(props) {
 
     try {
       setSubmitOrder(true);
-
+      /* eslint-disable no-unused-vars */
       const response = axios.post(
         "https://noroff-project-exam-ben.herokuapp.com/api/orders/?populate=*",
         order
       );
+      /* eslint-disable no-unused-vars */
     } catch (error) {
       console.log(error);
     } finally {

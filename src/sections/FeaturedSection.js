@@ -39,6 +39,8 @@ function FeaturedSection() {
     .filter((item) => {
       if (item.attributes.featured) {
         return item;
+      } else {
+        return false;
       }
     })
     .map((item) => (

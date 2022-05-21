@@ -7,8 +7,6 @@ import checkIcon from "../assets/brand/checkIcon.png";
 import HeadingTwo from "../components/common/HeadingTwo";
 import Paragraph from "../components/common/Paragraph";
 import Review from "../components/common/Review";
-import Input from "../components/common/Input";
-import TextArea from "../components/common/Textarea";
 import BigButton from "../components/common/BigButton";
 import Modal from "react-modal";
 import React from "react";
@@ -151,11 +149,12 @@ function SingleHotel() {
 
     try {
       setSubmittingReview(true);
-
+      /* eslint-disable no-unused-vars */
       const response = axios.post(
         "https://noroff-project-exam-ben.herokuapp.com/api/reviews/?populate=*",
         review
       );
+      /* eslint-disable no-unused-vars */
     } catch (error) {
       console.log(error);
     } finally {

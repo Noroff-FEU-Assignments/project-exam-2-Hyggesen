@@ -45,12 +45,13 @@ export default function AddHotel(props) {
 
     try {
       setSubmittingForm(true);
-
+      /* eslint-disable no-unused-vars */
       const response = axios.post(
         "https://noroff-project-exam-ben.herokuapp.com/api/hotels?populate=*",
         hotel,
         config
       );
+      /* eslint-disable no-unused-vars */
     } catch (error) {
       console.log(error);
     } finally {
