@@ -96,19 +96,24 @@ function Admin() {
   const allMessages = messages
     ? messages.map((item) => (
         <tr key={item.id ? item.id : "-"}>
-          <Td>
-            {item.attributes.name ? item.attributes.name : "-"}
-
-            <DeleteItem
-              url={
-                "https://noroff-project-exam-ben.herokuapp.com/api/contact-forms/" +
-                item.id
-              }
-            />
-          </Td>
+          <Td>{item.attributes.name ? item.attributes.name : "-"}</Td>
           <Td>{item.attributes.email ? item.attributes.email : "-"}</Td>
           <Td>{item.attributes.subject ? item.attributes.subject : "-"}</Td>
-          <Td>{item.attributes.message ? item.attributes.message : "-"}</Td>
+          <Td>
+            {" "}
+            <FlexIt>
+              {item.attributes.message ? item.attributes.message : "-"}{" "}
+              <FlexHorizontal>
+                <DeleteItem
+                  url={
+                    "https://noroff-project-exam-ben.herokuapp.com/api/contact-forms/" +
+                    item.id
+                  }
+                  deleteWhat="message"
+                />
+              </FlexHorizontal>
+            </FlexIt>
+          </Td>
         </tr>
       ))
     : "";
@@ -457,4 +462,18 @@ const ThRight = styled.th`
   @media (max-width: 1200px) {
     display: none;
   }
+`;
+
+const FlexIt = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: left;
+  align-items: flex-start;
+`;
+
+const FlexHorizontal = styled.div`
+  display: flex;
+  width: 100%;
+  justify-content: right;
+  align-items: flex-end;
 `;
