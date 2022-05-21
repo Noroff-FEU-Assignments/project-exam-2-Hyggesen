@@ -1,6 +1,6 @@
 import PropTypes from "prop-types";
 import styled from "styled-components";
-import arrow from "../../assets/brand/white_arrow.png";
+import arrow from "../../assets/common/white_arrow.png";
 
 export default function BigButton(props) {
   return (

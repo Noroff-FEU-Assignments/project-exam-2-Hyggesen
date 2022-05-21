@@ -1,14 +1,14 @@
 import { NavLink } from "react-router-dom";
 import React from "react";
-import logo from "./../../assets/brand/logo_holidaze.png";
+import logo from "./../../assets/common/logo_holidaze.png";
 import styled from "styled-components";
-import hamburger from "../../assets//brand/hamburgermenu.png";
+import hamburger from "../../assets//common/hamburgermenu.png";
 import { HashLink } from "react-router-hash-link";
 import AuthContext from "../../context/AuthContext";
 import { useNavigate } from "react-router-dom";
 import { useContext } from "react";
-import signOutIcon from "../../assets/brand/signout.png";
-import signInIcon from "../../assets/brand/signin.png";
+import signOutIcon from "../../assets/common/signout.png";
+import signInIcon from "../../assets/common/signin.png";
 
 export default function Navbar(props) {
   function handleToggle() {

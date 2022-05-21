@@ -1,6 +1,6 @@
 import PropTypes from "prop-types";
 import styled from "styled-components";
-import avatar from "../../assets/brand/user_avatar.png";
+import avatar from "../../assets/common/user_avatar.png";
 import Paragraph from "./Paragraph";
 
 export default function Testimonial(props) {

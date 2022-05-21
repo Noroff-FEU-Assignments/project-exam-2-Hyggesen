@@ -1,6 +1,6 @@
 import Heading from "../components/common/Heading";
 import BigParagraph from "../components/common/BigParagraph";
-import bigIcon from "../assets/brand/holidaze_icon.png";
+import bigIcon from "../assets/common/holidaze_icon.png";
 import styled from "styled-components";
 import { NavLink } from "react-router-dom";
 import React, { useState, useEffect } from "react";

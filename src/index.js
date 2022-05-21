@@ -7,7 +7,6 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import SingleHotel from "./routes/singleHotel";
 import Hotels from "./routes/hotels";
 import SignIn from "./routes/signIn";
-import Success from "./routes/success";
 import Admin from "./routes/admin";
 import { AuthProvider } from "./context/AuthContext";
 
@@ -21,7 +20,6 @@ root.render(
         <Route path="hotels" element={<Hotels />} />
         <Route path="sign-in" element={<SignIn />} />
         <Route path="hotels/:id" element={<SingleHotel />} />
-        <Route path="success" element={<Success />} />{" "}
         <Route path="admin" element={<Admin />} />
       </Routes>
     </BrowserRouter>

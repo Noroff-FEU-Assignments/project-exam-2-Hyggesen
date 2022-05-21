@@ -1,7 +1,7 @@
 import IntroText from "../components/common/IntroText";
 import styled from "styled-components";
 import Heading from "../components/common/Heading";
-import PinkArrow from "../assets/brand/pink_arrow.png";
+import PinkArrow from "../assets/common/pink_arrow.png";
 import Paragraph from "../components/common/Paragraph";
 import BigButton from "../components/common/BigButton";
 

@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import logo from "../../assets/brand/logo_holidaze.png";
+import logo from "../../assets/common/logo_holidaze.png";
 import { Link, NavLink } from "react-router-dom";
 import { HashLink } from "react-router-hash-link";
 export default function Footer() {
