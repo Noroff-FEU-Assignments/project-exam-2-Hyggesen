@@ -41,10 +41,7 @@ function SignIn() {
         "https://noroff-project-exam-ben.herokuapp.com/api/auth/local",
         logIn
       );
-
-      console.log("response", response.data);
       localStorage.setItem("Token", response.data.jwt);
-      console.log("Token", response.data.jwt);
       setAuth(response.data);
       navigate("/admin", { replace: true });
     } catch (error) {

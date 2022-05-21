@@ -24,13 +24,9 @@ function HotelList() {
     fetchData();
   }, []);
 
-  console.log(hotel);
-
   if (!hotel.length) {
     return <Loader />;
   }
-
-  console.log(hotel);
 
   const hotelResults = hotel
     .filter((item) => {

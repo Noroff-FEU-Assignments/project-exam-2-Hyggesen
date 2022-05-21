@@ -159,7 +159,6 @@ function SingleHotel() {
     } catch (error) {
       console.log(error);
     } finally {
-      console.log("finished process");
       setSubmittingReview(false);
 
       swal({

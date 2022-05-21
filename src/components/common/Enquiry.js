@@ -37,7 +37,6 @@ export default function Enquiry(props) {
     } catch (error) {
       console.log(error);
     } finally {
-      console.log("finished process");
       setSubmitOrder(false);
 
       swal({

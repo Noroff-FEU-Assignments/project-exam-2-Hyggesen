@@ -36,7 +36,6 @@ function ContactSection() {
     } catch (error) {
       console.log(error);
     } finally {
-      console.log("finished process");
       setSubmittingForm(false);
 
       swal({
