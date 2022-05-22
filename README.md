@@ -6,7 +6,7 @@
 
 This was my final project exam in my Front-End Developer education at Noroff School of Technology & Digital Media. The website is a hotel-booking site for hotels in Bergen.
 
-You can add some bullet points if you'd like to:
+Some functionality to mention:
 
 - Search and filter hotels
 - Find information for each hotel, such as pricing, facilities, hotel-description and rating
