@@ -24,6 +24,10 @@ function Admin() {
   const [auth] = useContext(AuthContext);
   const navigate = useNavigate();
 
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
   function openModal() {
     setIsOpen(true);
   }

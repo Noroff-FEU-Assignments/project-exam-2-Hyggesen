@@ -4,7 +4,7 @@
 
 ## Description
 
-This was my final project exam in my Front-End Developer education at Noroff School of Technology & Digital Media. The website is a hotel-booking site for hotels in Bergen.
+This was my final project exam in my front-end development education at Noroff School of Technology & Digital Media. The website is a hotel-booking site for hotels in Bergen.
 
 Some functionality to mention:
 

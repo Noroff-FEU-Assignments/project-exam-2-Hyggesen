@@ -2,7 +2,11 @@ import styled from "styled-components";
 import logo from "../../assets/common/logo_holidaze.png";
 import { Link, NavLink } from "react-router-dom";
 import { HashLink } from "react-router-hash-link";
+import AuthContext from "../../context/AuthContext";
+import { useContext } from "react";
+
 export default function Footer() {
+  const [auth, setAuth] = useContext(AuthContext);
   return (
     <FooterWrap>
       <div className="container">
@@ -24,12 +28,17 @@ export default function Footer() {
                 <StyledLink to="/hotels">Hotels</StyledLink>
               </Li>
               <Li>
-                <StyledHashLink smooth to="/#contactSection">
+                <StyledHashLink smooth to="/#contact">
                   Contact
                 </StyledHashLink>
               </Li>
+
               <Li>
-                <StyledLink to="/sign-in">Sign In</StyledLink>
+                {auth ? (
+                  <StyledLink to="/admin">Admin</StyledLink>
+                ) : (
+                  <StyledLink to="/sign-in">Sign In</StyledLink>
+                )}
               </Li>
             </Ul>
           </div>
