@@ -19,7 +19,7 @@ Some functionality to mention:
 
 ## Built With
 
-You can list a the tech stack that you've used over here
+This website is built with the following tech-stack:
 
 - [React.js](https://reactjs.org/)
 - [Styled Components](https://styled-components.com/docs)
