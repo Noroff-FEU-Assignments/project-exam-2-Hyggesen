@@ -3,7 +3,6 @@ import React from "react";
 import logo from "./../../assets/common/logo_holidaze.png";
 import styled from "styled-components";
 import hamburger from "../../assets//common/hamburgermenu.png";
-import { HashLink } from "react-router-hash-link";
 import AuthContext from "../../context/AuthContext";
 import { useNavigate } from "react-router-dom";
 import { useContext } from "react";
@@ -20,7 +19,7 @@ export default function Navbar() {
   }
 
   function toggleBodyLock() {
-    if (window.innerWidth < 768) {
+    if (window.innerWidth < 1024) {
       setIsOpen(!isOpen);
       document.body.style.overflow = document.body.style.overflow
         ? null
@@ -74,7 +73,7 @@ export default function Navbar() {
           </StyledLink>
         </Li>
         <Li>
-          <StyledLink smooth to="/contact">
+          <StyledLink smooth to="/contact" onClick={toggleBodyLock}>
             Contact
           </StyledLink>
         </Li>
@@ -82,13 +81,21 @@ export default function Navbar() {
         {auth ? (
           <>
             <Li>
-              <StyledLink to="/admin" className="nav-link">
+              <StyledLink
+                to="/admin"
+                className="nav-link"
+                onClick={toggleBodyLock}
+              >
                 Admin
               </StyledLink>
             </Li>
 
             <Li>
-              <AdminWrapper to="/admin" className="nav-link">
+              <AdminWrapper
+                to="/admin"
+                className="nav-link"
+                onClick={toggleBodyLock}
+              >
                 <StyledLogin>Logged in: </StyledLogin>
                 <StyledUsername>
                   {" "}
