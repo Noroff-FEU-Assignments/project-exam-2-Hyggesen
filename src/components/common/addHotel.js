@@ -150,6 +150,10 @@ export default function AddHotel(props) {
             type="text"
             {...register("km_to_city_centre", {
               required: "Please enter the distance from the city centre.",
+              pattern: {
+                value: /^\d+(\.\d{0,2})?$/,
+                message: "That is not a valid number",
+              },
             })}
             name="km_to_city_centre"
           />
