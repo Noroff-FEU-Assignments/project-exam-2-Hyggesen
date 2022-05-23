@@ -17,11 +17,15 @@ export default function Navbar() {
   function handleToggle() {
     const navUl = document.getElementById("nav-ul");
     navUl.classList.toggle("show");
+  }
 
-    setIsOpen(isOpen);
-    document.body.style.overflow = document.body.style.overflow
-      ? null
-      : "hidden";
+  function toggleBodyLock() {
+    if (window.innerWidth < 768) {
+      setIsOpen(!isOpen);
+      document.body.style.overflow = document.body.style.overflow
+        ? null
+        : "hidden";
+    }
   }
 
   const [auth, setAuth] = useContext(AuthContext);
@@ -44,7 +48,13 @@ export default function Navbar() {
           </a>
         </LogoDiv>
 
-        <HamburgerIcon id="menubutton" onClick={handleToggle}>
+        <HamburgerIcon
+          id="menubutton"
+          onClick={() => {
+            handleToggle();
+            toggleBodyLock();
+          }}
+        >
           <Burger src={hamburger} />
         </HamburgerIcon>
       </Wrapper>
@@ -59,7 +69,9 @@ export default function Navbar() {
           </StyledLink>
         </Li>
         <Li>
-          <StyledLink to="/hotels">Hotels</StyledLink>
+          <StyledLink to="/hotels" onClick={toggleBodyLock}>
+            Hotels
+          </StyledLink>
         </Li>
         <Li>
           <StyledLink smooth to="/contact">
@@ -132,7 +144,7 @@ const Li = styled.li`
   font-weight: 400;
   font-size: 20px;
 
-  @media (max-width: 480px) {
+  @media (max-width: 1024px) {
     padding: 20px 0px;
   }
 `;
@@ -145,6 +157,7 @@ const Ul = styled.ul`
   justify-content: center;
   align-items: center;
   padding: 0px;
+  margin: 0px;
 `;
 
 const HamburgerIcon = styled.button`
