@@ -14,19 +14,18 @@ export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
 
   function handleWindowSize() {
-    const toggle = () => {
-      if (window.innerWidth < 768) {
-        setIsOpen(!isOpen);
-        document.body.style.overflow = document.body.style.overflow
-          ? null
-          : "hidden";
-      }
+    // skjekker riktig størrelse
+    if (window.innerWidth >= 1024) {
+      // set til false ikke !isOpen
+      setIsOpen(false);
 
-      window.addEventListener("resize", handleWindowSize);
-    };
+      // nullstiller overflow
+      document.body.style.overflow = null;
+
+      //og tilslutt avslutter eventlistner
+      window.removeEventListener("resize", handleWindowSize);
+    }
   }
-
-  window.addEventListener("resize", handleWindowSize);
 
   function handleToggle() {
     const navUl = document.getElementById("nav-ul");
@@ -40,6 +39,7 @@ export default function Navbar() {
         ? null
         : "hidden";
     }
+    window.addEventListener("resize", handleWindowSize);
   }
 
   const [auth, setAuth] = useContext(AuthContext);
