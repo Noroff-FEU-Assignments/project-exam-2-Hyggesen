@@ -81,7 +81,7 @@ function FeaturedSection() {
 export default FeaturedSection;
 
 const BlueSection = styled.div`
-  background-color: #fdfcff;
+  background-color: #faf8ff;
   padding: 200px 0px;
   @media (max-width: 1024px) {
     padding: 50px 0px;

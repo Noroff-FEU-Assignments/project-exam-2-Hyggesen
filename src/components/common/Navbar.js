@@ -9,11 +9,19 @@ import { useNavigate } from "react-router-dom";
 import { useContext } from "react";
 import signOutIcon from "../../assets/common/signout.png";
 import signInIcon from "../../assets/common/signin.png";
+import { useState } from "react";
 
-export default function Navbar(props) {
+export default function Navbar() {
+  const [isOpen, setIsOpen] = useState(false);
+
   function handleToggle() {
     const navUl = document.getElementById("nav-ul");
     navUl.classList.toggle("show");
+
+    setIsOpen(isOpen);
+    document.body.style.overflow = document.body.style.overflow
+      ? null
+      : "hidden";
   }
 
   const [auth, setAuth] = useContext(AuthContext);
@@ -54,9 +62,9 @@ export default function Navbar(props) {
           <StyledLink to="/hotels">Hotels</StyledLink>
         </Li>
         <Li>
-          <StyledHashLink smooth to="/#contact">
+          <StyledLink smooth to="/contact">
             Contact
-          </StyledHashLink>
+          </StyledLink>
         </Li>
 
         {auth ? (
@@ -123,6 +131,10 @@ const Li = styled.li`
   padding: 10px 20px;
   font-weight: 400;
   font-size: 20px;
+
+  @media (max-width: 480px) {
+    padding: 20px 0px;
+  }
 `;
 
 const Ul = styled.ul`
@@ -132,6 +144,7 @@ const Ul = styled.ul`
   max-width: 800px;
   justify-content: center;
   align-items: center;
+  padding: 0px;
 `;
 
 const HamburgerIcon = styled.button`
@@ -165,33 +178,6 @@ const LogoDiv = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-`;
-
-const StyledHashLink = styled(HashLink)`
-  position: relative;
-
-  padding: 10px 0px;
-
-  &:before {
-    transition: all 0.2s;
-  }
-  &:after {
-    transition: all 0.2s;
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    margin: auto;
-    width: 0%;
-    content: ".";
-    color: transparent;
-    background: #f72585;
-    height: 1px;
-  }
-
-  &:hover:after {
-    width: 100%;
-  }
 `;
 
 const StyledLink = styled(NavLink)`

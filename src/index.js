@@ -9,6 +9,7 @@ import Hotels from "./routes/hotels";
 import SignIn from "./routes/signIn";
 import Admin from "./routes/admin";
 import { AuthProvider } from "./context/AuthContext";
+import Contact from "./routes/Contact";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 
@@ -21,6 +22,7 @@ root.render(
         <Route path="sign-in" element={<SignIn />} />
         <Route path="hotels/:id" element={<SingleHotel />} />
         <Route path="admin" element={<Admin />} />
+        <Route path="contact" element={<Contact />} />
       </Routes>
     </BrowserRouter>
   </AuthProvider>

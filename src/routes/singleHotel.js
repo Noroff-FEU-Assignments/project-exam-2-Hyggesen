@@ -26,14 +26,15 @@ Modal.setAppElement("#root");
 
 const customStyles = {
   content: {
+    background: "#fff",
+    maxWidth: "800px",
+    width: "100%",
+    height: "70vh",
+    padding: "100px",
     top: "50%",
     left: "50%",
-    right: "auto",
-    bottom: "auto",
-    marginRight: "-50%",
     transform: "translate(-50%, -50%)",
-    padding: "100px",
-    borderRadius: "8px",
+
     overflowX: "hidden",
   },
 
@@ -128,10 +129,13 @@ function SingleHotel() {
 
   function openModal() {
     setIsOpen(true);
+    document.body.style.overflow = "hidden";
   }
 
   function closeModal() {
     setIsOpen(false);
+
+    document.body.style.overflow = null;
   }
 
   if (!hotel) {

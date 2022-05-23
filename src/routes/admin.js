@@ -30,10 +30,13 @@ function Admin() {
 
   function openModal() {
     setIsOpen(true);
+    document.body.style.overflow = "hidden";
   }
 
   function closeModal() {
     setIsOpen(false);
+
+    document.body.style.overflow = null;
   }
 
   useEffect(() => {
@@ -176,7 +179,7 @@ function Admin() {
               top: "50%",
               left: "50%",
               transform: "translate(-50%, -50%)",
-              borderRadius: "8px",
+
               overflowX: "hidden",
             },
             overlay: {

@@ -28,9 +28,9 @@ export default function Footer() {
                 <StyledLink to="/hotels">Hotels</StyledLink>
               </Li>
               <Li>
-                <StyledHashLink smooth to="/#contact">
+                <StyledLink smooth to="/contact">
                   Contact
-                </StyledHashLink>
+                </StyledLink>
               </Li>
 
               <Li>
@@ -76,6 +76,7 @@ const Ul = styled.ul`
   list-style: none;
   display: flex;
   flex-direction: column;
+  padding: 0px;
 `;
 
 const Li = styled.li`
@@ -95,33 +96,6 @@ const ContactMail = styled.p`
 
   @media (max-width: 768px) {
     font-size: 16px;
-  }
-`;
-
-const StyledHashLink = styled(HashLink)`
-  position: relative;
-
-  padding: 10px 0px;
-
-  &:before {
-    transition: all 0.2s;
-  }
-  &:after {
-    transition: all 0.2s;
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    margin: auto;
-    width: 0%;
-    content: ".";
-    color: transparent;
-    background: #f72585;
-    height: 1px;
-  }
-
-  &:hover:after {
-    width: 100%;
   }
 `;
 
