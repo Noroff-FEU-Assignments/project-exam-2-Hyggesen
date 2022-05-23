@@ -13,6 +13,21 @@ import { useState } from "react";
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
 
+  function handleWindowSize() {
+    const toggle = () => {
+      if (window.innerWidth < 768) {
+        setIsOpen(!isOpen);
+        document.body.style.overflow = document.body.style.overflow
+          ? null
+          : "hidden";
+      }
+
+      window.addEventListener("resize", handleWindowSize);
+    };
+  }
+
+  window.addEventListener("resize", handleWindowSize);
+
   function handleToggle() {
     const navUl = document.getElementById("nav-ul");
     navUl.classList.toggle("show");
