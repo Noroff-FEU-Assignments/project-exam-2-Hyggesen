@@ -78,6 +78,7 @@ export default function Navbar() {
             to="/"
             end
             className={({ isActive }) => (isActive ? "active" : "")}
+            onClick={toggleBodyLock}
           >
             Home
           </StyledLink>
@@ -88,7 +89,7 @@ export default function Navbar() {
           </StyledLink>
         </Li>
         <Li>
-          <StyledLink smooth to="/contact" onClick={toggleBodyLock}>
+          <StyledLink to="/contact" onClick={toggleBodyLock}>
             Contact
           </StyledLink>
         </Li>

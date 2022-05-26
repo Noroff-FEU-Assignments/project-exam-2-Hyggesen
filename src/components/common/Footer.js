@@ -28,7 +28,7 @@ export default function Footer() {
                 <StyledLink to="/hotels">Hotels</StyledLink>
               </Li>
               <Li>
-                <StyledLink smooth to="/contact">
+                <StyledLink to="/contact">
                   Contact
                 </StyledLink>
               </Li>

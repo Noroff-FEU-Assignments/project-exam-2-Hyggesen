@@ -140,6 +140,10 @@ export default function Enquiry(props) {
                 value: 5,
                 message: "Max amount of guest per room is 5",
               },
+              pattern: {
+                value: /^[1-9]+[0-9]*$/,
+                message: "Value must be 1 or more",
+              },
             })}
             name="guests"
           />
