@@ -1,12 +1,13 @@
 import styled from "styled-components";
 import logo from "../../assets/common/logo_holidaze.png";
 import { Link, NavLink } from "react-router-dom";
-import { HashLink } from "react-router-hash-link";
 import AuthContext from "../../context/AuthContext";
 import { useContext } from "react";
 
 export default function Footer() {
+  /* eslint-disable no-unused-vars */
   const [auth, setAuth] = useContext(AuthContext);
+  /* eslint-disable no-unused-vars */
   return (
     <FooterWrap>
       <div className="container">
@@ -28,9 +29,7 @@ export default function Footer() {
                 <StyledLink to="/hotels">Hotels</StyledLink>
               </Li>
               <Li>
-                <StyledLink to="/contact">
-                  Contact
-                </StyledLink>
+                <StyledLink to="/contact">Contact</StyledLink>
               </Li>
 
               <Li>

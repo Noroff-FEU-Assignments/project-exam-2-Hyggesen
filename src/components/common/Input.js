@@ -41,6 +41,7 @@ const TheInput = styled.input`
   color: #9aa4aa;
   font-size: 16px;
   font-weight: 300;
+  margin-bottom: 20px;
 
   @media (max-width: 480px) {
     max-width: 250px;

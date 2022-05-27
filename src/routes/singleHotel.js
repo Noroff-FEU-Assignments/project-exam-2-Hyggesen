@@ -22,6 +22,7 @@ import swal from "sweetalert";
 import axios from "axios";
 import { useForm } from "react-hook-form";
 import { ErrorMessage } from "@hookform/error-message";
+import moment from "moment";
 Modal.setAppElement("#root");
 
 const customStyles = {
@@ -313,7 +314,9 @@ function SingleHotel() {
                       }
                       date={
                         item.attributes.createdAt
-                          ? item.attributes.createdAt
+                          ? moment(item.attributes.createdAt).format(
+                              "MMM Do YY"
+                            )
                           : "-"
                       }
                     />

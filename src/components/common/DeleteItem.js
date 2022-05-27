@@ -13,9 +13,11 @@ export default function DeleteItem(props) {
 
     if (confirmDelete) {
       try {
+        /* eslint-disable no-unused-vars */
         const response = await axios.delete(props.url, {
           headers: { Authorization: `Bearer ${tkn}` },
         });
+        /* eslint-disable no-unused-vars */
       } catch (e) {
         console.log(e);
       } finally {

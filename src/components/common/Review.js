@@ -27,6 +27,7 @@ Review.propTypes = {
 const FlexDiv = styled.div`
   display: flex;
   justify-content: space-between;
+  width: 100%;
 `;
 
 const Reviews = styled.div`
@@ -42,7 +43,7 @@ const TheReview = styled.div`
   justify-content: center;
   align-items: start;
   width: 400px;
-  background-color: #fdfcff;
+  background-color: #faf8ff;
   border-radius: 8px;
   padding: 20px;
 `;
