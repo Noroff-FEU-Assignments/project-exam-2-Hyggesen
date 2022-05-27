@@ -6,7 +6,11 @@ export default function Review(props) {
     <>
       <Reviews>
         <TheReview>
-          <Name>{props.name}</Name>
+          <FlexDiv>
+            <Name>{props.name}</Name>
+            <Date>{props.date}</Date>
+          </FlexDiv>
+
           <Comment>{props.review}</Comment>
         </TheReview>
       </Reviews>
@@ -17,7 +21,13 @@ export default function Review(props) {
 Review.propTypes = {
   name: PropTypes.string.isRequired,
   review: PropTypes.string.isRequired,
+  date: PropTypes.string.isRequired,
 };
+
+const FlexDiv = styled.div`
+  display: flex;
+  justify-content: space-between;
+`;
 
 const Reviews = styled.div`
   display: flex;
@@ -50,4 +60,11 @@ const Comment = styled.p`
   letter-spacing: 130%;
   color: #19024b;
   margin: 5px 0px;
+`;
+
+const Date = styled.p`
+  color: #19024b;
+  font-size: 14px;
+  font-weight: 300;
+  margin: 0px;
 `;

@@ -20,4 +20,5 @@ const FlexDiv = styled.div`
   display: flex;
   justify-content: center;
   margin: 50px 20px;
+  min-height: 500px;
 `;

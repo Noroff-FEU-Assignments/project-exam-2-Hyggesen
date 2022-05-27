@@ -23,18 +23,6 @@ function FeaturedSection() {
     fetchData();
   }, []);
 
-  if (!hotel.length) {
-    return (
-      <>
-        <BlueSection>
-          <div className="container">
-            <Loader />
-          </div>
-        </BlueSection>
-      </>
-    );
-  }
-
   const allFeatured = hotel
     .filter((item) => {
       if (item.attributes.featured) {
@@ -66,13 +54,16 @@ function FeaturedSection() {
       <div className="container">
         <IntroText content="We recommend" />
         <Heading content="Featured locations" />
-        <FlexDiv>
-          {allFeatured.length ? (
-            allFeatured
+
+        {hotel.length ? (
+          allFeatured.length ? (
+            <FlexDiv> {allFeatured} </FlexDiv>
           ) : (
             <Paragraph content="We couldn't find any featured hotels.." />
-          )}
-        </FlexDiv>
+          )
+        ) : (
+          <Loader />
+        )}
       </div>
     </BlueSection>
   );

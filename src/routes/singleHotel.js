@@ -186,6 +186,16 @@ function SingleHotel() {
       ? hotel.thumbnail_url
       : skeleton;
 
+  if (hotel && hotel.reviews) {
+    const createdAt = hotel.reviews.data.map(
+      (item) => item.attributes.createdAt
+    );
+
+    let publishedReview = new Date(createdAt);
+
+    console.log(publishedReview.toDateString());
+  }
+
   return (
     <>
       <Helmet>
@@ -300,6 +310,11 @@ function SingleHotel() {
                       name={item.attributes.name ? item.attributes.name : "-"}
                       review={
                         item.attributes.comment ? item.attributes.comment : "-"
+                      }
+                      date={
+                        item.attributes.createdAt
+                          ? item.attributes.createdAt
+                          : "-"
                       }
                     />
                   ))

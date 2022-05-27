@@ -2,14 +2,13 @@ import React, { useState, useEffect } from "react";
 import HotelCard from "../components/common/HotelCard";
 import styled from "styled-components";
 import Loader from "../components/common/Loader";
+
 import Helmet from "react-helmet";
 import Paragraph from "../components/common/Paragraph";
 
 function HotelList() {
   const [hotel, setHotel] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
-  const [currentPage, setCurrentPage] = useState(1);
-  const [postsPerPage] = useState(10);
 
   useEffect(() => {
     async function fetchData() {
@@ -25,14 +24,6 @@ function HotelList() {
     }
     fetchData();
   }, []);
-
-  if (!hotel.length) {
-    return <Loader />;
-  }
-
-  const indexOfLastPost = currentPage * postsPerPage;
-  const indexOfFirstPost = indexOfLastPost - postsPerPage;
-  const currentPosts = hotel.slice(indexOfFirstPost, indexOfLastPost);
 
   const hotelResults = hotel
     .filter((item) => {
@@ -78,7 +69,7 @@ function HotelList() {
           content="Your number one place for hotels in Bergen"
         />
       </Helmet>
-      <Sidebar>
+      <Searchbar>
         <HotelSearch
           type="text"
           placeholder="Search to filter.."
@@ -86,22 +77,24 @@ function HotelList() {
             setSearchTerm(event.target.value);
           }}
         />
-      </Sidebar>
-      <FlexDiv>
-        {" "}
-        {hotelResults.length ? (
-          hotelResults
+      </Searchbar>
+
+      {hotel.length ? (
+        hotelResults.length ? (
+          <Grid> {hotelResults} </Grid>
         ) : (
           <Paragraph content="No matching results.." />
-        )}
-      </FlexDiv>
+        )
+      ) : (
+        <Loader />
+      )}
     </Wrapper>
   );
 }
 
 export default HotelList;
 
-const FlexDiv = styled.div`
+const Grid = styled.div`
   display: grid;
 
   grid-template-columns: repeat(3, 1fr);
@@ -118,7 +111,7 @@ const FlexDiv = styled.div`
   }
 `;
 
-const Sidebar = styled.div`
+const Searchbar = styled.div`
   display: flex;
   flex-direction: column;
   padding: 15px;
@@ -131,6 +124,7 @@ const Sidebar = styled.div`
 const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
+  align-items: center;
 `;
 
 const HotelSearch = styled.input`
