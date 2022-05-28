@@ -17,7 +17,7 @@ import DeleteItem from "../components/common/DeleteItem";
 Modal.setAppElement("#root");
 
 function Admin() {
-  const [enquries, setEnquries] = useState([]);
+  const [bookings, setBookings] = useState([]);
   const [hotel, setHotel] = useState([]);
   const [messages, setMessages] = useState([]);
   const [modalIsOpen, setIsOpen] = useState(false);
@@ -55,7 +55,7 @@ function Admin() {
 
         const json = await result.json();
 
-        setEnquries(json.data);
+        setBookings(json.data);
       } catch (e) {
         console.log(e);
       }
@@ -125,8 +125,8 @@ function Admin() {
       ))
     : "";
 
-  const allEnquries = enquries
-    ? enquries.map((item) => (
+  const allBookings = bookings
+    ? bookings.map((item) => (
         <tr key={item.id ? item.id : "-"}>
           <Td>
             {item.attributes.hotels.data[0].attributes.name
@@ -196,9 +196,9 @@ function Admin() {
           <Button content="Add hotel" color="#F72585" click={openModal} />
         </FlexBetween>
         <SectionWrapper>
-          <HeadingTwo content="Enquries" />
-          <EnquiryList>
-            <EnquriesTable>
+          <HeadingTwo content="Bookings" />
+          <BookingList>
+            <BookingTable>
               <tbody>
                 <tr>
                   <ThLeft>Hotel name</ThLeft>
@@ -208,19 +208,19 @@ function Admin() {
                   <Th>Check-out</Th>
                   <ThRight>Guests</ThRight>
                 </tr>
-                {allEnquries.length ? (
-                  allEnquries.reverse()
+                {allBookings.length ? (
+                  allBookings.reverse()
                 ) : (
                   <tr>
                     <th>
                       {" "}
-                      <Paragraph content="We couldn't find any enquries.." />
+                      <Paragraph content="We couldn't find any bookings.." />
                     </th>
                   </tr>
                 )}
               </tbody>
-            </EnquriesTable>
-          </EnquiryList>
+            </BookingTable>
+          </BookingList>
         </SectionWrapper>
         <SectionWrapper>
           <HeadingTwo content="Messages" />
@@ -255,7 +255,7 @@ function Admin() {
             {allHotels.length ? (
               allHotels
             ) : (
-              <Paragraph content="We couldn't find any hotels. Try adding a new one.." />
+              <Paragraph content="We couldn't find any hotels.." />
             )}
           </HotelList>
         </SectionWrapper>
@@ -292,7 +292,7 @@ const SectionWrapper = styled.div`
   padding: 20px;
 `;
 
-const EnquiryList = styled.div`
+const BookingList = styled.div`
   margin-top: 20px;
   display: flex;
   flex-direction: column;
@@ -337,7 +337,7 @@ const Container = styled.div`
   margin: auto;
 `;
 
-const EnquriesTable = styled.table`
+const BookingTable = styled.table`
   border-collapse: collapse;
   border-spacing: 0;
   width: 100%;

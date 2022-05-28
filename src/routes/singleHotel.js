@@ -12,7 +12,7 @@ import Modal from "react-modal";
 import React from "react";
 import check from "../assets/common/checkfacility.png";
 import cross from "../assets/common/nofacility.png";
-import Enquiry from "../components/common/Enquiry";
+import Order from "../components/common/Order";
 import BreadCrumb from "../components/common/BreadCrumb";
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
@@ -187,16 +187,6 @@ function SingleHotel() {
       ? hotel.thumbnail_url
       : skeleton;
 
-  if (hotel && hotel.reviews) {
-    const createdAt = hotel.reviews.data.map(
-      (item) => item.attributes.createdAt
-    );
-
-    let publishedReview = new Date(createdAt);
-
-    console.log(publishedReview.toDateString());
-  }
-
   return (
     <>
       <Helmet>
@@ -214,7 +204,7 @@ function SingleHotel() {
             isOpen={modalIsOpen}
             onRequestClose={closeModal}
           >
-            <Enquiry
+            <Order
               hotelName={hotel.name ? hotel.name : "-"}
               click={closeModal}
               cancelClick={closeModal}

@@ -6,7 +6,7 @@ import axios from "axios";
 import { useForm } from "react-hook-form";
 import { ErrorMessage } from "@hookform/error-message";
 import { useState } from "react";
-export default function Enquiry(props) {
+export default function Order(props) {
   const {
     register,
     formState: { errors },
@@ -165,7 +165,7 @@ export default function Enquiry(props) {
     </>
   );
 }
-Enquiry.propTypes = {
+Order.propTypes = {
   hotelName: PropTypes.string.isRequired,
   cancelClick: PropTypes.func,
   id: PropTypes.any,
