@@ -17,6 +17,10 @@ Some functionality to mention:
 - Authorized administrators can add new establishments
 - Authorized administrators can delete messages
 
+Login-details:
+Username: noroff
+Password: 123456789
+
 ## Built With
 
 This website is built with the following tech-stack:
