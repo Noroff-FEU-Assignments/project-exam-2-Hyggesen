@@ -18,8 +18,9 @@ Some functionality to mention:
 - Authorized administrators can delete messages
 
 Login-details:
-Username: noroff
-Password: 123456789
+
+- Username: noroff
+- Password: 123456789
 
 ## Built With
 
