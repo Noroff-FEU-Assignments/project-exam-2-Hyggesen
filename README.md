@@ -2,6 +2,11 @@
 
 ![image](https://github.com/Noroff-FEU-Assignments/project-exam-2-Hyggesen/blob/main/src/assets/common/holidaze_devices.png)
 
+Login-details:
+
+- Username: noroff
+- Password: 123456789
+
 ## Description
 
 This was my final project exam in my front-end development education at Noroff School of Technology & Digital Media. The website is a hotel-booking site for hotels in Bergen.
@@ -16,11 +21,6 @@ Some functionality to mention:
 - Authorized administrators can log in an see incoming bookings and messages
 - Authorized administrators can add new establishments
 - Authorized administrators can delete messages
-
-Login-details:
-
-- Username: noroff
-- Password: 123456789
 
 ## Built With
 
